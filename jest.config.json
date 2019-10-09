@@ -1,0 +1,8 @@
+{
+  "transform": {
+    "^.+\\.tsx?$": "babel-jest"
+  },
+  "moduleNameMapper": {
+    "\\.(css|less)$": "<rootDir>/__mocks__/style-mock.js"
+  }
+}
