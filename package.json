@@ -1,7 +1,8 @@
 {
-  "name": "@openmrs/esm-dashboard-widgets",
-  "version": "1.0.0",
+  "name": "@openmrs/esm-user-dashboard-widgets",
+  "version": "0.0.1",
   "description": "A repo for creating openmrs microfrontend dashboard",
+  "main": "dist/openmrs-esm-dashboard-widgets.js",
   "scripts": {
     "start": "webpack-dev-server",
     "lint": "eslint src --ext tsx",
@@ -16,14 +17,19 @@
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "git+https://github.com/openmrs/openmrs-esm-user-dashboard-widgets"
   },
+  "keywords": [
+    "openmrs",
+    "dashboard",
+    "widgets"
+  ],
   "author": "",
   "license": "MIT",
   "bugs": {
     "url": ""
   },
-  "homepage": "",
+  "homepage": "https://github.com/openmrs/openmrs-esm-user-dashboard-widgets#readme",
   "devDependencies": {
     "@babel/core": "^7.4.5",
     "@babel/preset-env": "^7.4.5",
