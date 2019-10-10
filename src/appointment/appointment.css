@@ -1,0 +1,65 @@
+.table {
+  border: none !important;
+  margin: 0px 10px !important;
+  color: black;
+}
+
+.row {
+  background: #eee !important;
+  border: none !important;
+  padding: 10px !important;
+}
+
+.primary-data {
+  /*font-family: 'Opensans=bold;'*/
+  font-weight: bold;
+  font-size: 19px;
+}
+
+.secondary-data {
+  /*font-family: 'Opensans=light;'*/
+  font-size: 12px;
+}
+
+.data {
+  font-size: 16px;
+}
+
+.circle {
+  height: 20px;
+  width: 20px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.action-button {
+  width: 107px;
+  height: 45px;
+  border-radius: 4px;
+  background-color: #5b57a6;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.inactive-button {
+  width: 107px;
+  height: 45px;
+  color: #000;
+  font-size: 12px;
+  background: #f6f6f6;
+  border: none;
+}
+
+.rt-tr-group {
+  border-bottom: solid 1px #cfcfcf !important;
+}
+
+.ReactTable {
+  border: none !important;
+}
+
+.color-cell {
+  text-align: center;
+}
