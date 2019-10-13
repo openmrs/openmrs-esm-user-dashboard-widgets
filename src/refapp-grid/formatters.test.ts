@@ -7,7 +7,7 @@ describe("formatters", () => {
     };
     const configs = [
       {
-        name: "extractTime",
+        name: "convertToTime",
         field: "startDateTime"
       }
     ];
@@ -23,7 +23,7 @@ describe("formatters", () => {
     };
     const configs = [
       {
-        name: "extractTime",
+        name: "convertToTime",
         field: "startDateTime",
         formattedField: "startTime"
       }
@@ -41,7 +41,7 @@ describe("formatters", () => {
     };
     const configs = [
       {
-        name: "extractTime",
+        name: "convertToTime",
         field: "appointment.startDateTime",
         formattedField: "startTime"
       }
@@ -51,7 +51,7 @@ describe("formatters", () => {
     expect(formattedSource.appointment.startTime).toEqual("10:30 AM");
   });
 
-  describe("extractTime", () => {
+  describe("convertToTime", () => {
     it("should extract Time with 12 hour type", () => {
       const source = {
         appointment: {
@@ -60,7 +60,7 @@ describe("formatters", () => {
       };
       const configs = [
         {
-          name: "extractTime",
+          name: "convertToTime",
           field: "appointment.startDateTime",
           formattedField: "startTime"
         }

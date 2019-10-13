@@ -40,25 +40,27 @@ export const formatField = (source, field, formatter) => {
   const args = formatter.args ? formatter.args : [];
   return formatters[formaterName](getField(source, field), [...args]);
 };
+
 export default function format(
   source: any,
   formatterConfigs: Formatter[]
 ): any {
-  const formattedSource = cloneDeep(source);
+  const clonnedSource = cloneDeep(source);
   formatterConfigs.forEach(config => {
-    const fieldValue = getField(formattedSource, config.field);
-    const parent = getParentField(formattedSource, config.field);
+    const parent = getParentField(clonnedSource, config.field);
 
     const formattedFieldName = config.formattedField
       ? config.formattedField
       : `${config.field}Formatted`;
-    const formatterArgs = config.args ? config.args : [];
-    parent[formattedFieldName] = formatters[config.name](fieldValue, [
-      ...formatterArgs
-    ]);
+
+    parent[formattedFieldName] = formatField(
+      clonnedSource,
+      config.field,
+      config
+    );
   });
 
-  return formattedSource;
+  return clonnedSource;
 }
 
 type Formatter = {
