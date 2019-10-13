@@ -1,23 +1,13 @@
-import React, { useEffect } from "react";
-import { Trans } from "react-i18next";
+import React from "react";
+import ChartLoader from "./chart-loader.component";
 
-import resources from "./translations/index";
-import { initI18n } from "../utils/translations";
-
-import { CommonWidgetProps } from "../models/index";
-import WidgetHeader from "../commons/widget-header/widget-header.component";
-
-export default function Charts(props: ChartsProps) {
-  initI18n(resources, props.language, useEffect);
-
+export default function Charts(props) {
   return (
     <div>
-      <WidgetHeader title="Reports" icon="svg-icon icon-graph"></WidgetHeader>
-      <h1>
-        <Trans>Charts Widget</Trans>!!!
-      </h1>
+      <h1>{props.title}</h1>
+      {props.charts.map(config => {
+        return <ChartLoader config={config} />;
+      })}
     </div>
   );
 }
-
-type ChartsProps = CommonWidgetProps & {};
