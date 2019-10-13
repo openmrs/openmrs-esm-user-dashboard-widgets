@@ -1,0 +1,12 @@
+.table {
+  border: none !important;
+  margin: 0px 10px !important;
+  color: black;
+}
+
+.row {
+  background: #eee !important;
+  border: none !important;
+  padding: 10px !important;
+  text-align: left;
+}
