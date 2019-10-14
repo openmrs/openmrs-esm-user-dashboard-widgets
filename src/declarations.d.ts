@@ -6,3 +6,5 @@ declare module "*.json" {
 }
 
 declare module "@openmrs/esm-api";
+
+declare module "JSX";

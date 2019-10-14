@@ -37,6 +37,10 @@ const generateElement = (value, config) => {
 };
 
 const getAccessor = (rowData, cellConfigs: CellConfig[]) => {
+  if (!cellConfigs) {
+    return <></>;
+  }
+
   return (
     <>
       {cellConfigs.map(cellConfig => {
@@ -56,7 +60,7 @@ const getAccessor = (rowData, cellConfigs: CellConfig[]) => {
 
 export default function buildColumn(config: ColumnConfig): ReactColumn {
   let getDynaicColumnId = cells =>
-    cells.map(cellConfig => cellConfig.field).join("-");
+    cells ? cells.map(cellConfig => cellConfig.field).join("-") : "";
 
   const column: ReactColumn = {
     accessor: rowData => getAccessor(rowData, config.cells)

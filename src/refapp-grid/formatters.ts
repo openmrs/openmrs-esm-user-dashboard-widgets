@@ -5,7 +5,10 @@ const formatters = {
     const hour = new Date(dateTimevalue).getHours();
     const minutes = new Date(dateTimevalue).getMinutes();
     const type = hour >= 12 ? "PM" : "AM";
-    return `${hour % 12}:${minutes} ${type}`;
+    return `${String(hour % 12).padStart(2, "0")}:${String(minutes).padStart(
+      2,
+      "0"
+    )} ${type}`;
   },
   suffix: (value, suffix): string => `${value}${suffix}`
 };
