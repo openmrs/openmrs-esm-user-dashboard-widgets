@@ -12,9 +12,10 @@ jest.mock("@openmrs/esm-api", () => ({
 describe(`<Appointment />`, () => {
   const commonWidgetProps = { language: "en" };
   const originalError = console.error;
+  const mockDateTime = new Date(new Date().setHours(10)).setMinutes(30);
   const mockAppointments = [
     {
-      startDateTime: 1571013348404,
+      startDateTime: mockDateTime,
       service: {
         durationMins: 20,
         color: "red",
@@ -75,7 +76,7 @@ describe(`<Appointment />`, () => {
     );
 
     waitForElement(() => getByText("Today's Appointments")).then(() => {
-      expect(getByText("06:05 AM")).toBeTruthy();
+      expect(getByText("10:30 AM")).toBeTruthy();
       expect(getByText("20 mins")).toBeTruthy();
       expect(getByText("test service")).toBeTruthy();
       expect(getByText("test patient")).toBeTruthy();
