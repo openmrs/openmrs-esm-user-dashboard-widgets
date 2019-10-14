@@ -1,4 +1,4 @@
-import cloneDeep from "lodash/clonedeep";
+import cloneDeep from "lodash.clonedeep";
 
 const formatters = {
   convertToTime: (dateTimevalue): string => {
