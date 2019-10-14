@@ -1,9 +1,10 @@
 import format from "./formatters";
 
 describe("formatters", () => {
+  const mockDateTime = new Date(new Date().setHours(10)).setMinutes(30);
   it("should format given field with given formatter", () => {
     const source = {
-      startDateTime: 1570683600000
+      startDateTime: mockDateTime
     };
     const configs = [
       {
@@ -19,7 +20,7 @@ describe("formatters", () => {
 
   it("should add formatted value to given new field", () => {
     const source = {
-      startDateTime: 1570683600000
+      startDateTime: mockDateTime
     };
     const configs = [
       {
@@ -36,7 +37,7 @@ describe("formatters", () => {
   it("should format value for nested field", () => {
     const source = {
       appointment: {
-        startDateTime: 1570683600000
+        startDateTime: mockDateTime
       }
     };
     const configs = [
@@ -55,7 +56,7 @@ describe("formatters", () => {
     it("should extract Time with 12 hour type", () => {
       const source = {
         appointment: {
-          startDateTime: 1570683600000
+          startDateTime: mockDateTime
         }
       };
       const configs = [
