@@ -4,6 +4,6 @@
   },
   "moduleNameMapper": {
     "\\.(css|less)$": "<rootDir>/__mocks__/style-mock.js",
-    "@openmrs/esm-api": "<rootDir>/__mocks__/openmrs-esm-api.mock.tsx"
+    "@openmrs/esm-api": "<rootDir>/__mocks__/openmrs-esm-api-mock.js"
   }
 }
