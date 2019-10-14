@@ -65,11 +65,14 @@
     "@types/react": "^16.8.19",
     "@types/react-dom": "^16.8.4",
     "i18next": "^17.0.18",
+    "lodash.clonedeep": "^4.5.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-i18next": "^10.13.1",
     "react-router": "^5.0.1",
     "react-router-dom": "^5.0.1",
+    "recharts": "^1.7.1",
+    "react-table": "^6.10.3",
     "single-spa-react": "^2.10.2"
   }
 }
