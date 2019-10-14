@@ -1,0 +1,60 @@
+{
+  "columns": [
+    {
+      "cells": [
+        {
+          "type": "label",
+          "styles": "highlight",
+          "field": "startDateTime",
+          "formatter": "convertToTime"
+        },
+        {
+          "type": "label",
+          "styles": "sub-text",
+          "field": "service.durationMins",
+          "formatter": {
+            "name": "suffix",
+            "args": [" mins"]
+          }
+        }
+      ]
+    },
+    {
+      "cells": [
+        {
+          "type": "label",
+          "styles": "regular",
+          "field": "patient.name"
+        },
+        {
+          "type": "label",
+          "styles": "sub-text",
+          "field": "patient.identifier"
+        }
+      ]
+    },
+    {
+      "styles": "center",
+      "cells": [
+        {
+          "type": "colorCircle",
+          "field": "service.color"
+        },
+        {
+          "type": "label",
+          "styles": "sub-text",
+          "field": "service.name"
+        }
+      ]
+    },
+    {
+      "cells": [
+        {
+          "type": "button",
+          "field": "status",
+          "label": "Check In"
+        }
+      ]
+    }
+  ]
+}

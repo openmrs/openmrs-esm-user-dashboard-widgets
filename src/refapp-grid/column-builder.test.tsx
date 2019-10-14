@@ -1,0 +1,137 @@
+import React from "react";
+import { render, cleanup } from "@testing-library/react";
+import "@testing-library/jest-dom/extend-expect";
+
+import buildColumn from "./column-builder";
+
+describe("Column Builder", () => {
+  afterEach(() => {
+    cleanup();
+  });
+  it("should return empty column details", () => {
+    const columnConfig = buildColumn({
+      cells: []
+    });
+
+    const { container } = render(columnConfig.accessor({}));
+
+    expect(columnConfig.id).toEqual("");
+    expect(container.getElementsByTagName("div").length).toEqual(0);
+  });
+
+  it("should add dynamic id to column", () => {
+    const actualColumn = buildColumn({
+      cells: [
+        {
+          type: "label",
+          field: "name"
+        },
+        {
+          type: "label",
+          field: "id"
+        }
+      ]
+    });
+
+    expect(actualColumn.id).toEqual("name-id");
+  });
+
+  it("should return multi cell column", () => {
+    const actualColumn = buildColumn({
+      cells: [
+        {
+          type: "label",
+          field: "name"
+        },
+        {
+          type: "label",
+          field: "id"
+        }
+      ]
+    });
+    const rowData = { name: "test user", id: "0001" };
+
+    const { getByText } = render(actualColumn.accessor(rowData));
+
+    expect(getByText("test user")).toBeTruthy();
+    expect(getByText("0001")).toBeTruthy();
+  });
+
+  it("should add given style to cells", () => {
+    const actualColumn = buildColumn({
+      cells: [
+        {
+          type: "label",
+          field: "name",
+          styles: "test-label-style-1"
+        },
+        {
+          type: "label",
+          field: "id",
+          styles: "test-label-style-2"
+        }
+      ]
+    });
+    const rowData = { name: "test user", id: "0001" };
+
+    const { getByText } = render(actualColumn.accessor(rowData));
+
+    expect(getByText("test user")).toHaveClass("test-label-style-1");
+    expect(getByText("0001")).toHaveClass("test-label-style-2");
+  });
+
+  it("should assign formatter to the cells", () => {
+    const actualColumn = buildColumn({
+      cells: [
+        {
+          type: "label",
+          field: "name",
+          formatter: {
+            name: "suffix",
+            args: [" .Mr"]
+          }
+        }
+      ]
+    });
+    const rowData = { name: "test user" };
+
+    const { getByText } = render(actualColumn.accessor(rowData));
+
+    expect(getByText("test user .Mr")).toBeTruthy();
+  });
+
+  it("should show button cell", () => {
+    const actualColumn = buildColumn({
+      cells: [
+        {
+          type: "button",
+          label: "Submit",
+          field: "name"
+        }
+      ]
+    });
+    const rowData = { name: "test user" };
+
+    const { getByDisplayValue } = render(actualColumn.accessor(rowData));
+
+    expect(getByDisplayValue("Submit")).toBeTruthy();
+    expect(getByDisplayValue("Submit")).toHaveAttribute("type", "button");
+  });
+
+  it("should show color circle cell", () => {
+    const actualColumn = buildColumn({
+      cells: [
+        {
+          type: "colorCircle",
+          field: "color"
+        }
+      ]
+    });
+    const rowData = { color: "red" };
+
+    const { container } = render(actualColumn.accessor(rowData));
+
+    expect(container.firstChild).toHaveClass("circle");
+    expect(container.firstChild).toHaveStyle("background: red");
+  });
+});
