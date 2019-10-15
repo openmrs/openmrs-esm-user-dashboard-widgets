@@ -1,9 +1,9 @@
 import React from "react";
 import ChartLoader from "./chart-loader.component";
 
-export default function Charts(props) {
+export default function Charts(props: chartProps) {
   return (
-    <div>
+    <div style={{ width: "100%", height: "100%" }}>
       <h1>{props.title}</h1>
       {props.charts.map(config => {
         return <ChartLoader config={config} />;
@@ -11,3 +11,8 @@ export default function Charts(props) {
     </div>
   );
 }
+
+type chartProps = {
+  charts: Array<any>;
+  title: string;
+};

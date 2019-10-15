@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { openmrsFetch } from "@openmrs/esm-api";
-import LineChart from "./chartTypes/line-chart.component";
+import LineChart from "./types/line-chart.component";
 import { LoadingStatus } from "../models";
 
 export default function ChartLoader(props) {
-  const [dataPoints, setDataPoints] = useState({});
+  const [dataPoints, setDataPoints] = useState([]);
   const [loadingStatus, setLoadingStatus] = useState(LoadingStatus.Loading);
   const { config } = props;
 
@@ -17,10 +17,10 @@ export default function ChartLoader(props) {
         setLoadingStatus(LoadingStatus.Loaded);
       })
       .catch(e => {
-        setDataPoints({ ...dataPoints });
+        setDataPoints([...dataPoints]);
         setLoadingStatus(LoadingStatus.Failed);
       });
-  });
+  }, []);
 
   function mapRowsToChartDataPoints(rows) {
     return rows.map(row => {
@@ -81,5 +81,9 @@ export default function ChartLoader(props) {
     }
   }
 
-  return <div className="chart-container">{displayChart()}</div>;
+  return (
+    <div className="chart-container" style={{ width: "100%", height: "100%" }}>
+      {displayChart()}
+    </div>
+  );
 }
