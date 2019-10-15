@@ -48,9 +48,7 @@ export default function ChartLoader(props) {
   }
 
   function renderErrorMessage() {
-    return (
-      <span className="error">Unable to load Chart {config.reportName}</span>
-    );
+    return <span className="error">Unable to load Chart {config.name}</span>;
   }
 
   function renderChart(chartType) {

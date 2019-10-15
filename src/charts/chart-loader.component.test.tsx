@@ -63,7 +63,8 @@ describe(`<ChartLoader />`, () => {
     const { queryByText } = render(
       <ChartLoader
         config={{
-          url: "someurl",
+          url:
+            "/ws/rest/v1/reportingrest/reportdata/4abeb1a1-1e44-4f3e-b9e9-bb3333fda42c",
           name: "HSU Report",
           sourcePath: "rows",
           xAxis: "duration",

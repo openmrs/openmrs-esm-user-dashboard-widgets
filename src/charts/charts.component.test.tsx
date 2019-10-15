@@ -38,7 +38,7 @@ describe(`<Charts />`, () => {
 
   it(`should render the line chart with title`, done => {
     mockAPI.openmrsFetch.mockResolvedValueOnce(mockChartData);
-    const { queryByText, container } = render(
+    const { queryByText } = render(
       <Charts
         title={"report"}
         charts={[
