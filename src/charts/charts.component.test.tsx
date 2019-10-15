@@ -44,13 +44,11 @@ describe(`<Charts />`, () => {
         charts={[
           {
             url: "someurl",
-            reportName: "HSU Report",
-            dataFields: "dataSets.metadata.rows",
+            name: "HSU Report",
+            sourcePath: "rows",
             xAxis: "duration",
             yAxis: "registrations",
-            type: "LineChart",
-            lineStroke: "",
-            gridStroke: ""
+            type: "LineChart"
           }
         ]}
       />

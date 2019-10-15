@@ -43,13 +43,11 @@ describe(`<ChartLoader />`, () => {
       <ChartLoader
         config={{
           url: "someurl",
-          reportName: "HSU Report",
-          dataFields: "rows",
+          name: "HSU Report",
+          sourcePath: "rows",
           xAxis: "duration",
           yAxis: "registrations",
-          type: "LineChart",
-          lineStroke: "",
-          gridStroke: ""
+          type: "LineChart"
         }}
       />
     );
@@ -65,15 +63,12 @@ describe(`<ChartLoader />`, () => {
     const { queryByText } = render(
       <ChartLoader
         config={{
-          url:
-            "/ws/rest/v1/reportingrest/reportdata/4abeb1a1-1e44-4f3e-b9e9-bb3333fda42c",
-          reportName: "HSU Report",
-          dataFields: "rows",
+          url: "someurl",
+          name: "HSU Report",
+          sourcePath: "rows",
           xAxis: "duration",
           yAxis: "registrations",
-          type: "LineChart",
-          lineStroke: "",
-          gridStroke: ""
+          type: "LineChart"
         }}
       />
     );
