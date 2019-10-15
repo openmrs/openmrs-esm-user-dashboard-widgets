@@ -12,7 +12,7 @@ export default function ChartLoader(props) {
     openmrsFetch(config.url)
       .then(response => {
         setDataPoints(
-          mapRowsToChartDataPoints(getRows(config.dataFields, response.data))
+          mapRowsToChartDataPoints(getRows(config.sourcePath, response.data))
         );
         setLoadingStatus(LoadingStatus.Loaded);
       })
@@ -81,8 +81,13 @@ export default function ChartLoader(props) {
     }
   }
 
+  const fulfil = {
+    width: "100%",
+    height: "100%"
+  };
+
   return (
-    <div className="chart-container" style={{ width: "100%", height: "100%" }}>
+    <div className="chart-container" style={fulfil}>
       {displayChart()}
     </div>
   );
