@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { openmrsFetch } from "@openmrs/esm-api";
-import LineChart from "./chartTypes/line-chart.component";
+import LineChart from "./types/line-chart.component";
 import { LoadingStatus } from "../models";
 
 export default function ChartLoader(props) {
-  const [dataPoints, setDataPoints] = useState({});
+  const [dataPoints, setDataPoints] = useState([]);
   const [loadingStatus, setLoadingStatus] = useState(LoadingStatus.Loading);
   const { config } = props;
 
@@ -12,15 +12,15 @@ export default function ChartLoader(props) {
     openmrsFetch(config.url)
       .then(response => {
         setDataPoints(
-          mapRowsToChartDataPoints(getRows(config.dataFields, response.data))
+          mapRowsToChartDataPoints(getRows(config.sourcePath, response.data))
         );
         setLoadingStatus(LoadingStatus.Loaded);
       })
       .catch(e => {
-        setDataPoints({ ...dataPoints });
+        setDataPoints([...dataPoints]);
         setLoadingStatus(LoadingStatus.Failed);
       });
-  });
+  }, []);
 
   function mapRowsToChartDataPoints(rows) {
     return rows.map(row => {
@@ -48,9 +48,7 @@ export default function ChartLoader(props) {
   }
 
   function renderErrorMessage() {
-    return (
-      <span className="error">Unable to load Chart {config.reportName}</span>
-    );
+    return <span className="error">Unable to load Chart {config.name}</span>;
   }
 
   function renderChart(chartType) {
@@ -81,5 +79,14 @@ export default function ChartLoader(props) {
     }
   }
 
-  return <div className="chart-container">{displayChart()}</div>;
+  const fulfil = {
+    width: "100%",
+    height: "100%"
+  };
+
+  return (
+    <div className="chart-container" style={fulfil}>
+      {displayChart()}
+    </div>
+  );
 }
