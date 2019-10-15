@@ -55,7 +55,6 @@ describe(`<Charts />`, () => {
         ]}
       />
     );
-    console.log(container.innerHTML);
     expect(queryByText("report")).not.toBeNull();
     expect(queryByText("Loading...")).not.toBeNull();
     done();
