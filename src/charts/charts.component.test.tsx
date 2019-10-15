@@ -9,7 +9,7 @@ const mockChartData = {
   data: {
     rows: [
       {
-        duration: "Cool",
+        duration: "Jan2019",
         registrations: 20
       }
     ]
@@ -43,7 +43,7 @@ describe(`<Charts />`, () => {
         title={"report"}
         charts={[
           {
-            url: "someurl",
+            url: "reportUrl",
             name: "HSU Report",
             sourcePath: "rows",
             xAxis: "duration",
