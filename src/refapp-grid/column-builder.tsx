@@ -28,7 +28,7 @@ const generateElement = (value, config) => {
     case "label":
       return labelComponent(value, config.styles);
     case "button":
-      return buttonComponent(config.label, "task button small");
+      return buttonComponent(config.label, "task button small-button");
     case "colorCircle":
       return colorCircleComponent(value);
     default:
