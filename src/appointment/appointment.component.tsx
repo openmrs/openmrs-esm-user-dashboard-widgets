@@ -10,7 +10,7 @@ import RefAppGrid from "../refapp-grid/refapp-grid.component";
 import configs from "./config.json";
 
 export default function Appointment(props: AppointmentProps) {
-  initI18n(resources, props.language, useEffect);
+  initI18n(resources, props.locale, useEffect);
   const [appointments, setAppointments] = useState(null);
 
   useEffect(() => {

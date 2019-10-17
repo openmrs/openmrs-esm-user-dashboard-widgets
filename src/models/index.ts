@@ -1,5 +1,5 @@
 export type CommonWidgetProps = {
-  language: string;
+  locale: string;
   title?: string;
 };
 

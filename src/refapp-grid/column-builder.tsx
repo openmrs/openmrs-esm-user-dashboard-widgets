@@ -1,15 +1,19 @@
 import React, { cloneElement } from "react";
+import { Trans } from "react-i18next";
 import { formatField, getField } from "./formatters";
 
 import styles from "./refapp-grid.css";
-import { JSXElement } from "@babel/types";
 
 const labelComponent = (text: string, styles: string) => (
-  <div className={styles}>{text}</div>
+  <div className={styles}>
+    <Trans>{text}</Trans>
+  </div>
 );
 
 const buttonComponent = (label: string, styles: string) => (
-  <input className={styles} type="button" value={label} />
+  <button className={styles}>
+    <Trans>{label}</Trans>
+  </button>
 );
 
 const colorCircleComponent = (color: string) => (

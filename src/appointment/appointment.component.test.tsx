@@ -10,7 +10,7 @@ jest.mock("@openmrs/esm-api", () => ({
 }));
 
 describe(`<Appointment />`, () => {
-  const commonWidgetProps = { language: "en" };
+  const commonWidgetProps = { locale: "en" };
   const originalError = console.error;
   const mockDateTime = new Date(new Date().setHours(10)).setMinutes(30);
   const mockAppointments = [

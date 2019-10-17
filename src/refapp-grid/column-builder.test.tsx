@@ -112,10 +112,9 @@ describe("Column Builder", () => {
     });
     const rowData = { name: "test user" };
 
-    const { getByDisplayValue } = render(actualColumn.accessor(rowData));
+    const { getByText } = render(actualColumn.accessor(rowData));
 
-    expect(getByDisplayValue("Submit")).toBeTruthy();
-    expect(getByDisplayValue("Submit")).toHaveAttribute("type", "button");
+    expect(getByText("Submit")).toBeTruthy();
   });
 
   it("should show color circle cell", () => {
