@@ -2,6 +2,7 @@ import React from "react";
 
 import RefAppGrid from "./refapp-grid.component";
 import { render } from "@testing-library/react";
+import buildColumn from "./column-builder";
 
 describe("Refapp-Grid", () => {
   it("should show grid with columns", () => {
@@ -22,7 +23,10 @@ describe("Refapp-Grid", () => {
     ];
 
     const { getByText, container } = render(
-      <RefAppGrid columns={simpleColumns} data={mockData} />
+      <RefAppGrid
+        columns={simpleColumns.map(column => buildColumn(column))}
+        data={mockData}
+      />
     );
 
     expect(container.getElementsByClassName("ReactTable").length).toEqual(1);

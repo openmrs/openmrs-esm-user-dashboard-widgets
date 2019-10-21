@@ -8,7 +8,7 @@ import { CommonWidgetProps } from "../models/index";
 import WidgetHeader from "../commons/widget-header/widget-header.component";
 
 export default function Todo(props: TodoProps) {
-  initI18n(resources, props.language, useEffect);
+  initI18n(resources, props.locale, useEffect);
 
   return (
     <div>

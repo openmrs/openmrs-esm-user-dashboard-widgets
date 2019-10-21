@@ -1,23 +1,37 @@
 import React, { useEffect, useState } from "react";
 import { openmrsFetch } from "@openmrs/esm-api";
 
-import resources from "./translations/index";
+import resources from "./translations";
+import { filterByConditions } from "../utils";
 import { initI18n } from "../utils/translations";
-
-import { CommonWidgetProps } from "../models/index";
+import replaceParams from "../utils/param-replacers";
+import { CommonWidgetProps, Condition } from "../models";
 import WidgetHeader from "../commons/widget-header/widget-header.component";
 import RefAppGrid from "../refapp-grid/refapp-grid.component";
-import configs from "./config.json";
+import getAppointmentColumns from "./columns";
 
 export default function Appointment(props: AppointmentProps) {
-  initI18n(resources, props.language, useEffect);
+  initI18n(resources, props.locale, useEffect);
   const [appointments, setAppointments] = useState(null);
 
-  useEffect(() => {
-    openmrsFetch(props.sourceApi).then(response => {
-      setAppointments(response.data);
+  const fetchAppointmentsUrl = () =>
+    replaceParams(`${props.source}/all/?forDate=%Today%`);
+
+  const fetchAppointments = () => {
+    openmrsFetch(fetchAppointmentsUrl()).then(response => {
+      assignAppointments(response.data);
     });
-  }, []);
+  };
+
+  const assignAppointments = fetchedAppointments => {
+    setAppointments(
+      props.filters
+        ? filterByConditions(fetchedAppointments, props.filters)
+        : fetchedAppointments
+    );
+  };
+
+  useEffect(() => fetchAppointments(), []);
 
   const showLoading = () => <div>Loading...</div>;
 
@@ -28,7 +42,14 @@ export default function Appointment(props: AppointmentProps) {
           title={props.title}
           icon="svg-icon icon-calender"
         ></WidgetHeader>
-        <RefAppGrid data={appointments} columns={configs.columns}></RefAppGrid>
+        <RefAppGrid
+          data={appointments}
+          columns={getAppointmentColumns(
+            props.source,
+            fetchAppointments,
+            props.actions
+          )}
+        ></RefAppGrid>
       </div>
     );
   };
@@ -37,5 +58,12 @@ export default function Appointment(props: AppointmentProps) {
 }
 
 type AppointmentProps = CommonWidgetProps & {
-  sourceApi: string;
+  source: string;
+  filters?: Condition[];
+  actions?: WidgetAction[];
+};
+
+type WidgetAction = {
+  name: string;
+  when: Condition[];
 };

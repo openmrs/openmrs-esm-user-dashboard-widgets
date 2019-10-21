@@ -19,11 +19,13 @@ export const setLanguage = (language: string): void => {
   i18n.changeLanguage(language ? language : "en");
 };
 
+const getLanguageCode = locale => locale.split("_")[0];
+
 export const initI18n = (
   resources: any,
-  language: string,
+  locale: string,
   hookFunction: Function
 ): void => {
   i18n.use(initReactI18next).init(getTranslationConfig(resources));
-  initAndHook(language, hookFunction, setLanguage);
+  initAndHook(getLanguageCode(locale), hookFunction, setLanguage);
 };

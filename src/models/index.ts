@@ -1,5 +1,5 @@
 export type CommonWidgetProps = {
-  language: string;
+  locale: string;
   title?: string;
 };
 
@@ -8,3 +8,8 @@ export enum LoadingStatus {
   Loaded,
   Failed
 }
+
+export type Condition = {
+  field: string;
+  values: string[];
+};

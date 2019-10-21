@@ -10,7 +10,7 @@ jest.mock("@openmrs/esm-api", () => ({
 }));
 
 describe(`<Appointment />`, () => {
-  const commonWidgetProps = { language: "en" };
+  const commonWidgetProps = { locale: "en" };
   const originalError = console.error;
   const mockDateTime = new Date(new Date().setHours(10)).setMinutes(30);
   const mockAppointments = [
@@ -24,7 +24,8 @@ describe(`<Appointment />`, () => {
       patient: {
         name: "test patient",
         identifier: "PID-1234"
-      }
+      },
+      status: "Scheduled"
     }
   ];
 
@@ -44,7 +45,7 @@ describe(`<Appointment />`, () => {
   it(`should show loading component initially`, () => {
     mockEsmAPI.openmrsFetch.mockResolvedValueOnce({});
     const { getByText } = render(
-      <Appointment sourceApi="" {...commonWidgetProps} />
+      <Appointment source="" {...commonWidgetProps} />
     );
     expect(getByText("Loading...")).toBeTruthy();
   });
@@ -53,7 +54,7 @@ describe(`<Appointment />`, () => {
     mockEsmAPI.openmrsFetch.mockResolvedValueOnce({ data: mockAppointments });
     const { getByText } = render(
       <Appointment
-        sourceApi=""
+        source=""
         {...commonWidgetProps}
         title="Today's Appointments"
       />
@@ -69,7 +70,7 @@ describe(`<Appointment />`, () => {
     mockEsmAPI.openmrsFetch.mockResolvedValueOnce({ data: mockAppointments });
     const { getByText } = render(
       <Appointment
-        sourceApi=""
+        source=""
         {...commonWidgetProps}
         title="Today's Appointments"
       />
@@ -81,6 +82,36 @@ describe(`<Appointment />`, () => {
       expect(getByText("test service")).toBeTruthy();
       expect(getByText("test patient")).toBeTruthy();
       expect(getByText("PID-1234")).toBeTruthy();
+      done();
+    });
+  });
+
+  it(`should show checkedin label based on config`, done => {
+    mockEsmAPI.openmrsFetch.mockResolvedValueOnce({
+      data: [{ ...mockAppointments[0], ...{ status: "CheckedIn" } }]
+    });
+    const checkInConfig = [
+      {
+        name: "CheckIn",
+        when: [
+          {
+            field: "status",
+            values: ["Scheduled"]
+          }
+        ]
+      }
+    ];
+    const { getByText } = render(
+      <Appointment
+        source=""
+        {...commonWidgetProps}
+        actions={checkInConfig}
+        title="Today's Appointments"
+      />
+    );
+
+    waitForElement(() => getByText("Today's Appointments")).then(() => {
+      expect(getByText("CheckedIn")).toBeTruthy();
       done();
     });
   });

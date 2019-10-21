@@ -46,15 +46,6 @@
           "field": "service.name"
         }
       ]
-    },
-    {
-      "cells": [
-        {
-          "type": "button",
-          "field": "status",
-          "label": "Check In"
-        }
-      ]
     }
   ]
 }

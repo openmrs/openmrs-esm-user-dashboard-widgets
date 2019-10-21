@@ -3,7 +3,7 @@ import Todo from "./todo.component";
 import { render, cleanup } from "@testing-library/react";
 
 describe(`<Todo />`, () => {
-  const commonWidgetProps = { language: "en" };
+  const commonWidgetProps = { locale: "en" };
 
   afterEach(() => {
     cleanup();
