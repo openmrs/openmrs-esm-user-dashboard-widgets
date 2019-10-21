@@ -1,6 +1,7 @@
 import React, { cloneElement } from "react";
 import { Trans } from "react-i18next";
-import { formatField, getField } from "./formatters";
+import { formatField } from "./formatters";
+import { getField } from "../utils";
 
 import styles from "./refapp-grid.css";
 

@@ -8,3 +8,8 @@ export enum LoadingStatus {
   Loaded,
   Failed
 }
+
+export type Condition = {
+  field: string;
+  values: string[];
+};

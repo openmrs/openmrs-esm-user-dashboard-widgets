@@ -1,0 +1,7 @@
+.icon-label {
+  font-size: 12px;
+}
+
+.icon-label i {
+  color: var(--text) !important;
+}

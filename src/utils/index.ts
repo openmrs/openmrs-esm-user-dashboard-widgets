@@ -1,4 +1,19 @@
-import { func } from "prop-types";
+import { Condition } from "../models/index";
+
+export const getField = (obj, path: string) => {
+  if (!path) {
+    return obj;
+  }
+
+  return path.split(".").reduce((extractedObj, fieldName) => {
+    return extractedObj[fieldName];
+  }, obj);
+};
+
+export const doesMatchConditions = (obj, conditions: Condition[]) =>
+  conditions.every(
+    condition => condition.values.indexOf(getField(obj, condition.field)) >= 0
+  );
 
 export function initAndHook<T>(
   property: T,
@@ -20,3 +35,6 @@ export function setErrorFilter(originalError, errorToFilter: RegExp) {
     originalError.call(console, ...args);
   };
 }
+
+export const filterByConditions = (dataToFilter, conditions: Condition[]) =>
+  dataToFilter.filter(data => doesMatchConditions(data, conditions));

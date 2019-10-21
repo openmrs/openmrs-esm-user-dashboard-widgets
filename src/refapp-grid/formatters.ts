@@ -1,5 +1,7 @@
 import cloneDeep from "lodash.clonedeep";
 
+import { getField } from "../utils";
+
 const formatters = {
   convertToTime: (dateTimevalue): string => {
     const hour = new Date(dateTimevalue).getHours();
@@ -11,16 +13,6 @@ const formatters = {
     )} ${type}`;
   },
   suffix: (value, suffix): string => `${value}${suffix}`
-};
-
-export const getField = (obj, path: string) => {
-  if (!path) {
-    return obj;
-  }
-
-  return path.split(".").reduce((extractedObj, fieldName) => {
-    return extractedObj[fieldName];
-  }, obj);
 };
 
 const getParentField = (obj, path: string) => {
