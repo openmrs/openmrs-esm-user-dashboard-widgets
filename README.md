@@ -24,65 +24,34 @@ NodeJS
 
 - Run `npm run build` for production build.
 
-## Chart Widget
+## Widgets
 
-- It renders charts based on the configuration specified in the `dashboard-config` files .
+- Appointments
+- Charts
+- Todos
 
-- Sample Configuration (should be specified in a config file, Eg: dashboard-config/poprofessional.json in the chart specific object of the `contents` array ):
+## Appointments
 
-```
+This widget shows the list of appointments. It also allows the user to perform various actions like checkin, confirm.
 
-"properties": {
+Please refer the [Architecture Decision Record](docs/adr-03-appointment-configuration.md) for more informaion about how to configure an appointment widget.
 
-"title": "Reports",
+### Sample screenshots
 
-"charts": [
+#### Appointments
 
-{
+![Appointments](./screenshots/appointment.png "Appointments")
 
-"url": "<report-url>",
+#### Charts
 
-"name": "<report name>",
+![Charts](./screenshots/charts.png "Charts")
 
-"sourcePath": "<(Eg:dataSets.metadata.rows)>",
+## Charts
 
-"xAxis": "<x-axis label as in Sample report data>",
+This widget shows the charts based on the configuration. Refer below to check list of chart types supported.
 
-"yAxis": "<y-axis label as in Sample report data>",
+Please refer the [Architecture Decision Record](docs/adr-04-charts-configuration.md) for more informaion about how to configure a chart widget.
 
-"type": "<chart-type (Eg: LineChart)>"
+### Chart Types:
 
-}
-
-]
-
-}
-
-```
-
-- Sample Report Data from URL:
-
-```
-
-{
-	dataSets:{
-		metadata:{
-			rows:{
-				{
-					<x-axis-label>:<some-data>,
-					<y-axis-label>:<some-numeric-data>
-				},
-				...
-			],
-			...
-		},
-	...
-},
-...
-}
-
-```
-
-- Supported Chart Types:
-
-      	- LineChart
+- LineChart
