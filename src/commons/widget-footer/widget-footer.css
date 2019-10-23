@@ -1,0 +1,10 @@
+.widget-footer {
+  text-align: center;
+  margin: 15px 0px;
+  height: 35px;
+}
+
+button.view-all {
+  background: var(--highlight);
+  color: white;
+}

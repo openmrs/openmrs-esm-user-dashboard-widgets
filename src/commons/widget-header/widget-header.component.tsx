@@ -6,7 +6,7 @@ import styles from "./widget-header.css";
 export default function WidgetHeader(props: WidgetHeaderProps) {
   const { title, icon } = props;
   return (
-    <div className={styles["widget-header"]}>
+    <div className={styles["widget-header"] + " widget-header"}>
       <i className={icon}></i>
       <span className={styles["title"]}>
         <Trans>{title}</Trans>
