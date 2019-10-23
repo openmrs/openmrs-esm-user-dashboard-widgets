@@ -3,16 +3,29 @@ import cloneDeep from "lodash.clonedeep";
 import { getField } from "../utils";
 
 const formatters = {
-  convertToTime: (dateTimevalue): string => {
-    const hour = new Date(dateTimevalue).getHours();
+  convertToTime: (source, dateTimevalue): string => {
+    const hours = new Date(dateTimevalue).getHours();
     const minutes = new Date(dateTimevalue).getMinutes();
-    const type = hour >= 12 ? "PM" : "AM";
-    return `${String(hour % 12).padStart(2, "0")}:${String(minutes).padStart(
+    const type = hours >= 12 ? "PM" : "AM";
+
+    return `${String(hours == 12 ? hours : hours % 12).padStart(
       2,
       "0"
-    )} ${type}`;
+    )}:${String(minutes).padStart(2, "0")} ${type}`;
   },
-  suffix: (value, suffix): string => `${value}${suffix}`
+  suffix: (source, text, suffix): string => `${text}${suffix}`,
+  differenceInMins: (source, startTimeInMilliseconds, endTimeFieldName) => {
+    const minuteInMilliSeconds = 1000 * 60;
+    const startTime = new Date(startTimeInMilliseconds);
+    const endTime = new Date(getField(source, endTimeFieldName));
+    const differenceInMilliSeconds = Math.abs(
+      endTime.getTime() - startTime.getTime()
+    );
+
+    return `${Math.floor(
+      differenceInMilliSeconds / minuteInMilliSeconds
+    )} mins`;
+  }
 };
 
 const getParentField = (obj, path: string) => {
@@ -33,7 +46,7 @@ export const formatField = (source, field, formatter) => {
   const formaterName =
     typeof formatter === "string" ? formatter : formatter.name;
   const args = formatter.args ? formatter.args : [];
-  return formatters[formaterName](getField(source, field), [...args]);
+  return formatters[formaterName](source, getField(source, field), ...args);
 };
 
 export default function format(

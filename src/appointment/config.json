@@ -11,10 +11,10 @@
         {
           "type": "label",
           "styles": "sub-text",
-          "field": "service.durationMins",
+          "field": "startDateTime",
           "formatter": {
-            "name": "suffix",
-            "args": [" mins"]
+            "name": "differenceInMins",
+            "args": ["endDateTime"]
           }
         }
       ]

@@ -21,7 +21,7 @@ export default function Charts(props: chartProps) {
       ></WidgetHeader>
       <div style={chartContainer}>
         {props.charts.map(config => {
-          return <ChartLoader config={config} />;
+          return <ChartLoader key={config.name} config={config} />;
         })}
       </div>
     </>
