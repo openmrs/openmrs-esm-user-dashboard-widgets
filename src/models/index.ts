@@ -1,6 +1,7 @@
 export type CommonWidgetProps = {
   locale: string;
   title?: string;
+  showMessage: any;
 };
 
 export enum LoadingStatus {

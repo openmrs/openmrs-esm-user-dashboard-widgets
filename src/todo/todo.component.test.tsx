@@ -10,11 +10,13 @@ describe(`<Todo />`, () => {
   });
 
   it(`renders Todo without dying`, () => {
-    render(<Todo {...commonWidgetProps} />);
+    render(<Todo showMessage={jest.fn()} {...commonWidgetProps} />);
   });
 
   it(`should render header component`, () => {
-    const { getByText } = render(<Todo {...commonWidgetProps} />);
+    const { getByText } = render(
+      <Todo showMessage={jest.fn()} {...commonWidgetProps} />
+    );
     expect(getByText("My To Do's")).toBeTruthy();
   });
 });

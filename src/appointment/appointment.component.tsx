@@ -13,9 +13,10 @@ import getAppointmentColumns from "./columns";
 export default function Appointment(props: AppointmentProps) {
   initI18n(resources, props.locale, useEffect);
   const [appointments, setAppointments] = useState(null);
+  const { showMessage, source, filters, title } = props;
 
   const fetchAppointmentsUrl = () =>
-    replaceParams(`${props.source}/all/?forDate=%Today%`);
+    replaceParams(`${source}/all/?forDate=%Today%`);
 
   const fetchAppointments = () => {
     openmrsFetch(fetchAppointmentsUrl()).then(response => {
@@ -25,8 +26,8 @@ export default function Appointment(props: AppointmentProps) {
 
   const assignAppointments = fetchedAppointments => {
     setAppointments(
-      props.filters
-        ? filterByConditions(fetchedAppointments, props.filters)
+      filters
+        ? filterByConditions(fetchedAppointments, filters)
         : fetchedAppointments
     );
   };
@@ -39,7 +40,7 @@ export default function Appointment(props: AppointmentProps) {
     return (
       <div>
         <WidgetHeader
-          title={props.title}
+          title={title}
           icon="svg-icon icon-calender"
         ></WidgetHeader>
         <RefAppGrid
@@ -47,7 +48,8 @@ export default function Appointment(props: AppointmentProps) {
           columns={getAppointmentColumns(
             props.source,
             fetchAppointments,
-            props.actions
+            props.actions,
+            showMessage
           )}
         ></RefAppGrid>
       </div>

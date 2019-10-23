@@ -45,7 +45,7 @@ describe(`<Appointment />`, () => {
   it(`should show loading component initially`, () => {
     mockEsmAPI.openmrsFetch.mockResolvedValueOnce({});
     const { getByText } = render(
-      <Appointment source="" {...commonWidgetProps} />
+      <Appointment source="" {...commonWidgetProps} showMessage={jest.fn()} />
     );
     expect(getByText("Loading...")).toBeTruthy();
   });
@@ -57,6 +57,7 @@ describe(`<Appointment />`, () => {
         source=""
         {...commonWidgetProps}
         title="Today's Appointments"
+        showMessage={jest.fn()}
       />
     );
 
@@ -73,6 +74,7 @@ describe(`<Appointment />`, () => {
         source=""
         {...commonWidgetProps}
         title="Today's Appointments"
+        showMessage={jest.fn()}
       />
     );
 
@@ -107,6 +109,7 @@ describe(`<Appointment />`, () => {
         {...commonWidgetProps}
         actions={checkInConfig}
         title="Today's Appointments"
+        showMessage={jest.fn()}
       />
     );
 
