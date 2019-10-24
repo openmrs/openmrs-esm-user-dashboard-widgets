@@ -21,7 +21,7 @@ export default function Appointment(props: AppointmentProps) {
   const { showMessage, source, filters, title, viewAll = "" } = props;
 
   const fetchAppointmentsUrl = () =>
-    replaceParams(`${source}/all/?forDate=%Today%`);
+    replaceParams(`${source}/?forDate=%Today%`);
 
   const fetchAppointments = () => {
     openmrsFetch(fetchAppointmentsUrl()).then(response => {
