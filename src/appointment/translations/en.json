@@ -1,4 +1,7 @@
 {
   "Today's Appointments": "Today's Appointments",
-  "Appointment Widget": "Appointment Widget"
+  "Appointment Widget": "Appointment Widget",
+  "Appointment has been checked in successfully": "Appointment has been checked in successfully",
+  "Unexpected error while checking in": "Unexpected error while checking in",
+  "View All": "View All"
 }

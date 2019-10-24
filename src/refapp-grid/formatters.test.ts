@@ -1,10 +1,11 @@
-import format from "./formatters";
+import format, { formatField } from "./formatters";
 
 describe("formatters", () => {
-  const mockDateTime = new Date(new Date().setHours(10)).setMinutes(30);
+  const mockStartDateTime = new Date(new Date().setHours(10)).setMinutes(30);
+  const mockEndDateTime = new Date(new Date().setHours(11)).setMinutes(0);
   it("should format given field with given formatter", () => {
     const source = {
-      startDateTime: mockDateTime
+      startDateTime: mockStartDateTime
     };
     const configs = [
       {
@@ -20,7 +21,7 @@ describe("formatters", () => {
 
   it("should add formatted value to given new field", () => {
     const source = {
-      startDateTime: mockDateTime
+      startDateTime: mockStartDateTime
     };
     const configs = [
       {
@@ -37,7 +38,7 @@ describe("formatters", () => {
   it("should format value for nested field", () => {
     const source = {
       appointment: {
-        startDateTime: mockDateTime
+        startDateTime: mockStartDateTime
       }
     };
     const configs = [
@@ -56,7 +57,7 @@ describe("formatters", () => {
     it("should extract Time with 12 hour type", () => {
       const source = {
         appointment: {
-          startDateTime: mockDateTime
+          startDateTime: mockStartDateTime
         }
       };
       const configs = [
@@ -69,6 +70,28 @@ describe("formatters", () => {
 
       const formattedSource = format(source, configs);
       expect(formattedSource.appointment.startTime).toEqual("10:30 AM");
+    });
+  });
+
+  describe("differenceInMins", () => {
+    it("should find difference of dates in minutes", () => {
+      const source = {
+        appointment: {
+          startDateTime: mockStartDateTime,
+          endDateTime: mockEndDateTime
+        }
+      };
+      const formatter = {
+        name: "differenceInMins",
+        args: ["appointment.endDateTime"]
+      };
+
+      const actualDurationInMins = formatField(
+        source,
+        "appointment.startDateTime",
+        formatter
+      );
+      expect(actualDurationInMins).toEqual("30 mins");
     });
   });
 

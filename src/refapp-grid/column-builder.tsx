@@ -46,6 +46,15 @@ const getAccessor = (rowData, cellConfigs: CellConfig[]) => {
     return <></>;
   }
 
+  const getFormatterName = formatter =>
+    formatter
+      ? typeof formatter === "string"
+        ? formatter
+        : formatter.name
+      : "";
+  const getCellKey = cellConfig =>
+    `${cellConfig.field}-${getFormatterName(cellConfig.formatter)}`;
+
   return (
     <>
       {cellConfigs.map(cellConfig => {
@@ -56,7 +65,7 @@ const getAccessor = (rowData, cellConfigs: CellConfig[]) => {
         );
         return appendKey(
           generateElement(cellValue, cellConfig),
-          cellConfig.field
+          getCellKey(cellConfig)
         );
       })}
     </>

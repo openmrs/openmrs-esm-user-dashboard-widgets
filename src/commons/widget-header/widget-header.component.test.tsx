@@ -3,7 +3,7 @@ import WidgetHeader from "./widget-header.component";
 import { render } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 
-describe(`<Appointment />`, () => {
+describe(`<WidgetHeader />`, () => {
   it(`should render title based on props`, () => {
     const { queryByText } = render(
       <WidgetHeader title="Today's Appointments" />

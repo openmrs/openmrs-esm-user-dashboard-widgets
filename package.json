@@ -1,14 +1,15 @@
 {
   "name": "@openmrs/esm-user-dashboard-widgets",
-  "version": "0.0.1",
+  "version": "0.0.5",
   "description": "A repo for creating openmrs microfrontend dashboard widgets",
-  "main": "dist/openmrs-esm-dashboard-widgets.js",
+  "main": "dist/openmrs-esm-user-dashboard-widgets.js",
   "scripts": {
     "start": "webpack-dev-server",
     "lint": "eslint src --ext tsx",
     "build": "webpack --mode=production",
     "typescript": "tsc",
-    "test": "jest --config jest.config.json"
+    "test": "jest --config jest.config.json",
+    "prepublishOnly": "npm run build && npm test"
   },
   "husky": {
     "hooks": {
@@ -36,9 +37,12 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.3.3",
     "@emotion/babel-preset-css-prop": "^10.0.9",
+    "@emotion/core": "^10.0.21",
     "@testing-library/jest-dom": "^4.1.0",
     "@testing-library/react": "^9.3.0",
     "@types/jest": "^24.0.13",
+    "@types/react": "^16.8.19",
+    "@types/react-dom": "^16.8.4",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.8.0",
     "babel-loader": "^8.0.6",
@@ -50,10 +54,16 @@
     "eslint-config-react-important-stuff": "^1.1.0",
     "eslint-plugin-prettier": "^3.1.0",
     "husky": "^2.4.1",
+    "i18next": "^17.0.18",
     "jest": "^24.8.0",
     "jest-cli": "^24.8.0",
+    "lodash.clonedeep": "^4.5.0",
     "prettier": "^1.18.2",
     "pretty-quick": "^1.11.1",
+    "react-i18next": "^10.13.1",
+    "react-table": "^6.10.3",
+    "recharts": "^1.7.1",
+    "single-spa-react": "^2.10.2",
     "style-loader": "^0.23.1",
     "typescript": "^3.5.1",
     "webpack": "^4.33.0",
@@ -61,18 +71,7 @@
     "webpack-dev-server": "^3.7.1"
   },
   "dependencies": {
-    "@emotion/core": "^10.0.21",
-    "@types/react": "^16.8.19",
-    "@types/react-dom": "^16.8.4",
-    "i18next": "^17.0.18",
-    "lodash.clonedeep": "^4.5.0",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-i18next": "^10.13.1",
-    "react-router": "^5.0.1",
-    "react-router-dom": "^5.0.1",
-    "react-table": "^6.10.3",
-    "recharts": "^1.7.1",
-    "single-spa-react": "^2.10.2"
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0"
   }
 }

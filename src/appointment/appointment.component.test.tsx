@@ -12,10 +12,12 @@ jest.mock("@openmrs/esm-api", () => ({
 describe(`<Appointment />`, () => {
   const commonWidgetProps = { locale: "en" };
   const originalError = console.error;
-  const mockDateTime = new Date(new Date().setHours(10)).setMinutes(30);
+  const mockStartDateTime = new Date(new Date().setHours(10)).setMinutes(30);
+  const mockEndDateTime = new Date(new Date().setHours(11)).setMinutes(0);
+
   const mockAppointments = [
     {
-      startDateTime: mockDateTime,
+      startDateTime: mockStartDateTime,
       service: {
         durationMins: 20,
         color: "red",
@@ -25,7 +27,8 @@ describe(`<Appointment />`, () => {
         name: "test patient",
         identifier: "PID-1234"
       },
-      status: "Scheduled"
+      status: "Scheduled",
+      endDateTime: mockEndDateTime
     }
   ];
 
@@ -45,7 +48,7 @@ describe(`<Appointment />`, () => {
   it(`should show loading component initially`, () => {
     mockEsmAPI.openmrsFetch.mockResolvedValueOnce({});
     const { getByText } = render(
-      <Appointment source="" {...commonWidgetProps} />
+      <Appointment source="" {...commonWidgetProps} showMessage={jest.fn()} />
     );
     expect(getByText("Loading...")).toBeTruthy();
   });
@@ -57,6 +60,7 @@ describe(`<Appointment />`, () => {
         source=""
         {...commonWidgetProps}
         title="Today's Appointments"
+        showMessage={jest.fn()}
       />
     );
 
@@ -73,12 +77,13 @@ describe(`<Appointment />`, () => {
         source=""
         {...commonWidgetProps}
         title="Today's Appointments"
+        showMessage={jest.fn()}
       />
     );
 
     waitForElement(() => getByText("Today's Appointments")).then(() => {
       expect(getByText("10:30 AM")).toBeTruthy();
-      expect(getByText("20 mins")).toBeTruthy();
+      expect(getByText("30 mins")).toBeTruthy();
       expect(getByText("test service")).toBeTruthy();
       expect(getByText("test patient")).toBeTruthy();
       expect(getByText("PID-1234")).toBeTruthy();
@@ -107,6 +112,7 @@ describe(`<Appointment />`, () => {
         {...commonWidgetProps}
         actions={checkInConfig}
         title="Today's Appointments"
+        showMessage={jest.fn()}
       />
     );
 

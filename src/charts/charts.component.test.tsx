@@ -53,6 +53,7 @@ describe(`<Charts />`, () => {
             type: "LineChart"
           }
         ]}
+        showMessage={jest.fn()}
       />
     );
     expect(queryByText("report")).not.toBeNull();

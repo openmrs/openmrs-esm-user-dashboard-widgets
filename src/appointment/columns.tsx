@@ -10,12 +10,27 @@ import { doesMatchConditions } from "../utils";
 const checkInAppointmentUrl = (baseUrl: string, appointmentId: string) =>
   `${baseUrl}/${appointmentId}/status-change`;
 
-const checkIn = (appointment, refreshAppointments, baseUrl: string) => {
+const checkIn = (
+  appointment,
+  refreshAppointments,
+  baseUrl: string,
+  showMessage
+) => {
   const handleCheckInResponse = response => {
     if (response.ok) {
+      showMessage({
+        type: "success",
+        message: <Trans>Appointment has been checked in successfully</Trans>
+      });
       refreshAppointments();
     } else {
-      response.json().then(err => console.log(err)); // eslint-disable-line no-console
+      response.json().then(err => {
+        showMessage({
+          type: "error",
+          message: <Trans>Unexpected error while checking in</Trans>
+        });
+        console.log(err); // eslint-disable-line no-console
+      });
     }
   };
 
@@ -39,7 +54,12 @@ const checkIn = (appointment, refreshAppointments, baseUrl: string) => {
   });
 };
 
-const getActionColumns = (configs, baseUrl, refreshAppointments) => {
+const getActionColumns = (
+  configs,
+  baseUrl,
+  refreshAppointments,
+  showMessage
+) => {
   if (!configs || configs.length <= 0) {
     return [];
   }
@@ -58,7 +78,9 @@ const getActionColumns = (configs, baseUrl, refreshAppointments) => {
     const actionHandler = actionHandlers[action.name];
     return (
       <button
-        onClick={() => actionHandler(appointment, refreshAppointments, baseUrl)}
+        onClick={() =>
+          actionHandler(appointment, refreshAppointments, baseUrl, showMessage)
+        }
         className="task button small-button"
       >
         <Trans>{action.name}</Trans>
@@ -87,7 +109,8 @@ const getActionColumns = (configs, baseUrl, refreshAppointments) => {
 export default function getColumns(
   baseUrl: string,
   refreshAppointments,
-  actionConfigs
+  actionConfigs,
+  showMessage
 ) {
   const defaultColumns = defaultAppointmentColumns.columns.map(columnConfig =>
     buildColumn(columnConfig)
@@ -95,6 +118,11 @@ export default function getColumns(
 
   return [
     ...defaultColumns,
-    ...getActionColumns(actionConfigs, baseUrl, refreshAppointments)
+    ...getActionColumns(
+      actionConfigs,
+      baseUrl,
+      refreshAppointments,
+      showMessage
+    )
   ];
 }

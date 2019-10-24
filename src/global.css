@@ -1,0 +1,10 @@
+.widget-container {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.widget-content {
+  flex: auto;
+  overflow: auto;
+}

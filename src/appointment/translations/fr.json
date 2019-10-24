@@ -2,5 +2,8 @@
   "Today's Appointments": "Nominations d'aujourd'hui",
   "Appointment Widget": "Widget Rendez-vous",
   "Check In": "Enregistrement",
-  "Checked In": "Enregistré"
+  "Checked In": "Enregistré",
+  "Appointment has been checked in successfully": "Le rendez-vous a été enregistré avec succès",
+  "Unexpected error while checking in": "Unexpected error while checking in",
+  "View All": "Voir Tout"
 }
