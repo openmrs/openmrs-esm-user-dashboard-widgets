@@ -12,6 +12,7 @@ import getAppointmentColumns from "./columns";
 
 import { filterByConditions } from "../utils";
 import replaceParams from "../utils/param-replacers";
+import constants from "../constants.json";
 
 import globalStyles from "../global.css";
 
@@ -21,7 +22,7 @@ export default function Appointment(props: AppointmentProps) {
   const { showMessage, source, filters, title, viewAll = "" } = props;
 
   const fetchAppointmentsUrl = () =>
-    replaceParams(`${source}/?forDate=%Today%`);
+    replaceParams(`${source}/${constants.appointments.fetchUrl}`);
 
   const fetchAppointments = () => {
     openmrsFetch(fetchAppointmentsUrl()).then(response => {

@@ -1,0 +1,11 @@
+{
+  "appointments": {
+    "fetchUrl": "?forDate=%Today%",
+    "checkInUrl": "status-change",
+    "checkInSuccessMessage": "Appointment has been checked in successfully",
+    "checkInErrorMessage": "Unexpected error while checking in"
+  },
+  "charts": {
+    "notFoundMessage": "Chart not found"
+  }
+}

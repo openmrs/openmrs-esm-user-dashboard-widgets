@@ -24,11 +24,21 @@ describe("Utils", () => {
         "test-value"
       );
     });
+
     it("should get value of the given nested field", () => {
       expect(
         getField(
           { testChild: { testField: "test-value" } },
           "testChild.testField"
+        )
+      ).toEqual("test-value");
+    });
+
+    it("should get value inside array when using index", () => {
+      expect(
+        getField(
+          { testChild: [{ testField: "test-value" }] },
+          "testChild.0.testField"
         )
       ).toEqual("test-value");
     });
