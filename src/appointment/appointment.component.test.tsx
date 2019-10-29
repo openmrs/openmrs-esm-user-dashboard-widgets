@@ -6,7 +6,7 @@ import { setErrorFilter } from "../utils/index";
 import mockEsmAPI from "@openmrs/esm-api";
 
 jest.mock("@openmrs/esm-api", () => ({
-  openmrsFetch: jest.fn().mockResolvedValueOnce({})
+  openmrsFetch: jest.fn()
 }));
 
 describe(`<Appointment />`, () => {
@@ -46,7 +46,7 @@ describe(`<Appointment />`, () => {
   });
 
   it(`should show loading component initially`, () => {
-    mockEsmAPI.openmrsFetch.mockResolvedValueOnce({});
+    mockEsmAPI.openmrsFetch.mockResolvedValueOnce({ data: mockAppointments });
     const { getByText } = render(
       <Appointment source="" {...commonWidgetProps} showMessage={jest.fn()} />
     );

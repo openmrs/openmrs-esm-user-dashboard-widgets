@@ -38,3 +38,5 @@ export function setErrorFilter(originalError, errorToFilter: RegExp) {
 
 export const filterByConditions = (dataToFilter, conditions: Condition[]) =>
   dataToFilter.filter(data => doesMatchConditions(data, conditions));
+
+export const compose = (...fns) => x => fns.reduceRight((v, f) => f(v), x);
