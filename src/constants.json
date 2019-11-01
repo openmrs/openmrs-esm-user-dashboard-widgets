@@ -4,7 +4,8 @@
     "checkInUrl": "status-change",
     "sortBy": "startDateTime",
     "checkInSuccessMessage": "Appointment has been checked in successfully",
-    "checkInErrorMessage": "Unexpected error while checking in"
+    "checkInErrorMessage": "Unexpected error while checking in",
+    "defaultRefreshInterval": 120
   },
   "charts": {
     "notFoundMessage": "Chart not found"

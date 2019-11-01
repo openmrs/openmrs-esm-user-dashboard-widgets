@@ -117,7 +117,7 @@ describe(`<Appointment />`, () => {
     );
 
     waitForElement(() => getByText("Today's Appointments")).then(() => {
-      expect(getByText("CheckedIn")).toBeTruthy();
+      expect(getByText("Checked In")).toBeTruthy();
       done();
     });
   });
