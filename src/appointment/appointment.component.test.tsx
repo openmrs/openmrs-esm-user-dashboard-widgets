@@ -130,6 +130,7 @@ describe(`<Appointment />`, () => {
   it(`should refresh appointments when refresh interval laps`, done => {
     let refreshAppointments = null;
     mockEsmAPI.openmrsFetch.mockResolvedValueOnce({ data: mockAppointments });
+    // @ts-ignore
     mockUseInterval.mockImplementationOnce(cb => (refreshAppointments = cb));
 
     const { getByText } = render(
