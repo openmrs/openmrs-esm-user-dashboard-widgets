@@ -4,9 +4,14 @@ import { render, cleanup, waitForElement } from "@testing-library/react";
 
 import { setErrorFilter } from "../utils/index";
 import mockEsmAPI from "@openmrs/esm-api";
+import { useInterval as mockUseInterval } from "react-use";
 
 jest.mock("@openmrs/esm-api", () => ({
   openmrsFetch: jest.fn()
+}));
+
+jest.mock("react-use", () => ({
+  useInterval: jest.fn()
 }));
 
 describe(`<Appointment />`, () => {
@@ -70,7 +75,7 @@ describe(`<Appointment />`, () => {
     });
   });
 
-  it(`should show grid with given appointments data`, done => {
+  it(`should show grid with fetched appointments data`, done => {
     mockEsmAPI.openmrsFetch.mockResolvedValueOnce({ data: mockAppointments });
     const { getByText } = render(
       <Appointment
@@ -118,6 +123,40 @@ describe(`<Appointment />`, () => {
 
     waitForElement(() => getByText("Today's Appointments")).then(() => {
       expect(getByText("Checked In")).toBeTruthy();
+      done();
+    });
+  });
+
+  it(`should refresh appointments when refresh interval laps`, done => {
+    let refreshAppointments = null;
+    mockEsmAPI.openmrsFetch.mockResolvedValueOnce({ data: mockAppointments });
+    mockUseInterval.mockImplementationOnce(cb => (refreshAppointments = cb));
+
+    const { getByText } = render(
+      <Appointment
+        source=""
+        {...commonWidgetProps}
+        title="Today's Appointments"
+        showMessage={jest.fn()}
+      />
+    );
+
+    const appointmentsForRefresh = [
+      {
+        ...mockAppointments[0],
+        patient: {
+          name: "test patient - refreshed",
+          identifier: "PID-1234"
+        }
+      }
+    ];
+    mockEsmAPI.openmrsFetch.mockResolvedValueOnce({
+      data: appointmentsForRefresh
+    });
+    refreshAppointments();
+
+    waitForElement(() => getByText("Today's Appointments")).then(() => {
+      expect(getByText("test patient - refreshed")).toBeTruthy();
       done();
     });
   });
