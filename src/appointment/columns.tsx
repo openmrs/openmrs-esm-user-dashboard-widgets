@@ -6,9 +6,10 @@ import defaultAppointmentColumns from "./config.json";
 import buildColumn from "../refapp-grid/column-builder";
 import styles from "./appointment.css";
 import { doesMatchConditions } from "../utils";
+import { appointments as constants } from "../constants.json";
 
 const checkInAppointmentUrl = (baseUrl: string, appointmentId: string) =>
-  `${baseUrl}/${appointmentId}/status-change`;
+  `${baseUrl}/${appointmentId}/${constants.checkInUrl}`;
 
 const checkIn = (
   appointment,
@@ -20,14 +21,14 @@ const checkIn = (
     if (response.ok) {
       showMessage({
         type: "success",
-        message: <Trans>Appointment has been checked in successfully</Trans>
+        message: <Trans>{constants.checkInSuccessMessage}</Trans>
       });
       refreshAppointments();
     } else {
       response.json().then(err => {
         showMessage({
           type: "error",
-          message: <Trans>Unexpected error while checking in</Trans>
+          message: <Trans>{constants.checkInErrorMessage}</Trans>
         });
         console.log(err); // eslint-disable-line no-console
       });

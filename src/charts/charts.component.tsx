@@ -13,6 +13,7 @@ export default function Charts(props: chartProps) {
     width: "100%",
     height: "100%"
   };
+
   return (
     <>
       <WidgetHeader

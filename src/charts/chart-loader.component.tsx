@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { openmrsFetch } from "@openmrs/esm-api";
 import LineChart from "./types/line-chart.component";
 import { LoadingStatus } from "../models";
+import { charts as constants } from "../constants.json";
+import { getField } from "../utils/index";
 
 export default function ChartLoader(props) {
   const [dataPoints, setDataPoints] = useState([]);
@@ -12,7 +14,7 @@ export default function ChartLoader(props) {
     openmrsFetch(config.url)
       .then(response => {
         setDataPoints(
-          mapRowsToChartDataPoints(getRows(config.sourcePath, response.data))
+          mapRowsToChartDataPoints(getField(response.data, config.sourcePath))
         );
         setLoadingStatus(LoadingStatus.Loaded);
       })
@@ -29,18 +31,6 @@ export default function ChartLoader(props) {
         [config.yAxis]: row[config.yAxis]
       };
     });
-  }
-
-  function getRows(str, req) {
-    str.split(".").forEach(property => {
-      if (req.length) {
-        req = req[0];
-      } else {
-        req = req[property];
-      }
-    });
-
-    return req;
   }
 
   function renderLoadingMessage() {
@@ -64,7 +54,7 @@ export default function ChartLoader(props) {
           />
         );
       default:
-        return <div>Chart not found</div>;
+        return <div>{constants.notFoundMessage}</div>;
     }
   }
 

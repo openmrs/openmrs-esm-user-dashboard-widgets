@@ -10,8 +10,9 @@ import WidgetFooter from "../commons/widget-footer/widget-footer.component";
 import RefAppGrid from "../refapp-grid/refapp-grid.component";
 import getAppointmentColumns from "./columns";
 
-import { filterByConditions } from "../utils";
+import { filterByConditions, compose } from "../utils";
 import replaceParams from "../utils/param-replacers";
+import constants from "../constants.json";
 
 import globalStyles from "../global.css";
 
@@ -21,20 +22,26 @@ export default function Appointment(props: AppointmentProps) {
   const { showMessage, source, filters, title, viewAll = "" } = props;
 
   const fetchAppointmentsUrl = () =>
-    replaceParams(`${source}/?forDate=%Today%`);
+    replaceParams(`${source}/${constants.appointments.fetchUrl}`);
 
   const fetchAppointments = () => {
     openmrsFetch(fetchAppointmentsUrl()).then(response => {
-      assignAppointments(response.data);
+      compose(
+        setAppointments,
+        formatAppointments
+      )(response.data);
     });
   };
 
-  const assignAppointments = fetchedAppointments => {
-    setAppointments(
-      filters
-        ? filterByConditions(fetchedAppointments, filters)
-        : fetchedAppointments
-    );
+  const formatAppointments = fetchedAppointments => {
+    const compareAppointments = (current, next) =>
+      current[constants.appointments.sortBy] -
+      next[constants.appointments.sortBy];
+    fetchedAppointments.sort(compareAppointments);
+
+    return filters
+      ? filterByConditions(fetchedAppointments, filters)
+      : fetchedAppointments;
   };
 
   useEffect(() => fetchAppointments(), []);
