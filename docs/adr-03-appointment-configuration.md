@@ -25,6 +25,7 @@ Below is the configuration template for appointments.
             "properties": {
                 "title": "Today's Appointments",  // Title of the appointment widget
                 "source": "/ws/rest/v1/appointments", // source base url for appointments
+                "refreshInterval": 60, // interval in seconds to refresh appointments. default value - 120
                 // any data fileter which needs to be applied on the source data after fetching
                 "filters": [
                     {

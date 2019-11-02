@@ -3,5 +3,7 @@
   "Appointment Widget": "Appointment Widget",
   "Appointment has been checked in successfully": "Appointment has been checked in successfully",
   "Unexpected error while checking in": "Unexpected error while checking in",
-  "View All": "View All"
+  "View All": "View All",
+  "CheckIn": "Check In",
+  "CheckedIn": "Checked In"
 }
