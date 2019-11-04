@@ -5,7 +5,7 @@ import { useInterval } from "react-use";
 import resources from "./translations";
 import { initI18n } from "../utils/translations";
 
-import { CommonWidgetProps, Condition } from "../models";
+import { CommonWidgetProps, Condition, LoadingStatus } from "../models";
 import WidgetHeader from "../commons/widget-header/widget-header.component";
 import WidgetFooter from "../commons/widget-footer/widget-footer.component";
 import RefAppGrid from "../refapp-grid/refapp-grid.component";
@@ -16,10 +16,13 @@ import replaceParams from "../utils/param-replacers";
 import { appointments as constants } from "../constants.json";
 
 import globalStyles from "../global.css";
+import { Trans } from "react-i18next";
 
 export default function Appointment(props: AppointmentProps) {
   initI18n(resources, props.locale, useEffect);
+  const secondInMilliSeconds = 1000;
   const [appointments, setAppointments] = useState(null);
+  const [loadingStatus, setLoadingStatus] = useState(LoadingStatus.Loading);
   const [currentRefreshInterval, setCurrentRefreshInterval] = useState(null);
   const {
     showMessage,
@@ -39,17 +42,23 @@ export default function Appointment(props: AppointmentProps) {
     refreshInterval > 0 ? refreshInterval : constants.defaultRefreshInterval;
   const disableRefreshAppointmentsTimer = () => setCurrentRefreshInterval(null);
   const enableRefreshAppointmentsTimer = () =>
-    setCurrentRefreshInterval(1000 * getRefreshInterval());
+    setCurrentRefreshInterval(secondInMilliSeconds * getRefreshInterval());
 
   const fetchAppointments = () => {
     disableRefreshAppointmentsTimer();
-    openmrsFetch(fetchAppointmentsUrl()).then(response => {
-      compose(
-        enableRefreshAppointmentsTimer,
-        setAppointments,
-        formatAppointments
-      )(response.data);
-    });
+    openmrsFetch(fetchAppointmentsUrl())
+      .then(response => {
+        compose(
+          enableRefreshAppointmentsTimer,
+          setAppointments,
+          formatAppointments
+        )(response.data);
+        setLoadingStatus(LoadingStatus.Loaded);
+      })
+      .catch(error => {
+        setLoadingStatus(LoadingStatus.Failed);
+        console.log(error); // eslint-disable-line
+      });
   };
 
   const formatAppointments = fetchedAppointments => {
@@ -64,7 +73,17 @@ export default function Appointment(props: AppointmentProps) {
 
   useEffect(() => fetchAppointments(), []);
 
-  const showLoading = () => <div>Loading...</div>;
+  const showLoading = () => (
+    <div>
+      <Trans>Loading</Trans>...
+    </div>
+  );
+
+  const showError = () => (
+    <div className="error">
+      <Trans>Unable to load appointments</Trans>
+    </div>
+  );
 
   const showGrid = () => {
     return (
@@ -89,7 +108,14 @@ export default function Appointment(props: AppointmentProps) {
     );
   };
 
-  return appointments ? showGrid() : showLoading();
+  switch (loadingStatus) {
+    case LoadingStatus.Loaded:
+      return showGrid();
+    case LoadingStatus.Failed:
+      return showError();
+    default:
+      return showLoading();
+  }
 }
 
 type AppointmentProps = CommonWidgetProps & {
