@@ -101,6 +101,7 @@ export default function Appointment(props: AppointmentProps) {
               props.actions,
               showMessage
             )}
+            noDataText="No appointments found"
           ></RefAppGrid>
         </div>
         <WidgetFooter viewAllUrl={viewAll}></WidgetFooter>
