@@ -3,9 +3,19 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 
 import styles from "./refapp-grid.css";
+import { Trans } from "react-i18next";
 
 export default function RefAppGrid(props: RefAppGridProps) {
-  const { data, columns = [] } = props;
+  const { data, columns = [], noDataText = "No records found" } = props;
+
+  const NoDataComponent = () => {
+    return (
+      <div className={styles["no-rows-text"]}>
+        <Trans>{noDataText}</Trans>
+      </div>
+    );
+  };
+
   return (
     <ReactTable
       data={data}
@@ -14,6 +24,7 @@ export default function RefAppGrid(props: RefAppGridProps) {
       columns={columns}
       showPaginationBottom={false}
       minRows={0}
+      NoDataComponent={NoDataComponent}
     />
   );
 }
@@ -21,4 +32,5 @@ export default function RefAppGrid(props: RefAppGridProps) {
 type RefAppGridProps = {
   data: any;
   columns?: any[];
+  noDataText?: string;
 };
