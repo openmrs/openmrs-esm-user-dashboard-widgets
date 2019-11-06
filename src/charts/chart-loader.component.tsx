@@ -4,6 +4,7 @@ import LineChart from "./types/line-chart.component";
 import { LoadingStatus } from "../models";
 import { charts as constants } from "../constants.json";
 import { getField } from "../utils/index";
+import { Trans } from "react-i18next";
 
 export default function ChartLoader(props) {
   const [dataPoints, setDataPoints] = useState([]);
@@ -34,11 +35,19 @@ export default function ChartLoader(props) {
   }
 
   function renderLoadingMessage() {
-    return <span className="loading">Loading...</span>;
+    return (
+      <span className="loading">
+        <Trans>Loading</Trans>...
+      </span>
+    );
   }
 
   function renderErrorMessage() {
-    return <span className="error">Unable to load Chart {config.name}</span>;
+    return (
+      <span className="error">
+        <Trans>Unable to load Chart</Trans> {config.name}
+      </span>
+    );
   }
 
   function renderChart(chartType) {
