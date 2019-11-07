@@ -25,6 +25,15 @@ const formatters = {
     return `${Math.floor(
       differenceInMilliSeconds / minuteInMilliSeconds
     )} mins`;
+  },
+
+  convertToDayMonth: (source, dateTimevalue): string => {
+    const sourceDate = new Date(dateTimevalue);
+
+    return sourceDate.toLocaleDateString("default", {
+      day: "2-digit",
+      month: "short"
+    });
   }
 };
 
