@@ -69,6 +69,24 @@ describe(`<Todo />`, () => {
     console.error = originalError;
   });
 
+  // it(`should show error message for sourceApi errors`, () => {
+  //   mockEsmApi.openmrsFetch = jest.fn(() => {
+  //     return Promise.reject("Unable");
+  //   });
+  //   // const mockError = new Error("error");
+  //   // mockEsmApi.openmrsFetch.mockRejectedValueOnce({ message: "Your error" });
+  //   const { getByText } = render(
+  //     <Todo
+  //       sourceApi=""
+  //       showMessage={jest.fn}
+  //       title={componentTitle}
+  //       {...commonWidgetProps}
+  //     />
+  //   );
+
+  //   expect(getByText("Unable to load todo's")).toBeTruthy;
+  // });
+
   it(`should show loading component initially`, () => {
     mockEsmApi.openmrsFetch.mockResolvedValueOnce({ data: [] });
 
