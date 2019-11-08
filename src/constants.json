@@ -12,6 +12,7 @@
   },
   "todo": {
     "sortBy": "dateCreated",
-    "max_todos_list": "-1"
+    "max_todos_list": "-1",
+    "defaultRefreshInterval": 120
   }
 }

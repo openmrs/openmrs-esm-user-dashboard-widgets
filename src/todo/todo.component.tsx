@@ -1,5 +1,6 @@
 import { openmrsFetch } from "@openmrs/esm-api";
 import React, { useEffect, useState } from "react";
+import { useInterval } from "react-use";
 
 import WidgetFooter from "../commons/widget-footer/widget-footer.component";
 import WidgetHeader from "../commons/widget-header/widget-header.component";
@@ -16,23 +17,35 @@ import resources from "./translations/index";
 
 export default function Todo(props: TodoProps) {
   initI18n(resources, props.locale, useEffect);
-
   const [todos, setTodos] = useState(null);
+  const [currentRefreshInterval, setCurrentRefreshInterval] = useState(null);
   const [loadingStatus, setLoadingStatus] = useState(LoadingStatus.Loading);
 
+  const secondInMilliSeconds = 1000;
   const source = "/frontend/mockTodo.json";
   const max_limit = constants.max_todos_list;
+  const defaultRefreshInterval = 120;
 
-  const { limit = max_limit, sourceApi = source } = props;
+  const { limit = max_limit, sourceApi = source, refreshInterval = 0 } = props;
 
   useEffect(() => {
     fetchTodos();
   }, []);
 
+  useInterval(() => fetchTodos(), currentRefreshInterval);
+
+  const getRefreshInterval = () =>
+    refreshInterval > 0 ? refreshInterval : defaultRefreshInterval;
+  const disableRefreshAppointmentsTimer = () => setCurrentRefreshInterval(null);
+  const enableRefreshAppointmentsTimer = () =>
+    setCurrentRefreshInterval(secondInMilliSeconds * getRefreshInterval());
+
   const fetchTodos = () => {
+    disableRefreshAppointmentsTimer();
     openmrsFetch(sourceApi)
       .then(response => {
         compose(
+          enableRefreshAppointmentsTimer,
           setTodos,
           sortTodos
         )(response.data);
@@ -97,4 +110,5 @@ type TodoProps = CommonWidgetProps & {
   sourceApi: string;
   viewAll?: string;
   limit?: number;
+  refreshInterval?: number;
 };
