@@ -22,7 +22,7 @@ export default function getColumns() {
               title="Basic Service Plan Encounter URL"
               href={fetchEncounterURL(todo.patient.id, todo.encounterId)}
             >
-              <button className="button">Print</button>
+              <button className="task button small-button">Print</button>
             </a>
           );
       }

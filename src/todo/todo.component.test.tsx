@@ -69,23 +69,24 @@ describe(`<Todo />`, () => {
     console.error = originalError;
   });
 
-  // it(`should show error message for sourceApi errors`, () => {
-  //   mockEsmApi.openmrsFetch = jest.fn(() => {
-  //     return Promise.reject("Unable");
-  //   });
-  //   // const mockError = new Error("error");
-  //   // mockEsmApi.openmrsFetch.mockRejectedValueOnce({ message: "Your error" });
-  //   const { getByText } = render(
-  //     <Todo
-  //       sourceApi=""
-  //       showMessage={jest.fn}
-  //       title={componentTitle}
-  //       {...commonWidgetProps}
-  //     />
-  //   );
+  it(`should show error message for sourceApi errors`, done => {
+    mockEsmApi.openmrsFetch.mockRejectedValueOnce(
+      new Error("Unable to load todo's")
+    );
 
-  //   expect(getByText("Unable to load todo's")).toBeTruthy;
-  // });
+    const { getByText } = render(
+      <Todo
+        sourceApi=""
+        showMessage={jest.fn}
+        title={componentTitle}
+        {...commonWidgetProps}
+      />
+    );
+
+    waitForElement(() => getByText("Unable to load todo's")).then(() => {
+      done();
+    });
+  });
 
   it(`should show loading component initially`, () => {
     mockEsmApi.openmrsFetch.mockResolvedValueOnce({ data: [] });
@@ -115,54 +116,6 @@ describe(`<Todo />`, () => {
     );
 
     waitForElement(() => getByText(componentTitle)).then(() => {
-      done();
-    });
-  });
-
-  it(`should show todos with given data`, done => {
-    mockEsmApi.openmrsFetch.mockResolvedValueOnce({ data: [mockTodos[0]] });
-
-    const { getByText } = render(
-      <Todo
-        sourceApi={mockUrl}
-        showMessage={jest.fn()}
-        title={componentTitle}
-        {...commonWidgetProps}
-      />
-    );
-
-    waitForElement(() => getByText(componentTitle)).then(() => {
-      expect(getByText("Test Afgan Patient")).toBeTruthy();
-      expect(getByText("10000X")).toBeTruthy();
-      expect(getByText("Prostheses")).toBeTruthy();
-      expect(getByText("M11 04")).toBeTruthy();
-      expect(getByText("Print")).toBeTruthy();
-      expect(getByText("Print").className).toEqual("button");
-      expect(document.querySelector("a").getAttribute("href")).toContain(
-        "openmrs/htmlformentryui/htmlform/viewEncounterWithHtmlForm.page?patientId=14&encounter=37"
-      );
-      done();
-    });
-  });
-
-  it(`should sort Todo's by date`, done => {
-    mockEsmApi.openmrsFetch.mockResolvedValueOnce({ data: mockTodos });
-    const { getByText, container } = render(
-      <Todo
-        sourceApi={mockUrl}
-        showMessage={jest.fn()}
-        title={componentTitle}
-        {...commonWidgetProps}
-      />
-    );
-
-    waitForElement(() => getByText(componentTitle)).then(() => {
-      expect(container.getElementsByClassName("todo-date")[0].textContent).toBe(
-        "M11 01"
-      );
-      expect(container.getElementsByClassName("todo-date")[1].textContent).toBe(
-        "M11 04"
-      );
       done();
     });
   });
@@ -203,6 +156,56 @@ describe(`<Todo />`, () => {
 
     waitForElement(() => getByText(componentTitle)).then(() => {
       expect(container.getElementsByClassName("rt-tr-group").length).toBe(1);
+      done();
+    });
+  });
+
+  it(`should show todos with given data`, done => {
+    mockEsmApi.openmrsFetch.mockResolvedValueOnce({ data: [mockTodos[0]] });
+
+    const { getByText } = render(
+      <Todo
+        sourceApi={mockUrl}
+        showMessage={jest.fn()}
+        title={componentTitle}
+        {...commonWidgetProps}
+      />
+    );
+
+    waitForElement(() => getByText(componentTitle)).then(() => {
+      expect(getByText("ICRC Patient")).toBeTruthy();
+      expect(getByText("103450X")).toBeTruthy();
+      expect(getByText("Prostheses")).toBeTruthy();
+      expect(getByText("Nov 01")).toBeTruthy();
+      expect(getByText("Print")).toBeTruthy();
+      expect(getByText("Print").className).toContain(
+        "task button small-button"
+      );
+      expect(document.querySelector("a").getAttribute("href")).toContain(
+        "openmrs/htmlformentryui/htmlform/viewEncounterWithHtmlForm.page?patientId=14&encounter=37"
+      );
+      done();
+    });
+  });
+
+  it(`should sort Todo's by date`, done => {
+    mockEsmApi.openmrsFetch.mockResolvedValueOnce({ data: mockTodos });
+    const { getByText, container } = render(
+      <Todo
+        sourceApi={mockUrl}
+        showMessage={jest.fn()}
+        title={componentTitle}
+        {...commonWidgetProps}
+      />
+    );
+
+    waitForElement(() => getByText(componentTitle)).then(() => {
+      expect(container.getElementsByClassName("todo-date")[0].textContent).toBe(
+        "Nov 01"
+      );
+      expect(container.getElementsByClassName("todo-date")[1].textContent).toBe(
+        "Nov 04"
+      );
       done();
     });
   });

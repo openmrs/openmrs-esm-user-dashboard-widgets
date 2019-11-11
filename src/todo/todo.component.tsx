@@ -24,7 +24,6 @@ export default function Todo(props: TodoProps) {
   const secondInMilliSeconds = 1000;
   const source = "/frontend/mockTodo.json";
   const max_limit = constants.max_todos_list;
-  const defaultRefreshInterval = 120;
 
   const { limit = max_limit, sourceApi = source, refreshInterval = 0 } = props;
 
@@ -35,17 +34,17 @@ export default function Todo(props: TodoProps) {
   useInterval(() => fetchTodos(), currentRefreshInterval);
 
   const getRefreshInterval = () =>
-    refreshInterval > 0 ? refreshInterval : defaultRefreshInterval;
-  const disableRefreshAppointmentsTimer = () => setCurrentRefreshInterval(null);
-  const enableRefreshAppointmentsTimer = () =>
+    refreshInterval > 0 ? refreshInterval : constants.defaultRefreshInterval;
+  const disableRefreshTodoTimer = () => setCurrentRefreshInterval(null);
+  const enableRefreshTodoTimer = () =>
     setCurrentRefreshInterval(secondInMilliSeconds * getRefreshInterval());
 
   const fetchTodos = () => {
-    disableRefreshAppointmentsTimer();
+    disableRefreshTodoTimer();
     openmrsFetch(sourceApi)
       .then(response => {
         compose(
-          enableRefreshAppointmentsTimer,
+          enableRefreshTodoTimer,
           setTodos,
           sortTodos
         )(response.data);
