@@ -10,7 +10,7 @@ export default function getColumns() {
 
   const getTodoActionColumn = () => {
     const fetchEncounterURL = (patientId, encounterId) => {
-      let baseUrl: string = `${location.origin}/openmrs/htmlformentryui/htmlform/viewEncounterWithHtmlForm.page?`;
+      const baseUrl: string = `/openmrs/htmlformentryui/htmlform/viewEncounterWithHtmlForm.page?`;
 
       return `${baseUrl}patientId=${patientId}&encounter=${encounterId}`;
     };
