@@ -34,7 +34,7 @@ NodeJS
 
 This widget shows the list of appointments. It also allows the user to perform various actions like checkin, confirm.
 
-Please refer the [Architecture Decision Record](docs/adr-03-appointment-configuration.md) for more informaion about how to configure an appointment widget.
+Please refer the [Architecture Decision Record](docs/adr-03-appointment-configuration.md) for more information about how to configure an appointment widget.
 
 ### Sample screenshots
 
@@ -50,7 +50,7 @@ Please refer the [Architecture Decision Record](docs/adr-03-appointment-configur
 
 This widget shows the charts based on the configuration. Refer below to check list of chart types supported.
 
-Please refer the [Architecture Decision Record](docs/adr-04-charts-configuration.md) for more informaion about how to configure a chart widget.
+Please refer the [Architecture Decision Record](docs/adr-04-charts-configuration.md) for more information about how to configure a chart widget.
 
 ### Chart Types:
 
