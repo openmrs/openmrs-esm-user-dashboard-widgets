@@ -27,7 +27,7 @@ const formatters = {
     )} mins`;
   },
 
-  convertToDayMonth: (source, dateTimevalue): string => {
+  convertToDayMonth: (source, dateTimeValue): string => {
     const sourceDate = new Date(dateTimevalue);
 
     return sourceDate.toLocaleDateString("default", {
