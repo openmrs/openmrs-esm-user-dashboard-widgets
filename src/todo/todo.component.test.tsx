@@ -69,7 +69,7 @@ describe(`<Todo />`, () => {
     console.error = originalError;
   });
 
-  it(`should show error message for sourceApi errors`, done => {
+  it(`should show error message for source api fails`, done => {
     mockEsmApi.openmrsFetch.mockRejectedValueOnce(
       new Error("Unable to load todo's")
     );
@@ -100,7 +100,7 @@ describe(`<Todo />`, () => {
       />
     );
 
-    expect(getByText("Loading...")).toBeTruthy;
+    expect(getByText("Loading...")).toBeTruthy();
   });
 
   it(`should render header component`, done => {
@@ -120,7 +120,7 @@ describe(`<Todo />`, () => {
     });
   });
 
-  it(`should have url for view all`, done => {
+  it(`should contain view all which redirects to url given in config`, done => {
     mockEsmApi.openmrsFetch.mockResolvedValueOnce({ data: mockTodos });
     const { getByText } = render(
       <Todo
@@ -188,7 +188,7 @@ describe(`<Todo />`, () => {
     });
   });
 
-  it(`should sort Todo's by date`, done => {
+  it(`should sort Todos by todo created date`, done => {
     mockEsmApi.openmrsFetch.mockResolvedValueOnce({ data: mockTodos });
     const { getByText, container } = render(
       <Todo
