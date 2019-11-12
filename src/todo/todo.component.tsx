@@ -22,7 +22,7 @@ export default function Todo(props: TodoProps) {
   const [loadingStatus, setLoadingStatus] = useState(LoadingStatus.Loading);
 
   const secondInMilliSeconds = 1000;
-  const source = "/frontend/mockTodo.json";
+  const source = "/ws/rest/v1/assigned_action";
   const max_limit = constants.MAX_TODOS_LIST;
 
   const { limit = max_limit, sourceApi = source, refreshInterval = 0 } = props;
