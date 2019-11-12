@@ -3,6 +3,8 @@ import React from "react";
 import defaultTodoColumns from "./config.json";
 import buildColumn from "../refapp-grid/column-builder";
 
+import { Trans } from "react-i18next";
+
 export default function getColumns() {
   const getDoneActionColumn = () => {
     return [];
@@ -18,11 +20,10 @@ export default function getColumns() {
       switch (todo.type) {
         case "PRINT_CONSENT":
           return (
-            <a
-              title="Basic Service Plan Encounter URL"
-              href={fetchEncounterURL(todo.patient.id, todo.encounterId)}
-            >
-              <button className="task button small-button">Print</button>
+            <a href={fetchEncounterURL(todo.patient.id, todo.encounterId)}>
+              <button className="task button small-button">
+                <Trans>Print</Trans>
+              </button>
             </a>
           );
       }
