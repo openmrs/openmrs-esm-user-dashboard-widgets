@@ -23,7 +23,7 @@ export default function Todo(props: TodoProps) {
 
   const secondInMilliSeconds = 1000;
   const source = "/frontend/mockTodo.json";
-  const max_limit = constants.max_todos_list;
+  const max_limit = constants.MAX_TODOS_LIST;
 
   const { limit = max_limit, sourceApi = source, refreshInterval = 0 } = props;
 
@@ -34,7 +34,7 @@ export default function Todo(props: TodoProps) {
   useInterval(() => fetchTodos(), currentRefreshInterval);
 
   const getRefreshInterval = () =>
-    refreshInterval > 0 ? refreshInterval : constants.defaultRefreshInterval;
+    refreshInterval > 0 ? refreshInterval : constants.DEFAULT_REFRESH_INTERVAL;
   const disableRefreshTodoTimer = () => setCurrentRefreshInterval(null);
   const enableRefreshTodoTimer = () =>
     setCurrentRefreshInterval(secondInMilliSeconds * getRefreshInterval());
@@ -58,7 +58,7 @@ export default function Todo(props: TodoProps) {
 
   const sortTodos = fetchTodos => {
     const compareTodo = (current, next) =>
-      current[constants.sortBy] - next[constants.sortBy];
+      current[constants.SORT_BY] - next[constants.SORT_BY];
 
     return fetchTodos.sort(compareTodo);
   };

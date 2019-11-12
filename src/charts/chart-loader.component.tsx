@@ -54,7 +54,7 @@ export default function ChartLoader(props) {
           />
         );
       default:
-        return <div>{constants.notFoundMessage}</div>;
+        return <div>{constants.NOT_FOUND_MESSAGE}</div>;
     }
   }
 
