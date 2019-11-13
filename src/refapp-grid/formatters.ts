@@ -3,9 +3,9 @@ import cloneDeep from "lodash.clonedeep";
 import { getField } from "../utils";
 
 const formatters = {
-  convertToTime: (source, dateTimevalue): string => {
-    const hours = new Date(dateTimevalue).getHours();
-    const minutes = new Date(dateTimevalue).getMinutes();
+  convertToTime: (source, dateTimeValue): string => {
+    const hours = new Date(dateTimeValue).getHours();
+    const minutes = new Date(dateTimeValue).getMinutes();
     const type = hours >= 12 ? "PM" : "AM";
 
     return `${String(hours == 12 ? hours : hours % 12).padStart(
@@ -25,6 +25,15 @@ const formatters = {
     return `${Math.floor(
       differenceInMilliSeconds / minuteInMilliSeconds
     )} mins`;
+  },
+
+  convertToDayMonth: (source, dateTimeValue): string => {
+    const sourceDate = new Date(dateTimeValue);
+
+    return sourceDate.toLocaleDateString("default", {
+      day: "2-digit",
+      month: "short"
+    });
   }
 };
 

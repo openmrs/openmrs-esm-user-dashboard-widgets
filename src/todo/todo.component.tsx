@@ -1,23 +1,113 @@
-import React, { useEffect } from "react";
-import { Trans } from "react-i18next";
+import { openmrsFetch } from "@openmrs/esm-api";
+import React, { useEffect, useState } from "react";
+import { useInterval } from "react-use";
 
-import resources from "./translations/index";
-import { initI18n } from "../utils/translations";
-
-import { CommonWidgetProps } from "../models/index";
+import WidgetFooter from "../commons/widget-footer/widget-footer.component";
 import WidgetHeader from "../commons/widget-header/widget-header.component";
+import RefAppGrid from "../refapp-grid/refapp-grid.component";
+
+import { Trans } from "react-i18next";
+import { todo as constants } from "../constants.json";
+import { CommonWidgetProps, LoadingStatus } from "../models";
+import { initI18n } from "../utils/translations";
+import { compose } from "../utils";
+
+import getTodoColumns from "./columns";
+import resources from "./translations/index";
 
 export default function Todo(props: TodoProps) {
   initI18n(resources, props.locale, useEffect);
+  const [todos, setTodos] = useState(null);
+  const [currentRefreshInterval, setCurrentRefreshInterval] = useState(null);
+  const [loadingStatus, setLoadingStatus] = useState(LoadingStatus.Loading);
 
-  return (
+  const secondInMilliSeconds = 1000;
+  const source = "/ws/rest/v1/assigned_action";
+  const max_limit = constants.MAX_TODOS_LIST;
+
+  const { limit = max_limit, sourceApi = source, refreshInterval = 0 } = props;
+
+  useEffect(() => {
+    fetchTodos();
+  }, []);
+
+  useInterval(() => fetchTodos(), currentRefreshInterval);
+
+  const getRefreshInterval = () =>
+    refreshInterval > 0 ? refreshInterval : constants.DEFAULT_REFRESH_INTERVAL;
+  const disableRefreshTodoTimer = () => setCurrentRefreshInterval(null);
+  const enableRefreshTodoTimer = () =>
+    setCurrentRefreshInterval(secondInMilliSeconds * getRefreshInterval());
+
+  const fetchTodos = () => {
+    disableRefreshTodoTimer();
+    openmrsFetch(sourceApi)
+      .then(response => {
+        compose(
+          enableRefreshTodoTimer,
+          setTodos,
+          sortTodos
+        )(response.data);
+        setLoadingStatus(LoadingStatus.Loaded);
+      })
+      .catch(error => {
+        setLoadingStatus(LoadingStatus.Failed);
+        console.log(error); // eslint-disable-line
+      });
+  };
+
+  const sortTodos = fetchTodos => {
+    const compareTodo = (current, next) =>
+      current[constants.SORT_BY] - next[constants.SORT_BY];
+
+    return fetchTodos.sort(compareTodo);
+  };
+
+  const limitListByCount = (items, limit) => {
+    return limit > 0 ? items.slice(0, limit) : items;
+  };
+
+  const showLoading = () => (
     <div>
-      <WidgetHeader title="My To Do's" icon="svg-icon icon-todo"></WidgetHeader>
-      <h1>
-        <Trans>Todo Widget</Trans>!!!
-      </h1>
+      <Trans>Loading</Trans>...
     </div>
   );
+
+  const showError = () => (
+    <div className="error">
+      <Trans>Unable to load todo's</Trans>
+    </div>
+  );
+
+  const showGrid = () => {
+    return (
+      <div>
+        <WidgetHeader
+          title={props.title}
+          icon="svg-icon icon-todo"
+        ></WidgetHeader>
+        <RefAppGrid
+          data={limitListByCount(todos, limit)}
+          columns={getTodoColumns()}
+        ></RefAppGrid>
+        <WidgetFooter viewAllUrl={props.viewAll}></WidgetFooter>
+      </div>
+    );
+  };
+
+  switch (loadingStatus) {
+    case LoadingStatus.Loaded:
+      return showGrid();
+    case LoadingStatus.Failed:
+      return showError();
+    default:
+      return showLoading();
+  }
 }
 
-type TodoProps = CommonWidgetProps & {};
+type TodoProps = CommonWidgetProps & {
+  sourceApi: string;
+  viewAll?: string;
+  limit?: number;
+  refreshInterval?: number;
+};

@@ -34,12 +34,12 @@ export default function Appointment(props: AppointmentProps) {
   } = props;
 
   const fetchAppointmentsUrl = () =>
-    replaceParams(`${source}/${constants.fetchUrl}`);
+    replaceParams(`${source}/${constants.FETCH_URL}`);
 
   useInterval(() => fetchAppointments(), currentRefreshInterval);
 
   const getRefreshInterval = () =>
-    refreshInterval > 0 ? refreshInterval : constants.defaultRefreshInterval;
+    refreshInterval > 0 ? refreshInterval : constants.DEFAULT_REFRESH_INTERVAL;
   const disableRefreshAppointmentsTimer = () => setCurrentRefreshInterval(null);
   const enableRefreshAppointmentsTimer = () =>
     setCurrentRefreshInterval(secondInMilliSeconds * getRefreshInterval());
@@ -63,7 +63,7 @@ export default function Appointment(props: AppointmentProps) {
 
   const formatAppointments = fetchedAppointments => {
     const compareAppointments = (current, next) =>
-      current[constants.sortBy] - next[constants.sortBy];
+      current[constants.SORT_BY] - next[constants.SORT_BY];
     fetchedAppointments.sort(compareAppointments);
 
     return filters

@@ -42,6 +42,10 @@ Please refer the [Architecture Decision Record](docs/adr-03-appointment-configur
 
 ![Appointments](./screenshots/appointment.png "Appointments")
 
+#### Todo's
+
+[!Todo's](./screenshots/todo.png "Todo's"))
+
 #### Charts
 
 ![Charts](./screenshots/charts.png "Charts")

@@ -9,7 +9,7 @@ import { doesMatchConditions } from "../utils";
 import { appointments as constants } from "../constants.json";
 
 const checkInAppointmentUrl = (baseUrl: string, appointmentId: string) =>
-  `${baseUrl}/${appointmentId}/${constants.checkInUrl}`;
+  `${baseUrl}/${appointmentId}/${constants.CHECK_IN_URL}`;
 
 const checkIn = (
   appointment,
@@ -21,14 +21,14 @@ const checkIn = (
     if (response.ok) {
       showMessage({
         type: "success",
-        message: <Trans>{constants.checkInSuccessMessage}</Trans>
+        message: <Trans>{constants.CHECK_IN_SUCCESS_MESSAGE}</Trans>
       });
       refreshAppointments();
     } else {
       response.json().then(err => {
         showMessage({
           type: "error",
-          message: <Trans>{constants.checkInErrorMessage}</Trans>
+          message: <Trans>{constants.CHECK_IN_ERROR_MESSAGE}</Trans>
         });
         console.log(err); // eslint-disable-line no-console
       });

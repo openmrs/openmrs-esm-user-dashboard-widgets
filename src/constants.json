@@ -1,13 +1,18 @@
 {
   "appointments": {
-    "fetchUrl": "?forDate=%Today%",
-    "checkInUrl": "status-change",
-    "sortBy": "startDateTime",
-    "checkInSuccessMessage": "Appointment has been checked in successfully",
-    "checkInErrorMessage": "Unexpected error while checking in",
-    "defaultRefreshInterval": 120
+    "FETCH_URL": "?forDate=%Today%",
+    "CHECK_IN_URL": "status-change",
+    "SORT_BY": "startDateTime",
+    "CHECK_IN_SUCCESS_MESSAGE": "Appointment has been checked in successfully",
+    "CHECK_IN_ERROR_MESSAGE": "Unexpected error while checking in",
+    "DEFAULT_REFRESH_INTERVAL": 120
   },
   "charts": {
-    "notFoundMessage": "Chart not found"
+    "NOT_FOUND_MESSAGE": "Chart not found"
+  },
+  "todo": {
+    "SORT_BY": "dateCreated",
+    "MAX_TODOS_LIST": "-1",
+    "DEFAULT_REFRESH_INTERVAL": 120
   }
 }
