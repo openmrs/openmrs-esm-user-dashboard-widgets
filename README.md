@@ -10,7 +10,7 @@ ESM Package serves widgets for OpenMRS Dashboard Engine.
 
 - Charts
 
-## Pre-Requesties
+## Pre-Requisites
 
 NodeJS
 
