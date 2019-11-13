@@ -63,8 +63,8 @@ export default function Todo(props: TodoProps) {
     return fetchTodos.sort(compareTodo);
   };
 
-  const getTodoByLimit = () => {
-    return limit > 0 ? todos.slice(0, limit) : todos;
+  const limitListByCount = (items, limit) => {
+    return limit > 0 ? items.slice(0, limit) : items;
   };
 
   const showLoading = () => (
@@ -87,7 +87,7 @@ export default function Todo(props: TodoProps) {
           icon="svg-icon icon-todo"
         ></WidgetHeader>
         <RefAppGrid
-          data={getTodoByLimit()}
+          data={limitListByCount(todos, limit)}
           columns={getTodoColumns()}
         ></RefAppGrid>
         <WidgetFooter viewAllUrl={props.viewAll}></WidgetFooter>
