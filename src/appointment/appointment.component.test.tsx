@@ -6,6 +6,9 @@ import { setErrorFilter } from "../utils/index";
 import mockEsmAPI from "@openmrs/esm-api";
 import { useInterval as mockUseInterval } from "react-use";
 
+const componentTitleRegex = /^Today's Appointments/;
+const componentTitle = "Today's Appointments";
+
 jest.mock("@openmrs/esm-api", () => ({
   openmrsFetch: jest.fn()
 }));
@@ -64,13 +67,13 @@ describe(`<Appointment />`, () => {
       <Appointment
         source=""
         {...commonWidgetProps}
-        title="Today's Appointments"
+        title={componentTitle}
         showMessage={jest.fn()}
       />
     );
 
-    waitForElement(() => getByText("Today's Appointments")).then(() => {
-      expect(getByText("Today's Appointments")).not.toBeNull();
+    waitForElement(() => getByText(componentTitleRegex)).then(() => {
+      expect(getByText(componentTitleRegex)).not.toBeNull();
       done();
     });
   });
@@ -81,12 +84,12 @@ describe(`<Appointment />`, () => {
       <Appointment
         source=""
         {...commonWidgetProps}
-        title="Today's Appointments"
+        title={componentTitle}
         showMessage={jest.fn()}
       />
     );
 
-    waitForElement(() => getByText("Today's Appointments")).then(() => {
+    waitForElement(() => getByText(componentTitleRegex)).then(() => {
       expect(getByText("10:30 AM")).toBeTruthy();
       expect(getByText("30 mins")).toBeTruthy();
       expect(getByText("test service")).toBeTruthy();
@@ -116,12 +119,12 @@ describe(`<Appointment />`, () => {
         source=""
         {...commonWidgetProps}
         actions={checkInConfig}
-        title="Today's Appointments"
+        title={componentTitle}
         showMessage={jest.fn()}
       />
     );
 
-    waitForElement(() => getByText("Today's Appointments")).then(() => {
+    waitForElement(() => getByText(componentTitleRegex)).then(() => {
       expect(getByText("Checked In")).toBeTruthy();
       done();
     });
@@ -137,7 +140,7 @@ describe(`<Appointment />`, () => {
       <Appointment
         source=""
         {...commonWidgetProps}
-        title="Today's Appointments"
+        title={componentTitle}
         showMessage={jest.fn()}
       />
     );
@@ -156,7 +159,7 @@ describe(`<Appointment />`, () => {
     });
     refreshAppointments();
 
-    waitForElement(() => getByText("Today's Appointments")).then(() => {
+    waitForElement(() => getByText(componentTitleRegex)).then(() => {
       expect(getByText("test patient - refreshed")).toBeTruthy();
       done();
     });

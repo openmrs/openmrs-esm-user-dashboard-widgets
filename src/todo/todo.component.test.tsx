@@ -7,6 +7,7 @@ import { setErrorFilter } from "../utils/index";
 import mockEsmApi from "@openmrs/esm-api";
 
 const mockUrl = "mock/test/todo";
+const componentTitleRegex = /^My To Do's/;
 const componentTitle = "My To Do's";
 
 jest.mock("@openmrs/esm-api", () => ({
@@ -115,7 +116,7 @@ describe(`<Todo />`, () => {
       />
     );
 
-    waitForElement(() => getByText(componentTitle)).then(() => {
+    waitForElement(() => getByText(componentTitleRegex)).then(() => {
       done();
     });
   });
@@ -154,7 +155,7 @@ describe(`<Todo />`, () => {
       />
     );
 
-    waitForElement(() => getByText(componentTitle)).then(() => {
+    waitForElement(() => getByText(componentTitleRegex)).then(() => {
       expect(container.getElementsByClassName("rt-tr-group").length).toBe(1);
       done();
     });
@@ -172,7 +173,7 @@ describe(`<Todo />`, () => {
       />
     );
 
-    waitForElement(() => getByText(componentTitle)).then(() => {
+    waitForElement(() => getByText(componentTitleRegex)).then(() => {
       expect(getByText("ICRC Patient")).toBeTruthy();
       expect(getByText("103450X")).toBeTruthy();
       expect(getByText("Prostheses")).toBeTruthy();
@@ -199,7 +200,7 @@ describe(`<Todo />`, () => {
       />
     );
 
-    waitForElement(() => getByText(componentTitle)).then(() => {
+    waitForElement(() => getByText(componentTitleRegex)).then(() => {
       expect(container.getElementsByClassName("todo-date")[0].textContent).toBe(
         "Nov 01"
       );

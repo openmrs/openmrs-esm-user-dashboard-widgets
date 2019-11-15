@@ -12,6 +12,7 @@ import { CommonWidgetProps, LoadingStatus } from "../models";
 import { initI18n } from "../utils/translations";
 import { compose } from "../utils";
 
+import globalStyles from "../global.css";
 import getTodoColumns from "./columns";
 import resources from "./translations/index";
 
@@ -22,10 +23,14 @@ export default function Todo(props: TodoProps) {
   const [loadingStatus, setLoadingStatus] = useState(LoadingStatus.Loading);
 
   const secondInMilliSeconds = 1000;
-  const source = "/ws/rest/v1/assignedaction";
   const max_limit = constants.MAX_TODOS_LIST;
 
-  const { limit = max_limit, sourceApi = source, refreshInterval = 0 } = props;
+  const {
+    limit = max_limit,
+    sourceApi = "",
+    refreshInterval = 0,
+    title = null
+  } = props;
 
   useEffect(() => {
     fetchTodos();
@@ -43,11 +48,7 @@ export default function Todo(props: TodoProps) {
     disableRefreshTodoTimer();
     openmrsFetch(sourceApi)
       .then(response => {
-        compose(
-          enableRefreshTodoTimer,
-          setTodos,
-          sortTodos
-        )(response.data);
+        compose(enableRefreshTodoTimer, setTodos, sortTodos)(response.data);
         setLoadingStatus(LoadingStatus.Loaded);
       })
       .catch(error => {
@@ -81,15 +82,19 @@ export default function Todo(props: TodoProps) {
 
   const showGrid = () => {
     return (
-      <div>
+      <div className={globalStyles["widget-container"]}>
         <WidgetHeader
-          title={props.title}
+          title={title}
+          totalCount={todos.length}
           icon="svg-icon icon-todo"
         ></WidgetHeader>
-        <RefAppGrid
-          data={limitListByCount(todos, limit)}
-          columns={getTodoColumns()}
-        ></RefAppGrid>
+        <div className={globalStyles["widget-content"]}>
+          <RefAppGrid
+            data={limitListByCount(todos, limit)}
+            columns={getTodoColumns()}
+            noDataText="No Todo Actions"
+          ></RefAppGrid>
+        </div>
         <WidgetFooter viewAllUrl={props.viewAll}></WidgetFooter>
       </div>
     );

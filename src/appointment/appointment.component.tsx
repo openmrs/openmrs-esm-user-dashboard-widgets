@@ -91,6 +91,7 @@ export default function Appointment(props: AppointmentProps) {
         <WidgetHeader
           title={title}
           icon="svg-icon icon-calender"
+          totalCount={appointments.length}
         ></WidgetHeader>
         <div className={globalStyles["widget-content"]}>
           <RefAppGrid
@@ -101,7 +102,7 @@ export default function Appointment(props: AppointmentProps) {
               props.actions,
               showMessage
             )}
-            noDataText="No appointments found"
+            noDataText="No appointments"
           ></RefAppGrid>
         </div>
         <WidgetFooter viewAllUrl={viewAll}></WidgetFooter>
