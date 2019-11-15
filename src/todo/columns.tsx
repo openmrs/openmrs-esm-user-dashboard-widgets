@@ -22,6 +22,7 @@ export default function getColumns() {
           return (
             <a href={fetchEncounterURL(todo.patient.id, todo.encounterId)}>
               <button className="task button small-button">
+                <i className="icon-print" />
                 <Trans>Print</Trans>
               </button>
             </a>
