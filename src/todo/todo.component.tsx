@@ -27,7 +27,7 @@ export default function Todo(props: TodoProps) {
 
   const {
     limit = max_limit,
-    sourceApi = null,
+    sourceApi = "",
     refreshInterval = 0,
     title = null
   } = props;
