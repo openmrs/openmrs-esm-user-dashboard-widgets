@@ -2,5 +2,6 @@
   "Reports": "Rapports",
   "Charts Widget": "Graphiques Widget",
   "Unable to load Chart": "Impossible de charger le graphique",
-  "Loading": "Chargement"
+  "Loading": "Chargement",
+  "Chart type not found": "Type de graphique non trouvé"
 }

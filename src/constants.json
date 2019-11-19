@@ -8,7 +8,7 @@
     "DEFAULT_REFRESH_INTERVAL": 120
   },
   "charts": {
-    "NOT_FOUND_MESSAGE": "Chart not found"
+    "CHART_TYPE_NOT_FOUND_MESSAGE": "Chart type not found"
   },
   "todo": {
     "SORT_BY": "dateCreated",
