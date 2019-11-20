@@ -29,7 +29,8 @@ export default function Todo(props: TodoProps) {
     limit = max_limit,
     sourceApi = "",
     refreshInterval = 0,
-    title = null
+    title = null,
+    showMessage
   } = props;
 
   useEffect(() => {
@@ -91,7 +92,7 @@ export default function Todo(props: TodoProps) {
         <div className={globalStyles["widget-content"]}>
           <RefAppGrid
             data={limitListByCount(todos, limit)}
-            columns={getTodoColumns()}
+            columns={getTodoColumns(fetchTodos, showMessage)}
             noDataText="No Todo Actions"
           ></RefAppGrid>
         </div>

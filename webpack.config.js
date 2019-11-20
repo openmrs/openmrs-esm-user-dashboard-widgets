@@ -1,5 +1,6 @@
 const path = require("path");
 const CleanWebpackPlugin = require("clean-webpack-plugin").CleanWebpackPlugin;
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   entry: path.resolve(__dirname, "src/index.tsx"),
@@ -47,6 +48,10 @@ module.exports = {
         use: {
           loader: "babel-loader"
         }
+      },
+      {
+        test: /\.(woff2|woff|ttf|eot|svg|png)?$/,
+        use: ["file-loader"]
       }
     ]
   },
@@ -58,7 +63,10 @@ module.exports = {
     disableHostCheck: true
   },
   externals: ["react", "react-dom", /^@openmrs\/.*/],
-  plugins: [new CleanWebpackPlugin()],
+  plugins: [
+    new CleanWebpackPlugin(),
+    new CopyWebpackPlugin([{ from: "src/images", to: "images" }])
+  ],
   resolve: {
     extensions: [".tsx", ".ts", ".jsx", ".js"]
   }
