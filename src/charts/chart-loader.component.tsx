@@ -1,38 +1,36 @@
 import React, { useEffect, useState } from "react";
 import { openmrsFetch } from "@openmrs/esm-api";
-import LineChart from "./types/line-chart.component";
-import { LoadingStatus } from "../models";
-import { charts as constants } from "../constants.json";
-import { getField } from "../utils/index";
 import { Trans } from "react-i18next";
 
-export default function ChartLoader(props) {
+import resources from "./translations/index";
+import { initI18n } from "../utils/translations";
+
+import { LoadingStatus } from "../models";
+import { charts as constants } from "../constants.json";
+import { getField, compose } from "../utils/index";
+
+import LineChart from "./types/line-chart.component";
+import styles from "./charts.css";
+
+export default function ChartLoader({ config, locale }) {
+  initI18n(resources, locale, useEffect);
+
   const [dataPoints, setDataPoints] = useState([]);
   const [loadingStatus, setLoadingStatus] = useState(LoadingStatus.Loading);
-  const { config } = props;
 
+  const getSource = responseData => getField(responseData, config.sourcePath);
   useEffect(() => {
     openmrsFetch(config.url)
-      .then(response => {
-        setDataPoints(
-          mapRowsToChartDataPoints(getField(response.data, config.sourcePath))
-        );
+      .then(({ data }) => {
+        compose(setDataPoints, getSource)(data);
         setLoadingStatus(LoadingStatus.Loaded);
       })
       .catch(e => {
-        setDataPoints([...dataPoints]);
+        //@ts-ignore
+        console.log(e); // eslint-disable-line
         setLoadingStatus(LoadingStatus.Failed);
       });
-  }, []);
-
-  function mapRowsToChartDataPoints(rows) {
-    return rows.map(row => {
-      return {
-        [config.xAxis]: row[config.xAxis],
-        [config.yAxis]: row[config.yAxis]
-      };
-    });
-  }
+  }, [config.url]);
 
   function renderLoadingMessage() {
     return (
@@ -58,12 +56,16 @@ export default function ChartLoader(props) {
             data={dataPoints}
             xAxis={config.xAxis}
             yAxis={config.yAxis}
-            lineStroke={config.lineStroke || "#8884d8"}
-            gridStroke={config.gridStroke || "#ccc"}
+            lineStroke={config.lineStroke || "#00463f"}
+            gridStroke={config.gridStroke || "#ddd"}
           />
         );
       default:
-        return <div>{constants.NOT_FOUND_MESSAGE}</div>;
+        return (
+          <div>
+            <Trans>{constants.CHART_TYPE_NOT_FOUND_MESSAGE}</Trans>
+          </div>
+        );
     }
   }
 
@@ -80,12 +82,17 @@ export default function ChartLoader(props) {
 
   const fulfil = {
     width: "100%",
-    height: "100%"
+    height: "75%"
   };
 
   return (
-    <div className="chart-container" style={fulfil}>
-      {displayChart()}
-    </div>
+    <>
+      <div className={styles["chart-container"]}>
+        <header>
+          <Trans>{config.name}</Trans>
+        </header>
+        <div style={fulfil}>{displayChart()}</div>
+      </div>
+    </>
   );
 }

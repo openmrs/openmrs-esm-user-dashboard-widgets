@@ -1,5 +1,5 @@
 import React from "react";
-import { render, cleanup, waitForElement } from "@testing-library/react";
+import { render, cleanup } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import { setErrorFilter } from "../utils";
 import Charts from "./charts.component";

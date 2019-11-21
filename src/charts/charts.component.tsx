@@ -6,24 +6,18 @@ import { initI18n } from "../utils/translations";
 import { CommonWidgetProps } from "../models/index";
 import WidgetHeader from "../commons/widget-header/widget-header.component";
 import ChartLoader from "./chart-loader.component";
+import styles from "./charts.css";
 
-export default function Charts(props: chartProps) {
-  initI18n(resources, props.locale, useEffect);
-  const chartContainer = {
-    width: "100%",
-    height: "100%"
-  };
+export default function Charts({ locale, title, charts }: chartProps) {
+  initI18n(resources, locale, useEffect);
 
   return (
     <>
-      <WidgetHeader
-        title={props.title}
-        icon="svg-icon icon-graph"
-      ></WidgetHeader>
-      <div style={chartContainer}>
-        {props.charts.map(config => {
-          return <ChartLoader key={config.name} config={config} />;
-        })}
+      <WidgetHeader title={title} icon="svg-icon icon-graph"></WidgetHeader>
+      <div className={styles["charts-container"]}>
+        {charts.map(config => (
+          <ChartLoader key={config.name} locale={locale} config={config} />
+        ))}
       </div>
     </>
   );

@@ -2,5 +2,8 @@
   "Reports": "Reports",
   "Charts Widget": "Charts Widget",
   "Unable to load Chart": "Unable to load Chart",
-  "Loading": "Loading"
+  "Loading": "Loading",
+  "Chart type not found": "Chart type not found",
+  "HSU Registrations Per Month": "HSU Registrations Per Month",
+  "Missed Appointments Per Month": "Missed Appointments Per Month"
 }

@@ -17,8 +17,8 @@ export default function(props: LineChartProperties) {
       <LineChart data={data} margin={{ top: 5, right: 5, bottom: 0, left: 0 }}>
         <Line type="monotone" dataKey={yAxis} stroke={lineStroke} />
         <CartesianGrid stroke={gridStroke} strokeDasharray="5 5" />
-        <XAxis dataKey={xAxis} />
-        <YAxis dataKey={yAxis} />
+        <XAxis dataKey={xAxis} tick={{ fill: "#00463f", fontSize: "10px" }} />
+        <YAxis dataKey={yAxis} tick={{ fill: "#00463f", fontSize: "10px" }} />
         <Tooltip />
       </LineChart>
     </ResponsiveContainer>

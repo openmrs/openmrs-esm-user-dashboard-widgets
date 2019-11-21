@@ -21,6 +21,7 @@ jest.mock("@openmrs/esm-api", () => ({
 }));
 
 describe(`<ChartLoader />`, () => {
+  const commonWidgetProps = { locale: "en" };
   const originalError = console.error;
   beforeAll(() => {
     setErrorFilter(originalError, /Warning.*not wrapped in act/);
@@ -41,6 +42,7 @@ describe(`<ChartLoader />`, () => {
     mockEsmAPI.openmrsFetch.mockResolvedValueOnce(mockChartData);
     const { queryByText } = render(
       <ChartLoader
+        {...commonWidgetProps}
         config={{
           url: "reportUrl",
           name: "HSU Report",
@@ -62,6 +64,7 @@ describe(`<ChartLoader />`, () => {
 
     const { queryByText } = render(
       <ChartLoader
+        {...commonWidgetProps}
         config={{
           url: "reportUrl",
           name: "HSU Report",
