@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { openmrsFetch } from "@openmrs/esm-api";
 import { Trans } from "react-i18next";
 
+import resources from "./translations/index";
+import { initI18n } from "../utils/translations";
+
 import { LoadingStatus } from "../models";
 import { charts as constants } from "../constants.json";
 import { getField, compose } from "../utils/index";
@@ -9,7 +12,9 @@ import { getField, compose } from "../utils/index";
 import LineChart from "./types/line-chart.component";
 import styles from "./charts.css";
 
-export default function ChartLoader({ config }) {
+export default function ChartLoader({ config, locale }) {
+  initI18n(resources, locale, useEffect);
+
   const [dataPoints, setDataPoints] = useState([]);
   const [loadingStatus, setLoadingStatus] = useState(LoadingStatus.Loading);
 
@@ -81,9 +86,13 @@ export default function ChartLoader({ config }) {
   };
 
   return (
-    <div className={styles["chart-container"]}>
-      <header>{config.name}</header>
-      <div style={fulfil}>{displayChart()}</div>
-    </div>
+    <>
+      <div className={styles["chart-container"]}>
+        <header>
+          <Trans>{config.name}</Trans>
+        </header>
+        <div style={fulfil}>{displayChart()}</div>
+      </div>
+    </>
   );
 }

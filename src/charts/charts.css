@@ -12,7 +12,8 @@
 
 .chart-container header {
   background: unset;
-  font-size: 16px;
+  font-size: 14px;
+  margin-left: 20px;
   font-family: Opensans;
   font-weight: bolder;
   color: #00463f;

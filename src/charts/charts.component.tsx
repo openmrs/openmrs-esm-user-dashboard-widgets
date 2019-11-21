@@ -16,7 +16,7 @@ export default function Charts({ locale, title, charts }: chartProps) {
       <WidgetHeader title={title} icon="svg-icon icon-graph"></WidgetHeader>
       <div className={styles["charts-container"]}>
         {charts.map(config => (
-          <ChartLoader key={config.name} config={config} />
+          <ChartLoader key={config.name} locale={locale} config={config} />
         ))}
       </div>
     </>
