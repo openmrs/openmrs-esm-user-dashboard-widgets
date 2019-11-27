@@ -17,6 +17,7 @@ import { appointments as constants } from "../constants.json";
 
 import globalStyles from "../global.css";
 import { Trans } from "react-i18next";
+import { type } from "os";
 
 export default function Appointment(props: AppointmentProps) {
   initI18n(resources, props.locale, useEffect);
@@ -27,14 +28,12 @@ export default function Appointment(props: AppointmentProps) {
   const {
     showMessage,
     source,
-    filters,
     title,
     viewAll = "",
     refreshInterval = 0
   } = props;
 
-  const fetchAppointmentsUrl = () =>
-    replaceParams(`${source}/${constants.FETCH_URL}`);
+  const fetchAppointmentsUrl = () => replaceParams(`${source.url}/search`);
 
   useInterval(() => fetchAppointments(), currentRefreshInterval);
 
@@ -44,9 +43,23 @@ export default function Appointment(props: AppointmentProps) {
   const enableRefreshAppointmentsTimer = () =>
     setCurrentRefreshInterval(secondInMilliSeconds * getRefreshInterval());
 
+  const requestBody = () => {
+    return {
+      startDate: new Date(new Date().setUTCHours(0, 0, 0, 0)).toISOString(),
+      endDate: new Date(new Date().setUTCHours(23, 59, 59, 9)).toISOString(),
+      providerUuid: "a1206f9f-7b59-46fb-ad6a-b00ca7e781c1"
+    };
+  };
+
   const fetchAppointments = () => {
     disableRefreshAppointmentsTimer();
-    openmrsFetch(fetchAppointmentsUrl())
+    openmrsFetch(fetchAppointmentsUrl(), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: requestBody()
+    })
       .then(response => {
         compose(
           enableRefreshAppointmentsTimer,
@@ -66,8 +79,8 @@ export default function Appointment(props: AppointmentProps) {
       current[constants.SORT_BY] - next[constants.SORT_BY];
     fetchedAppointments.sort(compareAppointments);
 
-    return filters
-      ? filterByConditions(fetchedAppointments, filters)
+    return source.filters
+      ? filterByConditions(fetchedAppointments, source.filters)
       : fetchedAppointments;
   };
 
@@ -97,7 +110,7 @@ export default function Appointment(props: AppointmentProps) {
           <RefAppGrid
             data={appointments}
             columns={getAppointmentColumns(
-              props.source,
+              props.source.url,
               fetchAppointments,
               props.actions,
               showMessage
@@ -121,14 +134,20 @@ export default function Appointment(props: AppointmentProps) {
 }
 
 type AppointmentProps = CommonWidgetProps & {
-  source: string;
+  source: AppointmentSource;
   refreshInterval?: number;
   viewAll?: string;
-  filters?: Condition[];
   actions?: WidgetAction[];
 };
 
 type WidgetAction = {
   name: string;
   when: Condition[];
+};
+
+type AppointmentSource = {
+  url: string;
+  type?: string;
+  delay?: number;
+  filters?: Condition[];
 };

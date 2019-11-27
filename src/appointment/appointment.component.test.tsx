@@ -56,7 +56,11 @@ describe(`<Appointment />`, () => {
   it(`should show loading component initially`, () => {
     mockEsmAPI.openmrsFetch.mockResolvedValueOnce({ data: mockAppointments });
     const { getByText } = render(
-      <Appointment source="" {...commonWidgetProps} showMessage={jest.fn()} />
+      <Appointment
+        source={{ url: "" }}
+        {...commonWidgetProps}
+        showMessage={jest.fn()}
+      />
     );
     expect(getByText("Loading...")).toBeTruthy();
   });
@@ -65,7 +69,7 @@ describe(`<Appointment />`, () => {
     mockEsmAPI.openmrsFetch.mockResolvedValueOnce({ data: mockAppointments });
     const { getByText } = render(
       <Appointment
-        source=""
+        source={{ url: "" }}
         {...commonWidgetProps}
         title={componentTitle}
         showMessage={jest.fn()}
@@ -82,7 +86,7 @@ describe(`<Appointment />`, () => {
     mockEsmAPI.openmrsFetch.mockResolvedValueOnce({ data: mockAppointments });
     const { getByText } = render(
       <Appointment
-        source=""
+        source={{ url: "" }}
         {...commonWidgetProps}
         title={componentTitle}
         showMessage={jest.fn()}
@@ -116,7 +120,7 @@ describe(`<Appointment />`, () => {
     ];
     const { getByText } = render(
       <Appointment
-        source=""
+        source={{ url: "" }}
         {...commonWidgetProps}
         actions={checkInConfig}
         title={componentTitle}
@@ -138,7 +142,7 @@ describe(`<Appointment />`, () => {
 
     const { getByText } = render(
       <Appointment
-        source=""
+        source={{ url: "" }}
         {...commonWidgetProps}
         title={componentTitle}
         showMessage={jest.fn()}
