@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { openmrsFetch } from "@openmrs/esm-api";
 import { useInterval } from "react-use";
+import subMinutes from "date-fns/subMinutes";
 
 import resources from "./translations";
 import { initI18n } from "../utils/translations";
@@ -17,7 +18,6 @@ import { appointments as constants } from "../constants.json";
 
 import globalStyles from "../global.css";
 import { Trans } from "react-i18next";
-import { type } from "os";
 
 export default function Appointment(props: AppointmentProps) {
   initI18n(resources, props.locale, useEffect);
@@ -44,10 +44,21 @@ export default function Appointment(props: AppointmentProps) {
     setCurrentRefreshInterval(secondInMilliSeconds * getRefreshInterval());
 
   const requestBody = () => {
+    const body = {
+      startDate: new Date(
+        subMinutes(
+          new Date(),
+          source.fromTimeDelayInMinutes ? source.fromTimeDelayInMinutes : 0
+        )
+      ).toISOString(),
+      endDate: new Date(new Date().setUTCHours(23, 59, 59, 9)).toISOString()
+    };
+
     return {
-      startDate: new Date(new Date().setUTCHours(0, 0, 0, 0)).toISOString(),
-      endDate: new Date(new Date().setUTCHours(23, 59, 59, 9)).toISOString(),
-      providerUuid: "a1206f9f-7b59-46fb-ad6a-b00ca7e781c1"
+      ...body,
+      ...(source.fetchType === "self"
+        ? { providerUuid: "a1206f9f-7b59-46fb-ad6a-b00ca7e781c1" }
+        : {})
     };
   };
 
@@ -147,7 +158,7 @@ type WidgetAction = {
 
 type AppointmentSource = {
   url: string;
-  type?: string;
-  delay?: number;
+  fetchType?: string;
+  fromTimeDelayInMinutes?: number;
   filters?: Condition[];
 };

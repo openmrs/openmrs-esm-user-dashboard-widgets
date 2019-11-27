@@ -1,6 +1,5 @@
 {
   "appointments": {
-    "FETCH_URL": "?forDate=%Today%",
     "CHECK_IN_URL": "status-change",
     "SORT_BY": "startDateTime",
     "CHECK_IN_SUCCESS_MESSAGE": "Appointment has been checked in successfully",
