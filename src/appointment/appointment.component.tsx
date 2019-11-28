@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { openmrsFetch } from "@openmrs/esm-api";
 import { useInterval } from "react-use";
-import subMinutes from "date-fns/subMinutes";
 
 import resources from "./translations";
 import { initI18n } from "../utils/translations";
 
-import { CommonWidgetProps, Condition, LoadingStatus } from "../models";
+import { LoadingStatus } from "../models";
+import { AppointmentProps } from "./appointment.model";
 import WidgetHeader from "../commons/widget-header/widget-header.component";
 import WidgetFooter from "../commons/widget-footer/widget-footer.component";
 import RefAppGrid from "../refapp-grid/refapp-grid.component";
 import getAppointmentColumns from "./columns";
+import { getAppointments } from "./appointment.resource";
 
 import { filterByConditions, compose } from "../utils";
-import replaceParams from "../utils/param-replacers";
 import { appointments as constants } from "../constants.json";
 
 import globalStyles from "../global.css";
@@ -33,8 +32,6 @@ export default function Appointment(props: AppointmentProps) {
     refreshInterval = 0
   } = props;
 
-  const fetchAppointmentsUrl = () => replaceParams(`${source.url}/search`);
-
   useInterval(() => fetchAppointments(), currentRefreshInterval);
 
   const getRefreshInterval = () =>
@@ -43,41 +40,17 @@ export default function Appointment(props: AppointmentProps) {
   const enableRefreshAppointmentsTimer = () =>
     setCurrentRefreshInterval(secondInMilliSeconds * getRefreshInterval());
 
-  const requestBody = () => {
-    const body = {
-      startDate: new Date(
-        subMinutes(
-          new Date(),
-          source.fromTimeDelayInMinutes ? source.fromTimeDelayInMinutes : 0
-        )
-      ).toISOString(),
-      endDate: new Date(new Date().setUTCHours(23, 59, 59, 9)).toISOString()
-    };
-
-    return {
-      ...body,
-      ...(source.fetchType === "self"
-        ? { providerUuid: "a1206f9f-7b59-46fb-ad6a-b00ca7e781c1" }
-        : {})
-    };
-  };
-
   const fetchAppointments = () => {
     disableRefreshAppointmentsTimer();
-    openmrsFetch(fetchAppointmentsUrl(), {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: requestBody()
-    })
+    getAppointments(source, props.provider)
       .then(response => {
         compose(
+          () => setLoadingStatus(LoadingStatus.Loaded),
           enableRefreshAppointmentsTimer,
           setAppointments,
-          formatAppointments
+          filterAppointments,
+          sortAppointments
         )(response.data);
-        setLoadingStatus(LoadingStatus.Loaded);
       })
       .catch(error => {
         setLoadingStatus(LoadingStatus.Failed);
@@ -85,15 +58,17 @@ export default function Appointment(props: AppointmentProps) {
       });
   };
 
-  const formatAppointments = fetchedAppointments => {
+  const sortAppointments = appointments => {
     const compareAppointments = (current, next) =>
       current[constants.SORT_BY] - next[constants.SORT_BY];
-    fetchedAppointments.sort(compareAppointments);
-
-    return source.filters
-      ? filterByConditions(fetchedAppointments, source.filters)
-      : fetchedAppointments;
+    appointments.sort(compareAppointments);
+    return appointments;
   };
+
+  const filterAppointments = appointments =>
+    source.filters
+      ? filterByConditions(appointments, source.filters)
+      : appointments;
 
   useEffect(() => fetchAppointments(), []);
 
@@ -143,22 +118,3 @@ export default function Appointment(props: AppointmentProps) {
       return showLoading();
   }
 }
-
-type AppointmentProps = CommonWidgetProps & {
-  source: AppointmentSource;
-  refreshInterval?: number;
-  viewAll?: string;
-  actions?: WidgetAction[];
-};
-
-type WidgetAction = {
-  name: string;
-  when: Condition[];
-};
-
-type AppointmentSource = {
-  url: string;
-  fetchType?: string;
-  fromTimeDelayInMinutes?: number;
-  filters?: Condition[];
-};

@@ -188,6 +188,7 @@ describe(`<Appointment />`, () => {
         {...commonWidgetProps}
         title={componentTitle}
         showMessage={jest.fn()}
+        provider="a1206f9f-7b59-46fb-ad6a-b00ca7e781c1"
       />
     );
 

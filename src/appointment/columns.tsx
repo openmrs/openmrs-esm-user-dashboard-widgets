@@ -1,15 +1,12 @@
 import React from "react";
 import { Trans } from "react-i18next";
-import { openmrsFetch } from "@openmrs/esm-api";
 
 import defaultAppointmentColumns from "./config.json";
 import buildColumn from "../refapp-grid/column-builder";
 import styles from "./appointment.css";
 import { doesMatchConditions } from "../utils";
 import { appointments as constants } from "../constants.json";
-
-const checkInAppointmentUrl = (baseUrl: string, appointmentId: string) =>
-  `${baseUrl}/${appointmentId}/${constants.CHECK_IN_URL}`;
+import { checkInAppointment } from "./appointment.resource";
 
 const checkIn = (
   appointment,
@@ -35,22 +32,7 @@ const checkIn = (
     }
   };
 
-  const checkInRequestData = {
-    toStatus: "CheckedIn",
-    onDate: new Date().toISOString()
-  };
-
-  const checkInRequestInit = {
-    method: "POST",
-    body: checkInRequestData,
-    headers: {
-      "Content-Type": "application/json"
-    }
-  };
-  openmrsFetch(
-    checkInAppointmentUrl(baseUrl, appointment.uuid),
-    checkInRequestInit
-  ).then(response => {
+  checkInAppointment(appointment.uuid, baseUrl).then(response => {
     handleCheckInResponse(response);
   });
 };
