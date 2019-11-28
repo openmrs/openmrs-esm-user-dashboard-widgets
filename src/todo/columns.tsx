@@ -48,6 +48,7 @@ export default function getColumns(refreshTodos, showMessage) {
     const getMarkDoneActionButton = todo => {
       return (
         <button
+          data-testid="submit"
           className={styles["mark-done"]}
           onClick={() => markTodoDone(refreshTodos, showMessage, todo)}
         >

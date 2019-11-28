@@ -1,7 +1,15 @@
 import React from "react";
 import Todo from "./todo.component";
 
-import { render, cleanup, waitForElement } from "@testing-library/react";
+import {
+  render,
+  cleanup,
+  waitForElement,
+  fireEvent,
+  getByTitle,
+  getByRole,
+  getAllByRole
+} from "@testing-library/react";
 import { setErrorFilter } from "../utils/index";
 
 import mockEsmApi from "@openmrs/esm-api";
@@ -28,7 +36,7 @@ describe(`<Todo />`, () => {
       markedDone: false,
       dateCreated: 1572879146000,
       patient: {
-        name: "Test Afgan Patient",
+        name: "Patient One",
         identifier: "10000X",
         id: 14
       },
@@ -37,14 +45,15 @@ describe(`<Todo />`, () => {
         name: "Prostheses"
       },
       type: "PRINT_CONSENT",
-      encounterId: 37
+      encounterId: 37,
+      uuid: "1ab4a2c8-1cf5-46d8-8d7a-3be35c4d8b75"
     },
     {
       todoId: 2,
       markedDone: true,
       dateCreated: 1572584857000,
       patient: {
-        name: "ICRC Patient",
+        name: "Patient Two",
         identifier: "103450X",
         id: 14
       },
@@ -53,7 +62,8 @@ describe(`<Todo />`, () => {
         name: "Prostheses"
       },
       type: "PRINT_CONSENT",
-      encounterId: 37
+      encounterId: 37,
+      uuid: "da6d1694-2eda-4ada-944e-10ccac16c1d4"
     }
   ];
 
@@ -174,7 +184,7 @@ describe(`<Todo />`, () => {
     );
 
     waitForElement(() => getByText(componentTitleRegex)).then(() => {
-      expect(getByText("ICRC Patient")).toBeTruthy();
+      expect(getByText("Patient Two")).toBeTruthy();
       expect(getByText("103450X")).toBeTruthy();
       expect(getByText("Prostheses")).toBeTruthy();
       expect(getByText("Nov 01")).toBeTruthy();
@@ -208,6 +218,38 @@ describe(`<Todo />`, () => {
         "Nov 04"
       );
       done();
+    });
+  });
+
+  it(`should remove todos when mark as done`, done => {
+    mockEsmApi.openmrsFetch.mockResolvedValueOnce({
+      data: mockTodos.slice(0, 1)
+    });
+    const { getByText, container, getByTestId } = render(
+      <Todo
+        sourceApi={mockUrl}
+        showMessage={jest.fn()}
+        title={componentTitle}
+        {...commonWidgetProps}
+      />
+    );
+
+    waitForElement(() => getByText(componentTitleRegex)).then(() => {
+      expect(container.getElementsByClassName("mark-done")).toBeTruthy;
+      expect(container.getElementsByClassName("icon-ok")).toBeTruthy;
+
+      mockEsmApi.openmrsFetch.mockResolvedValueOnce({ ok: true });
+      mockEsmApi.openmrsFetch.mockResolvedValueOnce({
+        data: []
+      });
+
+      // Click button
+      fireEvent.click(getByTestId(/submit/));
+
+      // Wait for page to update with query text
+      waitForElement(() => getByText("No Todo Actions")).then(() => {
+        done();
+      });
     });
   });
 });
