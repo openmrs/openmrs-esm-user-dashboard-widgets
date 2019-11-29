@@ -48,10 +48,6 @@ module.exports = {
         use: {
           loader: "babel-loader"
         }
-      },
-      {
-        test: /\.(woff2|woff|ttf|eot|svg|png)?$/,
-        use: ["file-loader"]
       }
     ]
   },
@@ -63,10 +59,7 @@ module.exports = {
     disableHostCheck: true
   },
   externals: ["react", "react-dom", /^@openmrs\/.*/],
-  plugins: [
-    new CleanWebpackPlugin(),
-    new CopyWebpackPlugin([{ from: "src/images", to: "images" }])
-  ],
+  plugins: [new CleanWebpackPlugin()],
   resolve: {
     extensions: [".tsx", ".ts", ".jsx", ".js"]
   }
