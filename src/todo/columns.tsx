@@ -17,14 +17,14 @@ export default function getColumns(refreshTodos, showMessage) {
       if (response.ok) {
         showMessage({
           type: "success",
-          message: <Trans>{constants.CHECK_IN_SUCCESS_MESSAGE}</Trans>
+          message: <Trans>{constants.TODO_DONE_SUCCESS_MESSAGE}</Trans>
         });
         refreshTodos();
       } else {
         response.json().then(err => {
           showMessage({
             type: "error",
-            message: <Trans>{constants.CHECK_IN_ERROR_MESSAGE}</Trans>
+            message: <Trans>{constants.TODO_DONE_ERROR_MESSAGE}</Trans>
           });
           console.log(err); // eslint-disable-line no-console
         });
