@@ -14,7 +14,7 @@
     "SORT_BY": "dateCreated",
     "MAX_TODOS_LIST": "-1",
     "TODO_DONE_SUCCESS_MESSAGE": "Todo has been completed successfully",
-    "CHECK_IN_ERROR_MESSAGE": "Unexpected error while completing todo",
+    "TODO_DONE_ERROR_MESSAGE": "Unexpected error while completing todo",
     "DEFAULT_REFRESH_INTERVAL": 120
   }
 }
