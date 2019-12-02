@@ -27,6 +27,9 @@
   ],
   "author": "",
   "license": "MIT",
+  "directories": {
+    "lib": "dist"
+  },
   "bugs": {
     "url": ""
   },
