@@ -8,67 +8,69 @@ import { doesMatchConditions } from "../utils";
 import { appointments as constants } from "../constants.json";
 import { changeAppointmentStatus } from "./appointment.resource";
 
-const checkIn = (
-  appointment,
+const changeStatus = (
+  appointmentUuid: string,
+  status: string,
   refreshAppointments,
   baseUrl: string,
-  showMessage
+  showMessage,
+  successMessage,
+  errorMessage
 ) => {
-  const handleCheckInResponse = response => {
+  const handleResponse = response => {
     if (response.ok) {
       showMessage({
         type: "success",
-        message: <Trans>{constants.CHECK_IN_SUCCESS_MESSAGE}</Trans>
+        message: <Trans>{successMessage}</Trans>
       });
       refreshAppointments();
     } else {
       response.json().then(err => {
         showMessage({
           type: "error",
-          message: <Trans>{constants.CHECK_IN_ERROR_MESSAGE}</Trans>
+          message: <Trans>{errorMessage}</Trans>
         });
         console.log(err); // eslint-disable-line no-console
       });
     }
   };
 
-  changeAppointmentStatus(appointment.uuid, "CheckedIn", baseUrl).then(
-    response => {
-      handleCheckInResponse(response);
-    }
-  );
+  changeAppointmentStatus(appointmentUuid, status, baseUrl).then(response => {
+    handleResponse(response);
+  });
 };
+
+const checkIn = (
+  appointment,
+  refreshAppointments,
+  baseUrl: string,
+  showMessage
+) =>
+  changeStatus(
+    appointment.uuid,
+    "CheckedIn",
+    refreshAppointments,
+    baseUrl,
+    showMessage,
+    constants.CHECK_IN_SUCCESS_MESSAGE,
+    constants.CHECK_IN_ERROR_MESSAGE
+  );
 
 const markAsDone = (
   appointment,
   refreshAppointments,
   baseUrl: string,
   showMessage
-) => {
-  const handleResponse = response => {
-    if (response.ok) {
-      showMessage({
-        type: "success",
-        message: <Trans>{constants.COMPLETED_SUCCESS_MESSAGE}</Trans>
-      });
-      refreshAppointments();
-    } else {
-      response.json().then(err => {
-        showMessage({
-          type: "error",
-          message: <Trans>{constants.COMPLETED_ERROR_MESSAGE}</Trans>
-        });
-        console.log(err); // eslint-disable-line no-console
-      });
-    }
-  };
-
-  changeAppointmentStatus(appointment.uuid, "Completed", baseUrl).then(
-    response => {
-      handleResponse(response);
-    }
+) =>
+  changeStatus(
+    appointment.uuid,
+    "Completed",
+    refreshAppointments,
+    baseUrl,
+    showMessage,
+    constants.COMPLETED_SUCCESS_MESSAGE,
+    constants.COMPLETED_ERROR_MESSAGE
   );
-};
 
 const getActionColumns = (
   configs,
