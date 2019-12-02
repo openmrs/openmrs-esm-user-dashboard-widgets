@@ -1,0 +1,13 @@
+button.mark-done {
+  background: none;
+  border: none;
+}
+
+button.mark-done i {
+  border: solid;
+  background: none;
+  border-radius: 20px;
+  border-color: #9cc92e;
+  color: #9cc92e;
+  border-width: thin;
+}
