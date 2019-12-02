@@ -221,7 +221,7 @@ describe(`<Todo />`, () => {
     });
   });
 
-  it(`should remove todos when mark as done`, done => {
+  it(`should remove todos when marked as done`, done => {
     mockEsmApi.openmrsFetch.mockResolvedValueOnce({
       data: mockTodos.slice(0, 1)
     });
