@@ -46,12 +46,16 @@ export function getAppointments(
   });
 }
 
-export function checkInAppointment(id: string, baseUrl: string): Promise<any> {
+export function changeAppointmentStatus(
+  id: string,
+  status: string,
+  baseUrl: string
+): Promise<any> {
   const checkInAppointmentUrl = (baseUrl: string, appointmentId: string) =>
     `${baseUrl}/${appointmentId}/${constants.STATUS_CHANGE_URL}`;
 
   const requestBody = () => ({
-    toStatus: "CheckedIn",
+    toStatus: status,
     onDate: new Date().toISOString()
   });
 

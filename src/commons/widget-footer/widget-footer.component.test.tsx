@@ -17,4 +17,21 @@ describe(`<WidgetFooter />`, () => {
 
     expect(queryByText("View All")).toBeFalsy();
   });
+
+  it(`should redirect to provider specific view all when clicked`, () => {
+    const { queryByText } = render(
+      <WidgetFooter
+        viewAllUrl="/test/url/to/view-all/?provider=%provider%"
+        context={{
+          locale: "",
+          showMessage: () => {},
+          provider: "test-provider"
+        }}
+      />
+    );
+
+    expect(queryByText("View All").parentElement.getAttribute("href")).toBe(
+      "/test/url/to/view-all/?provider=test-provider"
+    );
+  });
 });

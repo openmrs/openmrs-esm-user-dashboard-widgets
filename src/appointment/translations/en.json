@@ -3,8 +3,12 @@
   "Appointment Widget": "Appointment Widget",
   "Appointment has been checked in successfully": "Appointment has been checked in successfully",
   "Unexpected error while checking in": "Unexpected error while checking in",
+  "Appointment has been marked as done": "Appointment has been marked as done",
+  "Unexpected error while marking appointment as done": "Unexpected error while marking appointment as done",
   "View All": "View All",
   "CheckIn": "Check In",
   "CheckedIn": "Checked In",
+  "Done": "Done",
+  "Completed": "Marked Done",
   "No appointments": "No appointments"
 }

@@ -104,7 +104,14 @@ export default function Appointment(props: AppointmentProps) {
             noDataText="No appointments"
           ></RefAppGrid>
         </div>
-        <WidgetFooter viewAllUrl={viewAll}></WidgetFooter>
+        <WidgetFooter
+          viewAllUrl={viewAll}
+          context={{
+            locale: props.locale,
+            showMessage,
+            provider: props.provider
+          }}
+        ></WidgetFooter>
       </div>
     );
   };

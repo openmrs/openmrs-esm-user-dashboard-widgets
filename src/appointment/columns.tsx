@@ -6,7 +6,7 @@ import buildColumn from "../refapp-grid/column-builder";
 import styles from "./appointment.css";
 import { doesMatchConditions } from "../utils";
 import { appointments as constants } from "../constants.json";
-import { checkInAppointment } from "./appointment.resource";
+import { changeAppointmentStatus } from "./appointment.resource";
 
 const checkIn = (
   appointment,
@@ -32,9 +32,42 @@ const checkIn = (
     }
   };
 
-  checkInAppointment(appointment.uuid, baseUrl).then(response => {
-    handleCheckInResponse(response);
-  });
+  changeAppointmentStatus(appointment.uuid, "CheckedIn", baseUrl).then(
+    response => {
+      handleCheckInResponse(response);
+    }
+  );
+};
+
+const markAsDone = (
+  appointment,
+  refreshAppointments,
+  baseUrl: string,
+  showMessage
+) => {
+  const handleResponse = response => {
+    if (response.ok) {
+      showMessage({
+        type: "success",
+        message: <Trans>{constants.COMPLETED_SUCCESS_MESSAGE}</Trans>
+      });
+      refreshAppointments();
+    } else {
+      response.json().then(err => {
+        showMessage({
+          type: "error",
+          message: <Trans>{constants.COMPLETED_ERROR_MESSAGE}</Trans>
+        });
+        console.log(err); // eslint-disable-line no-console
+      });
+    }
+  };
+
+  changeAppointmentStatus(appointment.uuid, "Completed", baseUrl).then(
+    response => {
+      handleResponse(response);
+    }
+  );
 };
 
 const getActionColumns = (
@@ -48,7 +81,8 @@ const getActionColumns = (
   }
 
   const actionHandlers = {
-    CheckIn: checkIn
+    CheckIn: checkIn,
+    Done: markAsDone
   };
   const iconLabel = label => (
     <div className={styles["icon-label"]}>
