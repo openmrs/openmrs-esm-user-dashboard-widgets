@@ -19,7 +19,6 @@ import globalStyles from "../global.css";
 import { Trans } from "react-i18next";
 
 export default function Appointment(props: AppointmentProps) {
-  initI18n(resources, props.locale, useEffect);
   const secondInMilliSeconds = 1000;
   const [appointments, setAppointments] = useState(null);
   const [loadingStatus, setLoadingStatus] = useState(LoadingStatus.Loading);
@@ -29,8 +28,12 @@ export default function Appointment(props: AppointmentProps) {
     source,
     title,
     viewAll = "",
-    refreshInterval = 0
+    refreshInterval = 0,
+    provider = "",
+    locale
   } = props;
+
+  initI18n(resources, locale, useEffect);
 
   useInterval(() => fetchAppointments(), currentRefreshInterval);
 
@@ -42,7 +45,7 @@ export default function Appointment(props: AppointmentProps) {
 
   const fetchAppointments = () => {
     disableRefreshAppointmentsTimer();
-    getAppointments(source, props.provider)
+    getAppointments(source, provider)
       .then(response => {
         compose(
           () => setLoadingStatus(LoadingStatus.Loaded),
@@ -84,44 +87,41 @@ export default function Appointment(props: AppointmentProps) {
     </div>
   );
 
-  const showGrid = () => {
+  const showGrid = () => (
+    <div className={globalStyles["widget-content"]}>
+      <RefAppGrid
+        data={appointments}
+        columns={getAppointmentColumns(
+          source.url,
+          fetchAppointments,
+          props.actions,
+          showMessage
+        )}
+        noDataText="No appointments"
+      ></RefAppGrid>
+    </div>
+  );
+
+  const showWidget = () => {
     return (
       <div className={globalStyles["widget-container"]}>
         <WidgetHeader
           title={title}
           icon="svg-icon icon-calender"
-          totalCount={appointments.length}
+          totalCount={appointments ? appointments.length : 0}
         ></WidgetHeader>
-        <div className={globalStyles["widget-content"]}>
-          <RefAppGrid
-            data={appointments}
-            columns={getAppointmentColumns(
-              props.source.url,
-              fetchAppointments,
-              props.actions,
-              showMessage
-            )}
-            noDataText="No appointments"
-          ></RefAppGrid>
-        </div>
+        {loadingStatus === LoadingStatus.Loaded ? showGrid() : showError()}
         <WidgetFooter
           viewAllUrl={viewAll}
           context={{
-            locale: props.locale,
+            locale,
             showMessage,
-            provider: props.provider
+            provider
           }}
         ></WidgetFooter>
       </div>
     );
   };
 
-  switch (loadingStatus) {
-    case LoadingStatus.Loaded:
-      return showGrid();
-    case LoadingStatus.Failed:
-      return showError();
-    default:
-      return showLoading();
-  }
+  return loadingStatus === LoadingStatus.Loading ? showLoading() : showWidget();
 }

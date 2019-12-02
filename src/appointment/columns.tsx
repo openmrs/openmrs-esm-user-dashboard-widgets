@@ -35,9 +35,9 @@ const changeStatus = (
     }
   };
 
-  changeAppointmentStatus(appointmentUuid, status, baseUrl).then(response => {
-    handleResponse(response);
-  });
+  changeAppointmentStatus(appointmentUuid, status, baseUrl).then(
+    handleResponse
+  );
 };
 
 const checkIn = (

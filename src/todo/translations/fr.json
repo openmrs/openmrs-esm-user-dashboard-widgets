@@ -3,5 +3,7 @@
   "Todo Widget": "Todo Widget",
   "Print": "Impression",
   "Unable to load todo's": "Impossible de charger les tâches",
-  "No Todo Actions": "Pas d'actions à faire"
+  "No Todo Actions": "Pas d'actions à faire",
+  "Todo has been completed successfully": "Todo a été complété avec succès",
+  "Unexpected error while completing todo": "Erreur inattendue lors du marquage de todo comme complet"
 }

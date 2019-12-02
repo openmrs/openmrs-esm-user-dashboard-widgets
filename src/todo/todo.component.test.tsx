@@ -87,7 +87,7 @@ describe(`<Todo />`, () => {
 
     const { getByText } = render(
       <Todo
-        sourceApi=""
+        source={{ url: "" }}
         showMessage={jest.fn}
         title={componentTitle}
         {...commonWidgetProps}
@@ -104,7 +104,7 @@ describe(`<Todo />`, () => {
 
     const { getByText } = render(
       <Todo
-        sourceApi=""
+        source={{ url: "" }}
         showMessage={jest.fn}
         title={componentTitle}
         {...commonWidgetProps}
@@ -122,7 +122,7 @@ describe(`<Todo />`, () => {
         showMessage={jest.fn()}
         {...commonWidgetProps}
         title={componentTitle}
-        sourceApi={mockUrl}
+        source={{ url: mockUrl }}
       />
     );
 
@@ -135,7 +135,7 @@ describe(`<Todo />`, () => {
     mockEsmApi.openmrsFetch.mockResolvedValueOnce({ data: mockTodos });
     const { getByText } = render(
       <Todo
-        sourceApi={mockUrl}
+        source={{ url: mockUrl }}
         showMessage={jest.fn()}
         title={componentTitle}
         {...commonWidgetProps}
@@ -157,11 +157,10 @@ describe(`<Todo />`, () => {
     mockEsmApi.openmrsFetch.mockResolvedValueOnce({ data: mockTodos });
     const { getByText, container } = render(
       <Todo
-        sourceApi={mockUrl}
+        source={{ url: mockUrl, limit: 1 }}
         showMessage={jest.fn()}
         title={componentTitle}
         {...commonWidgetProps}
-        limit={1}
       />
     );
 
@@ -176,7 +175,7 @@ describe(`<Todo />`, () => {
 
     const { getByText } = render(
       <Todo
-        sourceApi={mockUrl}
+        source={{ url: mockUrl }}
         showMessage={jest.fn()}
         title={componentTitle}
         {...commonWidgetProps}
@@ -203,7 +202,7 @@ describe(`<Todo />`, () => {
     mockEsmApi.openmrsFetch.mockResolvedValueOnce({ data: mockTodos });
     const { getByText, container } = render(
       <Todo
-        sourceApi={mockUrl}
+        source={{ url: mockUrl }}
         showMessage={jest.fn()}
         title={componentTitle}
         {...commonWidgetProps}
@@ -227,7 +226,7 @@ describe(`<Todo />`, () => {
     });
     const { getByText, container, getByTestId } = render(
       <Todo
-        sourceApi={mockUrl}
+        source={{ url: mockUrl }}
         showMessage={jest.fn()}
         title={componentTitle}
         {...commonWidgetProps}
