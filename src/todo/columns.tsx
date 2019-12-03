@@ -1,5 +1,4 @@
 import React from "react";
-import { openmrsFetch } from "@openmrs/esm-api";
 import { todo as constants } from "../constants.json";
 
 import defaultTodoColumns from "./config.json";
@@ -7,13 +6,11 @@ import buildColumn from "../refapp-grid/column-builder";
 import styles from "./todo.css";
 
 import { Trans } from "react-i18next";
+import { markTodoAsDone } from "./todo.resource";
 
-export default function getColumns(refreshTodos, showMessage) {
-  const markDoneUrl = (todoUuid: string) =>
-    `/ws/rest/v1/assignedaction/${todoUuid}/complete`;
-
+export default function getColumns(refreshTodos, showMessage, baseUrl) {
   const markTodoDone = (refreshTodos, showMessage, todo) => {
-    const handleMarkDoneResponse = response => {
+    const handleResponse = response => {
       if (response.ok) {
         showMessage({
           type: "success",
@@ -31,17 +28,7 @@ export default function getColumns(refreshTodos, showMessage) {
       }
     };
 
-    const checkInRequestInit = {
-      method: "PATCH",
-      body: "",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
-
-    openmrsFetch(markDoneUrl(todo.uuid), checkInRequestInit).then(response => {
-      handleMarkDoneResponse(response);
-    });
+    markTodoAsDone(todo, baseUrl).then(handleResponse);
   };
 
   const getMarkDoneActionColumn = (refreshTodos, showMessage) => {
@@ -63,22 +50,22 @@ export default function getColumns(refreshTodos, showMessage) {
   };
 
   const getTodoActionColumn = () => {
-    const fetchEncounterURL = (patientId, encounterId) => {
-      const baseUrl: string = `/openmrs/htmlformentryui/htmlform/viewEncounterWithHtmlForm.page?`;
+    const fetchEncounterURL = (patientId, encounterId) =>
+      `${constants.PRINT_CONSENT_FORM_URL}patientId=${patientId}&encounter=${encounterId}`;
 
-      return `${baseUrl}patientId=${patientId}&encounter=${encounterId}`;
-    };
+    const printConsentButton = todo => (
+      <a href={fetchEncounterURL(todo.patient.id, todo.encounterId)}>
+        <button className="task button small-button">
+          <i className="icon-print" />
+          <Trans>Print</Trans>
+        </button>
+      </a>
+    );
+
     const getTodoActionButton = todo => {
       switch (todo.type) {
         case "PRINT_CONSENT":
-          return (
-            <a href={fetchEncounterURL(todo.patient.id, todo.encounterId)}>
-              <button className="task button small-button">
-                <i className="icon-print" />
-                <Trans>Print</Trans>
-              </button>
-            </a>
-          );
+          return printConsentButton(todo);
       }
     };
     return {

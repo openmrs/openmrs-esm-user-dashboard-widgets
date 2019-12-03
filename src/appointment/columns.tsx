@@ -1,59 +1,76 @@
 import React from "react";
 import { Trans } from "react-i18next";
-import { openmrsFetch } from "@openmrs/esm-api";
 
 import defaultAppointmentColumns from "./config.json";
 import buildColumn from "../refapp-grid/column-builder";
 import styles from "./appointment.css";
 import { doesMatchConditions } from "../utils";
 import { appointments as constants } from "../constants.json";
+import { changeAppointmentStatus } from "./appointment.resource";
 
-const checkInAppointmentUrl = (baseUrl: string, appointmentId: string) =>
-  `${baseUrl}/${appointmentId}/${constants.CHECK_IN_URL}`;
-
-const checkIn = (
-  appointment,
+const changeStatus = (
+  appointmentUuid: string,
+  status: string,
   refreshAppointments,
   baseUrl: string,
-  showMessage
+  showMessage,
+  successMessage,
+  errorMessage
 ) => {
-  const handleCheckInResponse = response => {
+  const handleResponse = response => {
     if (response.ok) {
       showMessage({
         type: "success",
-        message: <Trans>{constants.CHECK_IN_SUCCESS_MESSAGE}</Trans>
+        message: <Trans>{successMessage}</Trans>
       });
       refreshAppointments();
     } else {
       response.json().then(err => {
         showMessage({
           type: "error",
-          message: <Trans>{constants.CHECK_IN_ERROR_MESSAGE}</Trans>
+          message: <Trans>{errorMessage}</Trans>
         });
         console.log(err); // eslint-disable-line no-console
       });
     }
   };
 
-  const checkInRequestData = {
-    toStatus: "CheckedIn",
-    onDate: new Date().toISOString()
-  };
-
-  const checkInRequestInit = {
-    method: "POST",
-    body: checkInRequestData,
-    headers: {
-      "Content-Type": "application/json"
-    }
-  };
-  openmrsFetch(
-    checkInAppointmentUrl(baseUrl, appointment.uuid),
-    checkInRequestInit
-  ).then(response => {
-    handleCheckInResponse(response);
-  });
+  changeAppointmentStatus(appointmentUuid, status, baseUrl).then(
+    handleResponse
+  );
 };
+
+const checkIn = (
+  appointment,
+  refreshAppointments,
+  baseUrl: string,
+  showMessage
+) =>
+  changeStatus(
+    appointment.uuid,
+    "CheckedIn",
+    refreshAppointments,
+    baseUrl,
+    showMessage,
+    constants.CHECK_IN_SUCCESS_MESSAGE,
+    constants.CHECK_IN_ERROR_MESSAGE
+  );
+
+const markAsDone = (
+  appointment,
+  refreshAppointments,
+  baseUrl: string,
+  showMessage
+) =>
+  changeStatus(
+    appointment.uuid,
+    "Completed",
+    refreshAppointments,
+    baseUrl,
+    showMessage,
+    constants.COMPLETED_SUCCESS_MESSAGE,
+    constants.COMPLETED_ERROR_MESSAGE
+  );
 
 const getActionColumns = (
   configs,
@@ -66,7 +83,8 @@ const getActionColumns = (
   }
 
   const actionHandlers = {
-    CheckIn: checkIn
+    CheckIn: checkIn,
+    Done: markAsDone
   };
   const iconLabel = label => (
     <div className={styles["icon-label"]}>

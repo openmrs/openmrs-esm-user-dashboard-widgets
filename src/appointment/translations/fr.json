@@ -3,8 +3,12 @@
   "Appointment Widget": "Widget Rendez-vous",
   "CheckIn": "Enregistrement",
   "CheckedIn": "Enregistré",
+  "Done": "Terminé",
+  "Completed": "Marqué Fait",
   "Appointment has been checked in successfully": "Le rendez-vous a été enregistré avec succès",
   "Unexpected error while checking in": "Unexpected error while checking in",
+  "Appointment has been marked as done": "Rendez-vous marqué comme terminé",
+  "Unexpected error while marking appointment as done": "Erreur inattendue lors du marquage du rendez-vous comme terminé",
   "View All": "Voir Tout",
   "No appointments": "Pas de rendez-vous"
 }

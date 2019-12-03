@@ -1,6 +1,6 @@
 {
   "name": "@openmrs/esm-user-dashboard-widgets",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "A repo for creating openmrs microfrontend dashboard widgets",
   "main": "dist/openmrs-esm-user-dashboard-widgets.js",
   "scripts": {
@@ -27,6 +27,9 @@
   ],
   "author": "",
   "license": "MIT",
+  "directories": {
+    "lib": "dist"
+  },
   "bugs": {
     "url": ""
   },
@@ -48,6 +51,7 @@
     "babel-loader": "^8.0.6",
     "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^3.2.0",
+    "date-fns": "^2.8.1",
     "enzyme-adapter-react-16": "^1.15.1",
     "eslint": "^5.16.0",
     "eslint-config-prettier": "^4.3.0",
@@ -58,6 +62,7 @@
     "jest": "^24.9.0",
     "jest-cli": "^24.9.0",
     "lodash.clonedeep": "^4.5.0",
+    "mockdate": "^2.0.5",
     "prettier": "^1.19.1",
     "pretty-quick": "^1.11.1",
     "react-i18next": "^10.13.2",

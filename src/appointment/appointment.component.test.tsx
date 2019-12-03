@@ -1,6 +1,7 @@
 import React from "react";
 import Appointment from "./appointment.component";
 import { render, cleanup, waitForElement } from "@testing-library/react";
+import MockDate from "mockdate";
 
 import { setErrorFilter } from "../utils/index";
 import mockEsmAPI from "@openmrs/esm-api";
@@ -47,6 +48,7 @@ describe(`<Appointment />`, () => {
   afterEach(() => {
     mockEsmAPI.openmrsFetch.mockReset();
     cleanup();
+    MockDate.reset();
   });
 
   afterAll(() => {
@@ -56,7 +58,11 @@ describe(`<Appointment />`, () => {
   it(`should show loading component initially`, () => {
     mockEsmAPI.openmrsFetch.mockResolvedValueOnce({ data: mockAppointments });
     const { getByText } = render(
-      <Appointment source="" {...commonWidgetProps} showMessage={jest.fn()} />
+      <Appointment
+        source={{ url: "" }}
+        {...commonWidgetProps}
+        showMessage={jest.fn()}
+      />
     );
     expect(getByText("Loading...")).toBeTruthy();
   });
@@ -65,7 +71,7 @@ describe(`<Appointment />`, () => {
     mockEsmAPI.openmrsFetch.mockResolvedValueOnce({ data: mockAppointments });
     const { getByText } = render(
       <Appointment
-        source=""
+        source={{ url: "" }}
         {...commonWidgetProps}
         title={componentTitle}
         showMessage={jest.fn()}
@@ -82,7 +88,7 @@ describe(`<Appointment />`, () => {
     mockEsmAPI.openmrsFetch.mockResolvedValueOnce({ data: mockAppointments });
     const { getByText } = render(
       <Appointment
-        source=""
+        source={{ url: "", fetchType: "all" }}
         {...commonWidgetProps}
         title={componentTitle}
         showMessage={jest.fn()}
@@ -95,6 +101,11 @@ describe(`<Appointment />`, () => {
       expect(getByText("test service")).toBeTruthy();
       expect(getByText("test patient")).toBeTruthy();
       expect(getByText("PID-1234")).toBeTruthy();
+
+      expect(mockEsmAPI.openmrsFetch.mock.calls[0][0]).toBe("/search");
+      expect(mockEsmAPI.openmrsFetch.mock.calls[0][1].body.providerUuid).toBe(
+        undefined
+      );
       done();
     });
   });
@@ -116,7 +127,7 @@ describe(`<Appointment />`, () => {
     ];
     const { getByText } = render(
       <Appointment
-        source=""
+        source={{ url: "" }}
         {...commonWidgetProps}
         actions={checkInConfig}
         title={componentTitle}
@@ -138,7 +149,7 @@ describe(`<Appointment />`, () => {
 
     const { getByText } = render(
       <Appointment
-        source=""
+        source={{ url: "" }}
         {...commonWidgetProps}
         title={componentTitle}
         showMessage={jest.fn()}
@@ -161,6 +172,41 @@ describe(`<Appointment />`, () => {
 
     waitForElement(() => getByText(componentTitleRegex)).then(() => {
       expect(getByText("test patient - refreshed")).toBeTruthy();
+      done();
+    });
+  });
+
+  it(`should show grid with fetched appointments for provider`, done => {
+    const mockedDate = new Date("2019-11-27T18:30:00.000");
+    const mockedDateBeforeDelay = new Date("2019-11-27T18:10:00.000");
+    MockDate.set(mockedDate);
+
+    mockEsmAPI.openmrsFetch.mockResolvedValueOnce({ data: mockAppointments });
+    const { getByText } = render(
+      <Appointment
+        source={{ url: "", fetchType: "self", fromTimeDelayInMinutes: 20 }}
+        {...commonWidgetProps}
+        title={componentTitle}
+        showMessage={jest.fn()}
+        provider="a1206f9f-7b59-46fb-ad6a-b00ca7e781c1"
+      />
+    );
+
+    waitForElement(() => getByText(componentTitleRegex)).then(() => {
+      expect(getByText("10:30 AM")).toBeTruthy();
+      expect(getByText("30 mins")).toBeTruthy();
+      expect(getByText("test service")).toBeTruthy();
+      expect(getByText("test patient")).toBeTruthy();
+      expect(getByText("PID-1234")).toBeTruthy();
+
+      expect(mockEsmAPI.openmrsFetch.mock.calls[0][0]).toBe("/search");
+      expect(mockEsmAPI.openmrsFetch.mock.calls[0][1].body.providerUuid).toBe(
+        "a1206f9f-7b59-46fb-ad6a-b00ca7e781c1"
+      );
+      expect(mockEsmAPI.openmrsFetch.mock.calls[0][1].body.startDate).toBe(
+        mockedDateBeforeDelay.toISOString()
+      );
+
       done();
     });
   });
