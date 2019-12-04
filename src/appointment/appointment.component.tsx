@@ -88,7 +88,7 @@ export default function Appointment(props: AppointmentProps) {
   );
 
   const showGrid = () => (
-    <div className={globalStyles["widget-content"]}>
+    <div className={`${globalStyles["widget-content"]} widget-content`}>
       <RefAppGrid
         data={appointments}
         columns={getAppointmentColumns(
@@ -104,7 +104,7 @@ export default function Appointment(props: AppointmentProps) {
 
   const showWidget = () => {
     return (
-      <div className={globalStyles["widget-container"]}>
+      <div className={`${globalStyles["widget-container"]} appointment`}>
         <WidgetHeader
           title={title}
           icon="svg-icon icon-calender"
