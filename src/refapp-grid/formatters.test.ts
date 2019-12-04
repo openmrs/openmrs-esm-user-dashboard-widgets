@@ -10,7 +10,7 @@ describe("formatters", () => {
     const configs = [
       {
         name: "convertToTime",
-        field: "startDateTime"
+        valueAccessor: "startDateTime"
       }
     ];
 
@@ -26,7 +26,7 @@ describe("formatters", () => {
     const configs = [
       {
         name: "convertToTime",
-        field: "startDateTime",
+        valueAccessor: "startDateTime",
         formattedField: "startTime"
       }
     ];
@@ -44,7 +44,7 @@ describe("formatters", () => {
     const configs = [
       {
         name: "convertToTime",
-        field: "appointment.startDateTime",
+        valueAccessor: "appointment.startDateTime",
         formattedField: "startTime"
       }
     ];
@@ -63,7 +63,7 @@ describe("formatters", () => {
       const configs = [
         {
           name: "convertToTime",
-          field: "appointment.startDateTime",
+          valueAccessor: "appointment.startDateTime",
           formattedField: "startTime"
         }
       ];
@@ -88,7 +88,7 @@ describe("formatters", () => {
 
       const actualDurationInMins = formatField(
         source,
-        "appointment.startDateTime",
+        source.appointment.startDateTime,
         formatter
       );
       expect(actualDurationInMins).toEqual("30 mins");
@@ -105,7 +105,7 @@ describe("formatters", () => {
       const configs = [
         {
           name: "suffix",
-          field: "appointment.durationInMins",
+          valueAccessor: "appointment.durationInMins",
           formattedField: "duration",
           args: [" mins"]
         }

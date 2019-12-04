@@ -1,7 +1,7 @@
 import React from "react";
 import { todo as constants } from "../constants.json";
 
-import defaultTodoColumns from "./config.json";
+import defaultTodoColumns from "./config";
 import buildColumn from "../refapp-grid/column-builder";
 import styles from "./todo.css";
 

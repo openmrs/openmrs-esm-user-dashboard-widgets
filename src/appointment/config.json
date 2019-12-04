@@ -5,13 +5,13 @@
         {
           "type": "label",
           "styles": "highlight",
-          "field": "startDateTime",
+          "valueAccessor": "startDateTime",
           "formatter": "convertToTime"
         },
         {
           "type": "label",
           "styles": "sub-text",
-          "field": "startDateTime",
+          "valueAccessor": "startDateTime",
           "formatter": {
             "name": "differenceInMins",
             "args": ["endDateTime"]
@@ -24,12 +24,12 @@
         {
           "type": "label",
           "styles": "regular",
-          "field": "patient.name"
+          "valueAccessor": "patient.name"
         },
         {
           "type": "label",
           "styles": "sub-text",
-          "field": "patient.identifier"
+          "valueAccessor": "patient.identifier"
         }
       ]
     },
@@ -38,12 +38,12 @@
       "cells": [
         {
           "type": "colorCircle",
-          "field": "service.color"
+          "valueAccessor": "service.color"
         },
         {
           "type": "label",
           "styles": "sub-text",
-          "field": "service.name"
+          "valueAccessor": "service.name"
         }
       ]
     }

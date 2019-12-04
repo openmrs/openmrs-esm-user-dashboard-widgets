@@ -51,11 +51,11 @@ const trimLastPathSection = (path: string): string =>
     .slice(0, path.split(".").length - 1)
     .join(".");
 
-export const formatField = (source, field, formatter) => {
+export const formatField = (source, value, formatter) => {
   const formaterName =
     typeof formatter === "string" ? formatter : formatter.name;
   const args = formatter.args ? formatter.args : [];
-  return formatters[formaterName](source, getField(source, field), ...args);
+  return formatters[formaterName](source, value, ...args);
 };
 
 export default function format(
@@ -64,15 +64,16 @@ export default function format(
 ): any {
   const clonnedSource = cloneDeep(source);
   formatterConfigs.forEach(config => {
-    const parent = getParentField(clonnedSource, config.field);
+    const parent = getParentField(clonnedSource, config.valueAccessor);
 
     const formattedFieldName = config.formattedField
       ? config.formattedField
-      : `${config.field}Formatted`;
+      : `${config.valueAccessor}Formatted`;
 
     parent[formattedFieldName] = formatField(
       clonnedSource,
-      config.field,
+      getField(clonnedSource, config.valueAccessor),
+
       config
     );
   });
@@ -82,7 +83,7 @@ export default function format(
 
 type Formatter = {
   name: string;
-  field: string;
+  valueAccessor: string;
   formattedField?: string;
   args?: any[];
 };
