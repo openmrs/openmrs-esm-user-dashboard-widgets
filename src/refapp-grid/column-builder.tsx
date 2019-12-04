@@ -81,7 +81,7 @@ export default function buildColumn(config: ColumnConfig): ReactColumn {
   const cellConfigId = cellConfig =>
     cellConfig.id ? cellConfig.id : Math.floor(1000 + Math.random() * 9000);
 
-  const getCellConfig = cellConfig => {
+  const getCellId = cellConfig => {
     return typeof cellConfig.valueAccessor === "function"
       ? cellConfigId(cellConfig)
       : cellConfig.valueAccessor;
@@ -89,7 +89,7 @@ export default function buildColumn(config: ColumnConfig): ReactColumn {
 
   let getDynamicColumnId = cells => {
     return cells
-      ? cells.map(cellConfig => getCellConfig(cellConfig)).join("-")
+      ? cells.map(cellConfig => getCellId(cellConfig)).join("-")
       : "";
   };
 
