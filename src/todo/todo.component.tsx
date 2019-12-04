@@ -81,7 +81,7 @@ export default function Todo(props: TodoProps) {
   );
 
   const showGrid = () => (
-    <div className={globalStyles["widget-content"]}>
+    <div className={`${globalStyles["widget-content"]} widget-content`}>
       <RefAppGrid
         data={limitListByCount(
           todos,
@@ -95,7 +95,7 @@ export default function Todo(props: TodoProps) {
 
   const showWidget = () => {
     return (
-      <div className={globalStyles["widget-container"]}>
+      <div className={`${globalStyles["widget-container"]} todos`}>
         <WidgetHeader
           title={title}
           totalCount={todos ? todos.length : 0}
