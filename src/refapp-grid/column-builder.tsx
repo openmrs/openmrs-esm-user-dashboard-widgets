@@ -21,8 +21,13 @@ const colorCircleComponent = (color: string) => (
   <div className="circle" style={{ background: color }} />
 );
 
-const getCellValue = (field, data, formatter) =>
-  formatter ? formatField(data, field, formatter) : getField(data, field);
+const getCellValue = (valueAccessor, data, formatter) => {
+  const fieldValue =
+    typeof valueAccessor === "function"
+      ? valueAccessor(data)
+      : getField(data, valueAccessor);
+  return formatter ? formatField(data, fieldValue, formatter) : fieldValue;
+};
 
 const appendKey = (element: JSX.Element, key: string) => {
   return cloneElement(element, { key });
@@ -53,13 +58,13 @@ const getAccessor = (rowData, cellConfigs: CellConfig[]) => {
         : formatter.name
       : "";
   const getCellKey = cellConfig =>
-    `${cellConfig.field}-${getFormatterName(cellConfig.formatter)}`;
+    `${cellConfig.valueAccessor}-${getFormatterName(cellConfig.formatter)}`;
 
   return (
     <>
       {cellConfigs.map(cellConfig => {
         const cellValue = getCellValue(
-          cellConfig.field,
+          cellConfig.valueAccessor,
           rowData,
           cellConfig.formatter
         );
@@ -73,14 +78,26 @@ const getAccessor = (rowData, cellConfigs: CellConfig[]) => {
 };
 
 export default function buildColumn(config: ColumnConfig): ReactColumn {
-  let getDynaicColumnId = cells =>
-    cells ? cells.map(cellConfig => cellConfig.field).join("-") : "";
+  const cellConfigId = cellConfig =>
+    cellConfig.id ? cellConfig.id : Math.floor(1000 + Math.random() * 9000);
+
+  const getCellConfig = cellConfig => {
+    return typeof cellConfig.valueAccessor === "function"
+      ? cellConfigId(cellConfig)
+      : cellConfig.valueAccessor;
+  };
+
+  let getDynamicColumnId = cells => {
+    return cells
+      ? cells.map(cellConfig => getCellConfig(cellConfig)).join("-")
+      : "";
+  };
 
   const column: ReactColumn = {
     accessor: rowData => getAccessor(rowData, config.cells)
   };
 
-  column.id = config.id ? config.id : getDynaicColumnId(config.cells);
+  column.id = config.id ? config.id : getDynamicColumnId(config.cells);
   column.className = `${styles["row"]} ${config.styles}`;
 
   return column;
@@ -95,7 +112,7 @@ type ColumnConfig = {
 type CellConfig = {
   type: string;
   styles?: string;
-  field: string;
+  valueAccessor: string | Function;
   formatter?:
     | {
         name: string;

@@ -5,10 +5,7 @@ import {
   render,
   cleanup,
   waitForElement,
-  fireEvent,
-  getByTitle,
-  getByRole,
-  getAllByRole
+  fireEvent
 } from "@testing-library/react";
 import { setErrorFilter } from "../utils/index";
 
@@ -40,10 +37,18 @@ describe(`<Todo />`, () => {
         identifier: "10000X",
         id: 14
       },
-      serviceCategory: {
-        id: 172105,
-        name: "Prostheses"
-      },
+      attributes: [
+        {
+          id: 1,
+          uuid: "dcfb79f5-e443-483a-92c5-72942e9f581e",
+          attributeType: "Concept",
+          value: {
+            id: 166290,
+            name: "Prostheses",
+            uuid: "84b2d351-393a-4cff-8c3c-f5785c05f9ce"
+          }
+        }
+      ],
       type: "PRINT_CONSENT",
       encounterId: 37,
       uuid: "1ab4a2c8-1cf5-46d8-8d7a-3be35c4d8b75"
@@ -57,10 +62,18 @@ describe(`<Todo />`, () => {
         identifier: "103450X",
         id: 14
       },
-      serviceCategory: {
-        id: 172105,
-        name: "Prostheses"
-      },
+      attributes: [
+        {
+          id: 1,
+          uuid: "dcfb79f5-e443-483a-92c5-72942e9f581e",
+          attributeType: "Concept",
+          value: {
+            id: 166290,
+            name: "Prostheses",
+            uuid: "84b2d351-393a-4cff-8c3c-f5785c05f9ce"
+          }
+        }
+      ],
       type: "PRINT_CONSENT",
       encounterId: 37,
       uuid: "da6d1694-2eda-4ada-944e-10ccac16c1d4"

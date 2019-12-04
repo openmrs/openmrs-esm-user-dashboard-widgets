@@ -23,11 +23,11 @@ describe("Column Builder", () => {
       cells: [
         {
           type: "label",
-          field: "name"
+          valueAccessor: "name"
         },
         {
           type: "label",
-          field: "id"
+          valueAccessor: "id"
         }
       ]
     });
@@ -40,11 +40,11 @@ describe("Column Builder", () => {
       cells: [
         {
           type: "label",
-          field: "name"
+          valueAccessor: "name"
         },
         {
           type: "label",
-          field: "id"
+          valueAccessor: "id"
         }
       ]
     });
@@ -61,12 +61,12 @@ describe("Column Builder", () => {
       cells: [
         {
           type: "label",
-          field: "name",
+          valueAccessor: "name",
           styles: "test-label-style-1"
         },
         {
           type: "label",
-          field: "id",
+          valueAccessor: "id",
           styles: "test-label-style-2"
         }
       ]
@@ -84,7 +84,7 @@ describe("Column Builder", () => {
       cells: [
         {
           type: "label",
-          field: "name",
+          valueAccessor: "name",
           formatter: {
             name: "suffix",
             args: [" .Mr"]
@@ -105,7 +105,7 @@ describe("Column Builder", () => {
         {
           type: "button",
           label: "Submit",
-          field: "name"
+          valueAccessor: "name"
         }
       ]
     });
@@ -121,7 +121,7 @@ describe("Column Builder", () => {
       cells: [
         {
           type: "colorCircle",
-          field: "color"
+          valueAccessor: "color"
         }
       ]
     });

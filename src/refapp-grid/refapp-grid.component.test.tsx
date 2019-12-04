@@ -10,7 +10,7 @@ describe("Refapp-Grid", () => {
       {
         cells: [
           {
-            field: "name",
+            valueAccessor: "name",
             type: "label"
           }
         ]
