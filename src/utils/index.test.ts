@@ -2,7 +2,8 @@ import {
   initAndHook,
   getField,
   doesMatchConditions,
-  filterByConditions
+  filterByConditions,
+  addTestId
 } from "./index";
 
 describe("Utils", () => {
@@ -87,6 +88,18 @@ describe("Utils", () => {
 
       expect(actual.length).toEqual(1);
       expect(actual[0].testField).toEqual("matching-field");
+    });
+  });
+
+  describe("addTestId", () => {
+    it("should add getProps function returning test-id", () => {
+      const columns = [{ id: "test-id" }];
+
+      const columnsWithTestId = addTestId(columns);
+
+      expect(columnsWithTestId[0].getProps()["data-test-id"]).toEqual(
+        "test-id"
+      );
     });
   });
 });

@@ -40,3 +40,9 @@ export const filterByConditions = (dataToFilter, conditions: Condition[]) =>
   dataToFilter.filter(data => doesMatchConditions(data, conditions));
 
 export const compose = (...fns) => x => fns.reduceRight((v, f) => f(v), x);
+
+export const addTestId = columns =>
+  columns.map(column => ({
+    ...column,
+    getProps: () => ({ "data-test-id": column.id })
+  }));

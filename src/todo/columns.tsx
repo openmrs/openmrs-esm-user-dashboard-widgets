@@ -7,6 +7,7 @@ import styles from "./todo.css";
 
 import { Trans } from "react-i18next";
 import { markTodoAsDone } from "./todo.resource";
+import { addTestId } from "../utils/";
 
 export default function getColumns(refreshTodos, showMessage, baseUrl) {
   const markTodoDone = (refreshTodos, showMessage, todo) => {
@@ -78,9 +79,10 @@ export default function getColumns(refreshTodos, showMessage, baseUrl) {
     buildColumn(columnConfig)
   );
 
-  return [
+  const columns = [
     getMarkDoneActionColumn(refreshTodos, showMessage),
     ...defaultColumns,
     getTodoActionColumn()
   ];
+  return addTestId(columns);
 }
