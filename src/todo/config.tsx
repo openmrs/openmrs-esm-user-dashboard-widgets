@@ -31,9 +31,18 @@ export default {
           type: "label",
           styles: "sub-text",
           valueAccessor: todo => {
-            return todo.attributes.filter(
+            if (!todo.attributes || todo.attributes.length === 0) {
+              return "";
+            }
+
+            const consentTypeAttributes = todo.attributes.filter(
               attribute => attribute.attributeType == "Concept"
-            )[0].value.name;
+            );
+            if (!consentTypeAttributes || consentTypeAttributes.length === 0) {
+              return "";
+            }
+
+            return consentTypeAttributes[0].value.name;
           }
         }
       ]

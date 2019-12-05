@@ -1,7 +1,7 @@
 import React from "react";
 import { Trans } from "react-i18next";
 
-import defaultAppointmentColumns from "./config.json";
+import defaultAppointmentColumns from "./config";
 import buildColumn from "../refapp-grid/column-builder";
 import styles from "./appointment.css";
 import { doesMatchConditions, addTestId } from "../utils";
