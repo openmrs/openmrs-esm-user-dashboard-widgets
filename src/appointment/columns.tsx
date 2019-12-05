@@ -1,10 +1,10 @@
 import React from "react";
 import { Trans } from "react-i18next";
 
-import defaultAppointmentColumns from "./config.json";
+import defaultAppointmentColumns from "./config";
 import buildColumn from "../refapp-grid/column-builder";
 import styles from "./appointment.css";
-import { doesMatchConditions } from "../utils";
+import { doesMatchConditions, addTestId } from "../utils";
 import { appointments as constants } from "../constants.json";
 import { changeAppointmentStatus } from "./appointment.resource";
 
@@ -135,7 +135,7 @@ export default function getColumns(
     buildColumn(columnConfig)
   );
 
-  return [
+  const columns = [
     ...defaultColumns,
     ...getActionColumns(
       actionConfigs,
@@ -144,4 +144,6 @@ export default function getColumns(
       showMessage
     )
   ];
+
+  return addTestId(columns);
 }

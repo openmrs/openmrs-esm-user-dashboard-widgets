@@ -98,7 +98,7 @@ export default function buildColumn(config: ColumnConfig): ReactColumn {
   };
 
   column.id = config.id ? config.id : getDynamicColumnId(config.cells);
-  column.className = `${styles["row"]} ${config.styles}`;
+  column.className = `${styles["row"]} ${config.styles ? config.styles : ""}`;
 
   return column;
 }
