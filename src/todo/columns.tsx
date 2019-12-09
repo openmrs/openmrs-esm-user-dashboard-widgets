@@ -64,9 +64,9 @@ export default function getColumns(refreshTodos, showMessage, baseUrl) {
     );
 
     const appointmentConfirmLabel = todo => (
-      <label className={styles["confirm-label"]}>
+      <span className={styles["confirm-label"]}>
         <i className="icon-phone" /> <Trans>Confirm</Trans>
-      </label>
+      </span>
     );
 
     const getTodoActionButton = todo => {
