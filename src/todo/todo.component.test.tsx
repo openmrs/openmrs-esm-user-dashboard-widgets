@@ -144,7 +144,7 @@ describe(`<Todo />`, () => {
     });
   });
 
-  it(`should contain view all which redirects to url given in config`, done => {
+  it(`should contain view all which redirects to url given in config for todos more than limit`, done => {
     mockEsmApi.openmrsFetch.mockResolvedValueOnce({ data: mockTodos });
     const { getByText } = render(
       <Todo
@@ -162,6 +162,24 @@ describe(`<Todo />`, () => {
           .closest("a")
           .getAttributeNode("href").textContent
       ).toBe("/mock/view/all");
+      done();
+    });
+  });
+
+  it(`should not contain view all if todos are less than limit`, done => {
+    mockEsmApi.openmrsFetch.mockResolvedValueOnce({ data: mockTodos });
+    const { getByText, queryByText } = render(
+      <Todo
+        source={{ url: mockUrl, limit: 5 }}
+        showMessage={jest.fn()}
+        title={componentTitle}
+        {...commonWidgetProps}
+        viewAll="/mock/view/all"
+      />
+    );
+
+    waitForElement(() => getByText(componentTitleRegex)).then(() => {
+      expect(queryByText("View All")).toBeNull;
       done();
     });
   });
