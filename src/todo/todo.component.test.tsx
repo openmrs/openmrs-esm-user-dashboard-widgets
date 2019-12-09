@@ -148,7 +148,7 @@ describe(`<Todo />`, () => {
     mockEsmApi.openmrsFetch.mockResolvedValueOnce({ data: mockTodos });
     const { getByText } = render(
       <Todo
-        source={{ url: mockUrl }}
+        source={{ url: mockUrl, limit: 1 }}
         showMessage={jest.fn()}
         title={componentTitle}
         {...commonWidgetProps}
