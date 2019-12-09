@@ -1,3 +1,5 @@
+import Todo from "./todo.component";
+
 export default {
   columns: [
     {
@@ -5,7 +7,7 @@ export default {
         {
           type: "label",
           styles: "highlight todo-date",
-          valueAccessor: "dateCreated",
+          valueAccessor: todo => getTodoDate(todo),
           formatter: "convertToDayMonth"
         }
       ]
@@ -25,27 +27,75 @@ export default {
       ]
     },
     {
+      styles: "center",
       cells: [
+        {
+          id: "serviceCategoryColour",
+          type: "colorCircle",
+          styles: "sub-text",
+          valueAccessor: todo => getServiceCategory(todo).value.colour
+        },
         {
           id: "serviceCategory",
           type: "label",
           styles: "sub-text",
-          valueAccessor: todo => {
-            if (!todo.attributes || todo.attributes.length === 0) {
-              return "";
-            }
-
-            const consentTypeAttributes = todo.attributes.filter(
-              attribute => attribute.attributeType == "Concept"
-            );
-            if (!consentTypeAttributes || consentTypeAttributes.length === 0) {
-              return "";
-            }
-
-            return consentTypeAttributes[0].value.name;
-          }
+          valueAccessor: todo => getServiceCategory(todo).value.name
         }
       ]
     }
   ]
+};
+
+const filterBasedOnAttributeType = (todo, attributeTypeValue) => {
+  return todo.attributes.filter(
+    attribute => attribute.attributeType == attributeTypeValue
+  );
+};
+
+const getTodoDate = todo => {
+  let displayDate;
+
+  switch (todo.type) {
+    case "PRINT_CONSENT":
+      displayDate = todo.dateCreated;
+      break;
+    case "APPOINTMENT_CONFIRM":
+      let attribute = filterBasedOnAttributeType(
+        todo,
+        "Appointment Service Type"
+      );
+
+      if (!attribute || attribute.length === 0) displayDate = "";
+
+      displayDate = attribute[0].value.date;
+      break;
+    default:
+      displayDate = "";
+  }
+
+  return displayDate;
+};
+
+const getServiceCategory = todo => {
+  if (!todo.attributes || todo.attributes.length === 0) {
+    return "";
+  }
+
+  let attribute;
+  switch (todo.type) {
+    case "PRINT_CONSENT":
+      attribute = filterBasedOnAttributeType(todo, "Service Category");
+      break;
+    case "APPOINTMENT_CONFIRM":
+      attribute = filterBasedOnAttributeType(todo, "Appointment Service Type");
+      break;
+    default:
+      attribute = "";
+  }
+
+  if (!attribute || attribute.length === 0) {
+    return "";
+  }
+
+  return attribute[0];
 };

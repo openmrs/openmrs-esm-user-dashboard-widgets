@@ -41,7 +41,7 @@ describe(`<Todo />`, () => {
         {
           id: 1,
           uuid: "dcfb79f5-e443-483a-92c5-72942e9f581e",
-          attributeType: "Concept",
+          attributeType: "Service Category",
           value: {
             id: 166290,
             name: "Prostheses",
@@ -66,7 +66,7 @@ describe(`<Todo />`, () => {
         {
           id: 1,
           uuid: "dcfb79f5-e443-483a-92c5-72942e9f581e",
-          attributeType: "Concept",
+          attributeType: "Service Category",
           value: {
             id: 166290,
             name: "Prostheses",
