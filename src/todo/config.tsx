@@ -56,7 +56,7 @@ export default {
   ]
 };
 
-const filterBasedOnAttributeType = (todo, attributeTypeValue) => {
+const getAttributeByName = (todo, attributeTypeValue) => {
   return todo.attributes.filter(
     attribute => attribute.attributeType == attributeTypeValue
   );
@@ -67,7 +67,7 @@ const getTodoDate = todo => {
     case "PRINT_CONSENT":
       return todo.dateCreated;
     case "APPOINTMENT_CONFIRM":
-      let attribute = filterBasedOnAttributeType(todo, "Appointment");
+      let attribute = getAttributeByName(todo, "Appointment");
 
       if (!attribute || attribute.length === 0) return "";
 
@@ -85,10 +85,10 @@ const getServiceCategory = todo => {
   let attribute;
   switch (todo.type) {
     case "PRINT_CONSENT":
-      attribute = filterBasedOnAttributeType(todo, "Service Category");
+      attribute = getAttributeByName(todo, "Service Category");
       break;
     case "APPOINTMENT_CONFIRM":
-      attribute = filterBasedOnAttributeType(todo, "Appointment");
+      attribute = getAttributeByName(todo, "Appointment");
       break;
     default:
       attribute = "";
