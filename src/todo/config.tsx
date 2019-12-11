@@ -33,23 +33,13 @@ export default {
           id: "serviceCategoryColour",
           type: "colorCircle",
           styles: "sub-text",
-          valueAccessor: todo => {
-            let serviceCategoryValue = getServiceCategory(todo);
-            return serviceCategoryValue.service
-              ? serviceCategoryValue.service.colour
-              : "";
-          }
+          valueAccessor: todo => getServiceCategoryColour(todo)
         },
         {
           id: "serviceCategory",
           type: "label",
           styles: "sub-text",
-          valueAccessor: todo => {
-            let serviceCategoryValue = getServiceCategory(todo);
-            return serviceCategoryValue.service
-              ? serviceCategoryValue.service.name
-              : serviceCategoryValue.name;
-          }
+          valueAccessor: todo => getServiceCategoryName(todo)
         }
       ]
     }
@@ -99,4 +89,18 @@ const getServiceCategory = todo => {
   }
 
   return attribute[0].value;
+};
+
+const getServiceCategoryColour = todo => {
+  let serviceCategoryValue = getServiceCategory(todo);
+  return serviceCategoryValue.service
+    ? serviceCategoryValue.service.colour
+    : "";
+};
+
+const getServiceCategoryName = todo => {
+  let serviceCategoryValue = getServiceCategory(todo);
+  return serviceCategoryValue.service
+    ? serviceCategoryValue.service.name
+    : serviceCategoryValue.name;
 };
