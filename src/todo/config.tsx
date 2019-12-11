@@ -33,13 +33,23 @@ export default {
           id: "serviceCategoryColour",
           type: "colorCircle",
           styles: "sub-text",
-          valueAccessor: todo => getServiceCategory(todo).value.colour
+          valueAccessor: todo => {
+            let serviceCategoryValue = getServiceCategory(todo);
+            return serviceCategoryValue.service
+              ? serviceCategoryValue.service.colour
+              : "";
+          }
         },
         {
           id: "serviceCategory",
           type: "label",
           styles: "sub-text",
-          valueAccessor: todo => getServiceCategory(todo).value.name
+          valueAccessor: todo => {
+            let serviceCategoryValue = getServiceCategory(todo);
+            return serviceCategoryValue.service
+              ? serviceCategoryValue.service.name
+              : serviceCategoryValue.name;
+          }
         }
       ]
     }
@@ -60,10 +70,7 @@ const getTodoDate = todo => {
       displayDate = todo.dateCreated;
       break;
     case "APPOINTMENT_CONFIRM":
-      let attribute = filterBasedOnAttributeType(
-        todo,
-        "Appointment Service Type"
-      );
+      let attribute = filterBasedOnAttributeType(todo, "Appointment");
 
       if (!attribute || attribute.length === 0) displayDate = "";
 
@@ -87,7 +94,7 @@ const getServiceCategory = todo => {
       attribute = filterBasedOnAttributeType(todo, "Service Category");
       break;
     case "APPOINTMENT_CONFIRM":
-      attribute = filterBasedOnAttributeType(todo, "Appointment Service Type");
+      attribute = filterBasedOnAttributeType(todo, "Appointment");
       break;
     default:
       attribute = "";
@@ -97,5 +104,5 @@ const getServiceCategory = todo => {
     return "";
   }
 
-  return attribute[0];
+  return attribute[0].value;
 };
