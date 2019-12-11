@@ -63,24 +63,18 @@ const filterBasedOnAttributeType = (todo, attributeTypeValue) => {
 };
 
 const getTodoDate = todo => {
-  let displayDate;
-
   switch (todo.type) {
     case "PRINT_CONSENT":
-      displayDate = todo.dateCreated;
-      break;
+      return todo.dateCreated;
     case "APPOINTMENT_CONFIRM":
       let attribute = filterBasedOnAttributeType(todo, "Appointment");
 
-      if (!attribute || attribute.length === 0) displayDate = "";
+      if (!attribute || attribute.length === 0) return "";
 
-      displayDate = attribute[0].value.date;
-      break;
+      return attribute[0].value.date;
     default:
-      displayDate = "";
+      return "";
   }
-
-  return displayDate;
 };
 
 const getServiceCategory = todo => {
