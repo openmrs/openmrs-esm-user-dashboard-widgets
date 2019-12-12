@@ -47,24 +47,17 @@ export default {
 };
 
 const getAttributeByName = (todo, attributeTypeValue) => {
-  return todo.attributes.filter(
+  return todo.attributes.find(
     attribute => attribute.attributeType == attributeTypeValue
   );
 };
 
 const getTodoDate = todo => {
-  switch (todo.type) {
-    case "PRINT_CONSENT":
-      return todo.dateCreated;
-    case "APPOINTMENT_CONFIRM":
-      let attribute = getAttributeByName(todo, "Appointment");
-
-      if (!attribute || attribute.length === 0) return "";
-
-      return attribute[0].value.date;
-    default:
-      return "";
+  if (todo.type === "PRINT_CONSENT") {
+    return todo.dateCreated;
   }
+  const appointmentAttribute = getAttributeByName(todo, "Appointment");
+  return appointmentAttribute ? appointmentAttribute.value.date : "";
 };
 
 const getServiceCategory = todo => {
@@ -72,34 +65,26 @@ const getServiceCategory = todo => {
     return "";
   }
 
-  let attribute;
-  switch (todo.type) {
-    case "PRINT_CONSENT":
-      attribute = getAttributeByName(todo, "Service Category");
-      break;
-    case "APPOINTMENT_CONFIRM":
-      attribute = getAttributeByName(todo, "Appointment");
-      break;
-    default:
-      attribute = "";
-  }
+  const serviceCategoryAttributeName =
+    todo.type === "PRINT_CONSENT" ? "Service Category" : "Appointment";
 
-  if (!attribute || attribute.length === 0) {
-    return "";
-  }
+  const serviceCategory = getAttributeByName(
+    todo,
+    serviceCategoryAttributeName
+  );
 
-  return attribute[0].value;
+  return serviceCategory ? serviceCategory.value : "";
 };
 
 const getServiceCategoryColour = todo => {
-  let serviceCategoryValue = getServiceCategory(todo);
+  const serviceCategoryValue = getServiceCategory(todo);
   return serviceCategoryValue.service
     ? serviceCategoryValue.service.colour
     : "";
 };
 
 const getServiceCategoryName = todo => {
-  let serviceCategoryValue = getServiceCategory(todo);
+  const serviceCategoryValue = getServiceCategory(todo);
   return serviceCategoryValue.service
     ? serviceCategoryValue.service.name
     : serviceCategoryValue.name;
