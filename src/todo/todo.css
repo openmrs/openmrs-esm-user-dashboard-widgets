@@ -11,3 +11,9 @@ button.mark-done i {
   color: #9cc92e;
   border-width: thin;
 }
+
+label.confirm-label {
+  color: #5b57a6;
+  background-color: #eeeeee;
+  white-space: initial;
+}

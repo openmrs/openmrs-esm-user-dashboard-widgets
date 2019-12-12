@@ -31,7 +31,6 @@ export default function Todo(props: TodoProps) {
     title = "My To do's",
     showMessage
   } = props;
-
   useEffect(() => {
     fetchTodos();
   }, []);
@@ -92,7 +91,6 @@ export default function Todo(props: TodoProps) {
       ></RefAppGrid>
     </div>
   );
-
   const showWidget = () => {
     return (
       <div className={`${globalStyles["widget-container"]} todos`}>
@@ -102,7 +100,11 @@ export default function Todo(props: TodoProps) {
           icon="svg-icon icon-todo"
         ></WidgetHeader>
         {loadingStatus === LoadingStatus.Loaded ? showGrid() : showError()}
-        <WidgetFooter viewAllUrl={props.viewAll}></WidgetFooter>
+        <WidgetFooter
+          viewAllUrl={
+            todos && todos.length > source.limit ? props.viewAll : null
+          }
+        ></WidgetFooter>
       </div>
     );
   };

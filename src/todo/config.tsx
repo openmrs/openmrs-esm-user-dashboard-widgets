@@ -1,3 +1,5 @@
+import Todo from "./todo.component";
+
 export default {
   columns: [
     {
@@ -5,7 +7,7 @@ export default {
         {
           type: "label",
           styles: "highlight todo-date",
-          valueAccessor: "dateCreated",
+          valueAccessor: todo => getTodoDate(todo),
           formatter: "convertToDayMonth"
         }
       ]
@@ -25,27 +27,65 @@ export default {
       ]
     },
     {
+      styles: "center",
       cells: [
+        {
+          id: "serviceCategoryColour",
+          type: "colorCircle",
+          styles: "sub-text",
+          valueAccessor: todo => getServiceCategoryColour(todo)
+        },
         {
           id: "serviceCategory",
           type: "label",
           styles: "sub-text",
-          valueAccessor: todo => {
-            if (!todo.attributes || todo.attributes.length === 0) {
-              return "";
-            }
-
-            const consentTypeAttributes = todo.attributes.filter(
-              attribute => attribute.attributeType == "Concept"
-            );
-            if (!consentTypeAttributes || consentTypeAttributes.length === 0) {
-              return "";
-            }
-
-            return consentTypeAttributes[0].value.name;
-          }
+          valueAccessor: todo => getServiceCategoryName(todo)
         }
       ]
     }
   ]
+};
+
+const getAttributeByName = (todo, attributeTypeValue) => {
+  return todo.attributes.find(
+    attribute => attribute.attributeType == attributeTypeValue
+  );
+};
+
+const getTodoDate = todo => {
+  if (todo.type === "PRINT_CONSENT") {
+    return todo.dateCreated;
+  }
+  const appointmentAttribute = getAttributeByName(todo, "Appointment");
+  return appointmentAttribute ? appointmentAttribute.value.date : "";
+};
+
+const getServiceCategory = todo => {
+  if (!todo.attributes || todo.attributes.length === 0) {
+    return "";
+  }
+
+  const serviceCategoryAttributeName =
+    todo.type === "PRINT_CONSENT" ? "Service Category" : "Appointment";
+
+  const serviceCategory = getAttributeByName(
+    todo,
+    serviceCategoryAttributeName
+  );
+
+  return serviceCategory ? serviceCategory.value : "";
+};
+
+const getServiceCategoryColour = todo => {
+  const serviceCategoryValue = getServiceCategory(todo);
+  return serviceCategoryValue.service
+    ? serviceCategoryValue.service.colour
+    : "";
+};
+
+const getServiceCategoryName = todo => {
+  const serviceCategoryValue = getServiceCategory(todo);
+  return serviceCategoryValue.service
+    ? serviceCategoryValue.service.name
+    : serviceCategoryValue.name;
 };
