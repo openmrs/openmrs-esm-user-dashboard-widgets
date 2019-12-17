@@ -1,6 +1,6 @@
 import React from "react";
 import Appointment from "./appointment.component";
-import { render, cleanup, waitForElement } from "@testing-library/react";
+import { cleanup, render, waitForElement } from "@testing-library/react";
 import MockDate from "mockdate";
 
 import { setErrorFilter } from "../utils/index";
@@ -207,6 +207,36 @@ describe(`<Appointment />`, () => {
         mockedDateBeforeDelay.toISOString()
       );
 
+      expect(mockEsmAPI.openmrsFetch.mock.calls[0][1].body.endDate).toBe(
+        new Date(mockedDate.setUTCHours(23, 59, 59, 9)).toISOString()
+      );
+
+      done();
+    });
+  });
+
+  it(`should fetched appointments without enddate`, done => {
+    const mockedDate = new Date("2019-11-27T18:30:00.000");
+    MockDate.set(mockedDate);
+
+    mockEsmAPI.openmrsFetch.mockResolvedValueOnce({ data: mockAppointments });
+    const { getByText } = render(
+      <Appointment
+        source={{ url: "", removeEndDate: true }}
+        {...commonWidgetProps}
+        title={componentTitle}
+        showMessage={jest.fn()}
+      />
+    );
+
+    waitForElement(() => getByText(componentTitleRegex)).then(() => {
+      expect(mockEsmAPI.openmrsFetch.mock.calls[0][0]).toBe("/search");
+      expect(
+        mockEsmAPI.openmrsFetch.mock.calls[0][1].body.startDate
+      ).not.toBeUndefined();
+      expect(
+        mockEsmAPI.openmrsFetch.mock.calls[0][1].body.endDate
+      ).toBeUndefined();
       done();
     });
   });

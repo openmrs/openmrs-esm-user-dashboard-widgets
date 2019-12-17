@@ -25,14 +25,17 @@ export function getAppointments(
   const appointmentProvider = () =>
     source.fetchType === "self" ? { providerUuid: provider } : {};
 
+  const appointmentsEndDateCondition = () =>
+    source.removeEndDate ? {} : { endDate: appointmentsEndDate() };
+
   const fetchConditions = () => {
-    const dateRangeconditions = {
-      startDate: appointmentsStartDate(),
-      endDate: appointmentsEndDate()
+    const startDateCondition = {
+      startDate: appointmentsStartDate()
     };
 
     return {
-      ...dateRangeconditions,
+      ...startDateCondition,
+      ...appointmentsEndDateCondition(),
       ...appointmentProvider()
     };
   };
@@ -46,14 +49,17 @@ export function getAppointments(
   });
 }
 
+const appointmentUrlFormat = (
+  baseUrl: string,
+  appointmentId: string,
+  statuschangeurl: string
+) => `${baseUrl}/${appointmentId}/${statuschangeurl}`;
+
 export function changeAppointmentStatus(
   id: string,
   status: string,
   baseUrl: string
 ): Promise<any> {
-  const checkInAppointmentUrl = (baseUrl: string, appointmentId: string) =>
-    `${baseUrl}/${appointmentId}/${constants.STATUS_CHANGE_URL}`;
-
   const requestBody = () => ({
     toStatus: status,
     onDate: new Date().toISOString()
@@ -67,5 +73,8 @@ export function changeAppointmentStatus(
     }
   });
 
-  return openmrsFetch(checkInAppointmentUrl(baseUrl, id), requestOptions());
+  return openmrsFetch(
+    appointmentUrlFormat(baseUrl, id, constants.STATUS_CHANGE_URL),
+    requestOptions()
+  );
 }
