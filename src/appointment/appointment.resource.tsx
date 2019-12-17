@@ -78,3 +78,28 @@ export function changeAppointmentStatus(
     requestOptions()
   );
 }
+export function changeAppointmentProviderStatus(
+  appointmentId: string,
+  providerStatus: string,
+  provider: string,
+  baseURL: string
+): Promise<any> {
+  const requestBody = () => ({
+    method: "POST",
+    body: {
+      response: providerStatus,
+      uuid: provider
+    },
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
+  return openmrsFetch(
+    appointmentUrlFormat(
+      baseURL,
+      appointmentId,
+      constants.PROVIDER_STATUS_CHANGE_URL
+    ),
+    requestBody()
+  );
+}

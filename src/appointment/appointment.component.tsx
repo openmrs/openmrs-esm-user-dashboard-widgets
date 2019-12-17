@@ -95,7 +95,8 @@ export default function Appointment(props: AppointmentProps) {
           source.url,
           fetchAppointments,
           props.actions,
-          showMessage
+          showMessage,
+          provider
         )}
         noDataText="No appointments"
       ></RefAppGrid>
