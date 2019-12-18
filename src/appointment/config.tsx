@@ -6,7 +6,8 @@ export default {
           type: "label",
           styles: "highlight",
           valueAccessor: "startDateTime",
-          formatter: "convertToTime"
+          formatter: "convertToTime",
+          showDateFormatter: "convertToDayMonth"
         },
         {
           type: "label",
@@ -15,7 +16,8 @@ export default {
           formatter: {
             name: "differenceInMins",
             args: ["endDateTime"]
-          }
+          },
+          showDateFormatter: "convertToTime"
         }
       ]
     },

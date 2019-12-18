@@ -84,7 +84,7 @@ export function changeAppointmentProviderStatus(
   provider: string,
   baseURL: string
 ): Promise<any> {
-  const requestBody = () => ({
+  const requestOptions = () => ({
     method: "POST",
     body: {
       response: providerStatus,
@@ -100,6 +100,6 @@ export function changeAppointmentProviderStatus(
       appointmentId,
       constants.PROVIDER_STATUS_CHANGE_URL
     ),
-    requestBody()
+    requestOptions()
   );
 }

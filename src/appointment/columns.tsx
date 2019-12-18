@@ -4,7 +4,7 @@ import { Trans } from "react-i18next";
 import defaultAppointmentColumns from "./config";
 import buildColumn from "../refapp-grid/column-builder";
 import styles from "./appointment.css";
-import { doesMatchConditions, addTestId } from "../utils";
+import { addTestId, doesMatchConditions } from "../utils";
 import { appointments as constants } from "../constants.json";
 import {
   changeAppointmentProviderStatus,
@@ -70,7 +70,6 @@ const changeProviderStatus = (
       });
     }
   };
-
   changeAppointmentProviderStatus(
     appointmentUuid,
     providerStatus,
@@ -124,8 +123,8 @@ const acceptAction = (
     refreshAppointments,
     baseUrl,
     showMessage,
-    constants.COMPLETED_SUCCESS_MESSAGE,
-    constants.COMPLETED_ERROR_MESSAGE,
+    constants.ACCEPTED_SUCCESS_RESPONSE,
+    constants.ACCEPTED_ERROR_RESPONSE,
     provider
   );
 
@@ -202,10 +201,11 @@ export default function getColumns(
   refreshAppointments,
   actionConfigs,
   showMessage,
-  provider
+  provider,
+  source
 ) {
   const defaultColumns = defaultAppointmentColumns.columns.map(columnConfig =>
-    buildColumn(columnConfig)
+    buildColumn(columnConfig, source)
   );
 
   const columns = [

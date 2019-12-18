@@ -7,7 +7,9 @@
     "CHECK_IN_ERROR_MESSAGE": "Unexpected error while checking in",
     "COMPLETED_SUCCESS_MESSAGE": "Appointment has been marked as done",
     "COMPLETED_ERROR_MESSAGE": "Unexpected error while marking appointment as done",
-    "DEFAULT_REFRESH_INTERVAL": 120
+    "DEFAULT_REFRESH_INTERVAL": 120,
+    "ACCEPTED_SUCCESS_RESPONSE": "Appointment request has been accepted",
+    "ACCEPTED_ERROR_RESPONSE": "Unexpected error while accepting the appointment"
   },
   "charts": {
     "CHART_TYPE_NOT_FOUND_MESSAGE": "Chart type not found"
