@@ -14,4 +14,5 @@ export enum LoadingStatus {
 export type Condition = {
   field: string;
   values: string[];
+  isArray?: boolean;
 };
