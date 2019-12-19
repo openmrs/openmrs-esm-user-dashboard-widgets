@@ -222,7 +222,7 @@ describe(`<Appointment />`, () => {
     mockEsmAPI.openmrsFetch.mockResolvedValueOnce({ data: mockAppointments });
     const { getByText } = render(
       <Appointment
-        source={{ url: "", removeEndDate: true }}
+        source={{ url: "", showFutureAppointments: true }}
         {...commonWidgetProps}
         title={componentTitle}
         showMessage={jest.fn()}

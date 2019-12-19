@@ -50,7 +50,7 @@ describe(`test appointment calls`, () => {
     const baseURL = "foo";
     const provider = "provider-uuid";
     appointment
-      .changeAppointmentProviderStatus(
+      .changeAppointmentProviderResponse(
         appointmentId,
         acceptedStatus,
         provider,

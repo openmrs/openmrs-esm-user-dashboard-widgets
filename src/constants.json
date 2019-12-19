@@ -1,7 +1,7 @@
 {
   "appointments": {
     "STATUS_CHANGE_URL": "status-change",
-    "PROVIDER_STATUS_CHANGE_URL": "providerResponse",
+    "PROVIDER_RESPONSE_CHANGE_URL": "providerResponse",
     "SORT_BY": "startDateTime",
     "CHECK_IN_SUCCESS_MESSAGE": "Appointment has been checked in successfully",
     "CHECK_IN_ERROR_MESSAGE": "Unexpected error while checking in",

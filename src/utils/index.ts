@@ -1,5 +1,4 @@
 import { Condition } from "../models/index";
-import { debug } from "webpack";
 
 export const getField = (obj, path: string) => {
   if (!path) {
@@ -12,19 +11,9 @@ export const getField = (obj, path: string) => {
 };
 
 export const doesMatchConditions = (obj, conditions: Condition[]) =>
-  conditions.every(condition => {
-    function objectContains(innerObject, path) {
-      return condition.values.indexOf(getField(innerObject, path)) >= 0;
-    }
-    //Todo: check condition base on type , Needs to be refactored
-    if (condition.isArray) {
-      const paths = condition.field.split(".");
-      return obj[paths[0]].filter(innerObject =>
-        objectContains(innerObject, paths[1])
-      ).length;
-    }
-    return objectContains(obj, condition.field);
-  });
+  conditions.every(
+    condition => condition.values.indexOf(getField(obj, condition.field)) >= 0
+  );
 
 export function initAndHook<T>(
   property: T,

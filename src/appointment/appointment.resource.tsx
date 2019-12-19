@@ -19,14 +19,15 @@ export function getAppointments(
       )
     ).toISOString();
 
-  const appointmentsEndDate = () =>
-    new Date(new Date().setUTCHours(23, 59, 59, 9)).toISOString();
-
   const appointmentProvider = () =>
     source.fetchType === "self" ? { providerUuid: provider } : {};
 
-  const appointmentsEndDateCondition = () =>
-    source.removeEndDate ? {} : { endDate: appointmentsEndDate() };
+  const appointmentsEndDate = () =>
+    source.showFutureAppointments
+      ? {}
+      : {
+          endDate: new Date(new Date().setUTCHours(23, 59, 59, 9)).toISOString()
+        };
 
   const fetchConditions = () => {
     const startDateCondition = {
@@ -35,7 +36,7 @@ export function getAppointments(
 
     return {
       ...startDateCondition,
-      ...appointmentsEndDateCondition(),
+      ...appointmentsEndDate(),
       ...appointmentProvider()
     };
   };
@@ -49,11 +50,8 @@ export function getAppointments(
   });
 }
 
-const appointmentUrlFormat = (
-  baseUrl: string,
-  appointmentId: string,
-  statuschangeurl: string
-) => `${baseUrl}/${appointmentId}/${statuschangeurl}`;
+const appointmentUrl = (baseUrl: string, appointmentId: string, path: string) =>
+  `${baseUrl}/${appointmentId}/${path}`;
 
 export function changeAppointmentStatus(
   id: string,
@@ -74,11 +72,12 @@ export function changeAppointmentStatus(
   });
 
   return openmrsFetch(
-    appointmentUrlFormat(baseUrl, id, constants.STATUS_CHANGE_URL),
+    appointmentUrl(baseUrl, id, constants.STATUS_CHANGE_URL),
     requestOptions()
   );
 }
-export function changeAppointmentProviderStatus(
+
+export function changeAppointmentProviderResponse(
   appointmentId: string,
   providerStatus: string,
   provider: string,
@@ -95,10 +94,10 @@ export function changeAppointmentProviderStatus(
     }
   });
   return openmrsFetch(
-    appointmentUrlFormat(
+    appointmentUrl(
       baseURL,
       appointmentId,
-      constants.PROVIDER_STATUS_CHANGE_URL
+      constants.PROVIDER_RESPONSE_CHANGE_URL
     ),
     requestOptions()
   );

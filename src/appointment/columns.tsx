@@ -7,7 +7,7 @@ import styles from "./appointment.css";
 import { addTestId, doesMatchConditions } from "../utils";
 import { appointments as constants } from "../constants.json";
 import {
-  changeAppointmentProviderStatus,
+  changeAppointmentProviderResponse,
   changeAppointmentStatus
 } from "./appointment.resource";
 
@@ -70,7 +70,7 @@ const changeProviderStatus = (
       });
     }
   };
-  changeAppointmentProviderStatus(
+  changeAppointmentProviderResponse(
     appointmentUuid,
     providerStatus,
     provider,
@@ -78,7 +78,7 @@ const changeProviderStatus = (
   )
     .then(handleResponse)
     .catch(err => {
-      //Todo: get rid of this once backend fix is in place
+      //Todo: Handled exception raised due to API Response with 200 & no response content. This needs to be removed once respective API is fixed.
       if (err.message == "Unexpected end of JSON input") {
         handleResponse({ ok: 200 });
       } else handleResponse({});

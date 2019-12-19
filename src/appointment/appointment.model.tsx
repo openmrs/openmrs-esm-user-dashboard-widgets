@@ -16,7 +16,7 @@ export type AppointmentSource = {
   url: string;
   fetchType?: string;
   fromTimeDelayInMinutes?: number;
-  removeEndDate?: boolean;
+  showFutureAppointments?: boolean;
   filters?: Condition[];
   providerStatusFilterType?: string;
 };

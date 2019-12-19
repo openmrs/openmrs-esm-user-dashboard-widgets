@@ -69,34 +69,6 @@ describe("Utils", () => {
 
       expect(doesMatchConditions(obj, matchingConditions)).toBeFalsy();
     });
-
-    it("should return true when the value matches for any element of array", () => {
-      const obj = {
-          testField: [{ value: "test-value" }, { value: "test-value-absent" }]
-        },
-        matchingConditions = [
-          {
-            field: "testField.value",
-            values: ["test-value"],
-            isArray: true
-          }
-        ];
-      expect(doesMatchConditions(obj, matchingConditions)).toBeTruthy();
-    });
-
-    it("should jhj1 when non of the value matches", () => {
-      const obj = {
-          testField: [{ value: "test-value" }, { value: "test-value-absent" }]
-        },
-        matchingConditions = [
-          {
-            field: "testField.value",
-            values: ["test-value-others"],
-            isArray: true
-          }
-        ];
-      expect(doesMatchConditions(obj, matchingConditions)).toBeFalsy();
-    });
   });
 
   describe("filterByConditions", () => {
