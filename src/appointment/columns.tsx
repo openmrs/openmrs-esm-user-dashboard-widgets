@@ -75,7 +75,14 @@ const changeProviderStatus = (
     providerStatus,
     provider,
     baseUrl
-  ).then(handleResponse);
+  )
+    .then(handleResponse)
+    .catch(err => {
+      //Todo: get rid of this once backend fix is in place
+      if (err.message == "Unexpected end of JSON input") {
+        handleResponse({ ok: 200 });
+      } else handleResponse({});
+    });
 };
 
 const checkIn = (

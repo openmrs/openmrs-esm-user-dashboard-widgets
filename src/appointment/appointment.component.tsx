@@ -76,6 +76,7 @@ export default function Appointment(props: AppointmentProps) {
   };
 
   const filterAppointmentsBasedOnProviderResponse = appointments => {
+    // Todo: Needs to be refactored to a better approach.
     return source.providerStatusFilterType == "self"
       ? appointments.filter(appointment => {
           return appointment.providers.filter(

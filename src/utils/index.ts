@@ -16,6 +16,7 @@ export const doesMatchConditions = (obj, conditions: Condition[]) =>
     function objectContains(innerObject, path) {
       return condition.values.indexOf(getField(innerObject, path)) >= 0;
     }
+    //Todo: check condition base on type , Needs to be refactored
     if (condition.isArray) {
       const paths = condition.field.split(".");
       return obj[paths[0]].filter(innerObject =>
