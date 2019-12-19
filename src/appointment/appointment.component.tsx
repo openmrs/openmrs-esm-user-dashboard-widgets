@@ -68,10 +68,24 @@ export default function Appointment(props: AppointmentProps) {
     return appointments;
   };
 
-  const filterAppointments = appointments =>
-    source.filters
+  const filterAppointments = appointments => {
+    let app = source.filters
       ? filterByConditions(appointments, source.filters)
       : appointments;
+    return filterAppointmentsBasedOnProviderResponse(app);
+  };
+
+  const filterAppointmentsBasedOnProviderResponse = appointments => {
+    return source.providerStatusFilterType == "self"
+      ? appointments.filter(appointment => {
+          return appointment.providers.filter(
+            appointmentProvider =>
+              appointmentProvider.uuid == provider &&
+              appointmentProvider.response == "AWAITING"
+          ).length;
+        })
+      : appointments;
+  };
 
   useEffect(() => fetchAppointments(), []);
 

@@ -18,4 +18,5 @@ export type AppointmentSource = {
   fromTimeDelayInMinutes?: number;
   removeEndDate?: boolean;
   filters?: Condition[];
+  providerStatusFilterType?: string;
 };
