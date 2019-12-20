@@ -4,9 +4,12 @@ import { Trans } from "react-i18next";
 import defaultAppointmentColumns from "./config";
 import buildColumn from "../refapp-grid/column-builder";
 import styles from "./appointment.css";
-import { doesMatchConditions, addTestId } from "../utils";
+import { addTestId, doesMatchConditions } from "../utils";
 import { appointments as constants } from "../constants.json";
-import { changeAppointmentStatus } from "./appointment.resource";
+import {
+  changeAppointmentProviderResponse,
+  changeAppointmentStatus
+} from "./appointment.resource";
 
 const changeStatus = (
   appointmentUuid: string,
@@ -38,6 +41,48 @@ const changeStatus = (
   changeAppointmentStatus(appointmentUuid, status, baseUrl).then(
     handleResponse
   );
+};
+
+const changeProviderStatus = (
+  appointmentUuid: string,
+  providerStatus: string,
+  refreshAppointments,
+  baseUrl: string,
+  showMessage,
+  successMessage,
+  errorMessage,
+  provider
+) => {
+  const handleResponse = response => {
+    if (response.ok) {
+      showMessage({
+        type: "success",
+        message: <Trans>{successMessage}</Trans>
+      });
+      refreshAppointments();
+    } else {
+      response.json().then(err => {
+        showMessage({
+          type: "error",
+          message: <Trans>{errorMessage}</Trans>
+        });
+        console.log(err); // eslint-disable-line no-console
+      });
+    }
+  };
+  changeAppointmentProviderResponse(
+    appointmentUuid,
+    providerStatus,
+    provider,
+    baseUrl
+  )
+    .then(handleResponse)
+    .catch(err => {
+      //Todo: Handled exception raised due to API Response with 200 & no response content. This needs to be removed once respective API is fixed.
+      if (err.message == "Unexpected end of JSON input") {
+        handleResponse({ ok: 200 });
+      } else handleResponse({});
+    });
 };
 
 const checkIn = (
@@ -72,11 +117,36 @@ const markAsDone = (
     constants.COMPLETED_ERROR_MESSAGE
   );
 
+const acceptAction = (
+  appointment,
+  refreshAppointments,
+  baseUrl: string,
+  showMessage,
+  provider: string
+) =>
+  changeProviderStatus(
+    appointment.uuid,
+    "ACCEPTED",
+    refreshAppointments,
+    baseUrl,
+    showMessage,
+    constants.ACCEPTED_SUCCESS_RESPONSE,
+    constants.ACCEPTED_ERROR_RESPONSE,
+    provider
+  );
+
+const editAction = appointment =>
+  window.open(
+    `../owa/appointments/index.html#/home/manage/appointments/calendar?appointment=${appointment.uuid}`,
+    "_blank"
+  );
+
 const getActionColumns = (
   configs,
   baseUrl,
   refreshAppointments,
-  showMessage
+  showMessage,
+  provider
 ) => {
   if (!configs || configs.length <= 0) {
     return [];
@@ -84,7 +154,9 @@ const getActionColumns = (
 
   const actionHandlers = {
     CheckIn: checkIn,
-    Done: markAsDone
+    Done: markAsDone,
+    Edit: editAction,
+    Accept: acceptAction
   };
   const iconLabel = label => (
     <div className={styles["icon-label"]}>
@@ -98,7 +170,13 @@ const getActionColumns = (
     return (
       <button
         onClick={() =>
-          actionHandler(appointment, refreshAppointments, baseUrl, showMessage)
+          actionHandler(
+            appointment,
+            refreshAppointments,
+            baseUrl,
+            showMessage,
+            provider
+          )
         }
         className="task button small-button"
       >
@@ -129,10 +207,12 @@ export default function getColumns(
   baseUrl: string,
   refreshAppointments,
   actionConfigs,
-  showMessage
+  showMessage,
+  provider,
+  source
 ) {
   const defaultColumns = defaultAppointmentColumns.columns.map(columnConfig =>
-    buildColumn(columnConfig)
+    buildColumn(columnConfig, source)
   );
 
   const columns = [
@@ -141,7 +221,8 @@ export default function getColumns(
       actionConfigs,
       baseUrl,
       refreshAppointments,
-      showMessage
+      showMessage,
+      provider
     )
   ];
 

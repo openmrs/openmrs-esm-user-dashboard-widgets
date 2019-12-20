@@ -7,8 +7,13 @@
   "Unexpected error while marking appointment as done": "Unexpected error while marking appointment as done",
   "View All": "View All",
   "CheckIn": "Check In",
+  "Edit": "Edit",
+  "Accept": "Accept",
   "CheckedIn": "Checked In",
   "Done": "Done",
   "Completed": "Marked Done",
-  "No appointments": "No appointments"
+  "No appointments": "No appointments",
+  "To Do: Appointments to be confirmed": "To Do: Appointments to be confirmed",
+  "Appointment request has been accepted": "Appointment request has been accepted",
+  "Unexpected error while accepting the appointment": "Unexpected error while accepting the appointment"
 }

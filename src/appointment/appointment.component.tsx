@@ -68,10 +68,25 @@ export default function Appointment(props: AppointmentProps) {
     return appointments;
   };
 
-  const filterAppointments = appointments =>
-    source.filters
+  const filterAppointments = appointments => {
+    const filteredAppointments = source.filters
       ? filterByConditions(appointments, source.filters)
       : appointments;
+    return filterByProviderResponse(filteredAppointments);
+  };
+
+  const filterByProviderResponse = appointments => {
+    // Todo: Needs to be refactored to a better approach.
+    return source.providerStatusFilterType == "self"
+      ? appointments.filter(appointment => {
+          return appointment.providers.filter(
+            appointmentProvider =>
+              appointmentProvider.uuid == provider &&
+              appointmentProvider.response == "AWAITING"
+          ).length;
+        })
+      : appointments;
+  };
 
   useEffect(() => fetchAppointments(), []);
 
@@ -95,7 +110,9 @@ export default function Appointment(props: AppointmentProps) {
           source.url,
           fetchAppointments,
           props.actions,
-          showMessage
+          showMessage,
+          provider,
+          source
         )}
         noDataText="No appointments"
       ></RefAppGrid>

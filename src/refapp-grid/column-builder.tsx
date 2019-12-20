@@ -46,7 +46,7 @@ const generateElement = (value, config) => {
   }
 };
 
-const getAccessor = (rowData, cellConfigs: CellConfig[]) => {
+const getAccessor = (rowData, cellConfigs: CellConfig[], source) => {
   if (!cellConfigs) {
     return <></>;
   }
@@ -63,10 +63,15 @@ const getAccessor = (rowData, cellConfigs: CellConfig[]) => {
   return (
     <>
       {cellConfigs.map(cellConfig => {
+        function getDateFormatter() {
+          return cellConfig.showDateFormatter && source.showDate
+            ? cellConfig.showDateFormatter
+            : cellConfig.formatter;
+        }
         const cellValue = getCellValue(
           cellConfig.valueAccessor,
           rowData,
-          cellConfig.formatter
+          getDateFormatter()
         );
         return appendKey(
           generateElement(cellValue, cellConfig),
@@ -77,7 +82,10 @@ const getAccessor = (rowData, cellConfigs: CellConfig[]) => {
   );
 };
 
-export default function buildColumn(config: ColumnConfig): ReactColumn {
+export default function buildColumn(
+  config: ColumnConfig,
+  source?
+): ReactColumn {
   const cellConfigId = cellConfig =>
     cellConfig.id ? cellConfig.id : Math.floor(1000 + Math.random() * 9000);
 
@@ -94,7 +102,7 @@ export default function buildColumn(config: ColumnConfig): ReactColumn {
   };
 
   const column: ReactColumn = {
-    accessor: rowData => getAccessor(rowData, config.cells)
+    accessor: rowData => getAccessor(rowData, config.cells, source)
   };
 
   column.id = config.id ? config.id : getDynamicColumnId(config.cells);
@@ -120,6 +128,7 @@ type CellConfig = {
       }
     | string;
   label?: string;
+  showDateFormatter?: string;
 };
 
 type ReactColumn = {
