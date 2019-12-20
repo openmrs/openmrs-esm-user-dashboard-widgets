@@ -137,7 +137,7 @@ const acceptAction = (
 
 const editAction = appointment =>
   window.open(
-    `../owa/appointments/index.html#/home/manage/appointments/calendar?appointment=${appointment.uuid}`,
+    `../owa/appointments/index.html#/home/manage/appointments/calendar/${appointment.uuid}`,
     "_blank"
   );
 
