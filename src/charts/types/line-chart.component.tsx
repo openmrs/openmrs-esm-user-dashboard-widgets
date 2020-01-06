@@ -13,6 +13,8 @@ import styles from "../charts.css";
 
 export default function(props: LineChartProperties) {
   const { data, yAxis, xAxis, lineStrokeColor, gridStrokeColor } = props;
+  const DEFAULT_LINE_STROKE_COLOR = "#00463f";
+  const DEFAULT_GRID_STROKE_COLOR = "#ddd";
 
   const renderLegend = props => {
     const { payload } = props;
@@ -33,7 +35,11 @@ export default function(props: LineChartProperties) {
   function getChartLines(axisConfig) {
     if (typeof axisConfig === "string") {
       return (
-        <Line type="monotone" dataKey={axisConfig} stroke={lineStrokeColor} />
+        <Line
+          type="monotone"
+          dataKey={axisConfig}
+          stroke={lineStrokeColor || DEFAULT_LINE_STROKE_COLOR}
+        />
       );
     }
 
@@ -52,7 +58,10 @@ export default function(props: LineChartProperties) {
     <ResponsiveContainer>
       <LineChart data={data} margin={{ top: 5, right: 5, bottom: 0, left: 0 }}>
         {getChartLines(yAxis)}
-        <CartesianGrid stroke={gridStrokeColor} strokeDasharray="5 5" />
+        <CartesianGrid
+          stroke={gridStrokeColor || DEFAULT_GRID_STROKE_COLOR}
+          strokeDasharray="5 5"
+        />
         <XAxis dataKey={xAxis} tick={{ fill: "#00463f", fontSize: "10px" }} />
         <YAxis />
         <Tooltip />
