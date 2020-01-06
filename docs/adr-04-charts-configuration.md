@@ -42,6 +42,17 @@ Below is the configuration template for charts.
 }
 ```
 
+### Multiple Line Chart Configuration
+
+```
+{
+    ...
+    yAxis:"label1;label2", //multiple field names can be separated by semicolons
+    lineStroke:"#00ffff;#ff00ff",//colour for lines in the chart separated by semicolons
+    ...
+}
+```
+
 ## Consequences
 
 - It supports simple chart layout for now.
