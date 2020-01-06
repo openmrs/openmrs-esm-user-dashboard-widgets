@@ -47,9 +47,26 @@ Below is the configuration template for charts.
 ```
 {
     ...
-    yAxis:"label1;label2", //multiple field names can be separated by semicolons
-    lineStroke:"#00ffff;#ff00ff",//colour for lines in the chart separated by semicolons
-    ...
+    "contents": [
+        {
+            ...
+            "properties": {
+                ...
+                "charts": [
+                    {
+                        ...
+                        yAxis: [
+                            {
+                                "field":"no-of-registrations",// field name which should be taken as source for y-axis of chart
+                                "color":"#00ff00"// color for the yAxis line of chart
+                            },
+                            ...
+                        ]
+                    }
+                ]
+            }
+        }
+    ]
 }
 ```
 
