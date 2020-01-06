@@ -22,3 +22,11 @@
   justify-content: center;
   align-items: center;
 }
+
+.legend-text {
+  font-size: 0.7em;
+}
+
+.legend-container {
+  padding-left: 10px;
+}
