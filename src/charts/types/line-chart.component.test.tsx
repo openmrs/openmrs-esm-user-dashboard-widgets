@@ -29,8 +29,8 @@ describe(`<Linechart />`, () => {
         ]}
         yAxis={"registrations"}
         xAxis={"duration"}
-        lineStroke={"#ddd"}
-        gridStroke={"#aaa"}
+        lineStrokeColor={"#ddd"}
+        gridStrokeColor={"#aaa"}
       />
     );
     expect(container.firstChild).toHaveClass("recharts-responsive-container");

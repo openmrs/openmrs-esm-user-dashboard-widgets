@@ -56,8 +56,8 @@ export default function ChartLoader({ config, locale }) {
             data={dataPoints}
             xAxis={config.xAxis}
             yAxis={config.yAxis}
-            lineStroke={config.lineStroke || "#00463f"}
-            gridStroke={config.gridStroke || "#ddd"}
+            lineStrokeColor={config.lineStrokeColor}
+            gridStrokeColor={config.gridStrokeColor}
           />
         );
       default:
