@@ -55,7 +55,10 @@ export default function getColumns(refreshTodos, showMessage, baseUrl) {
       `${constants.PRINT_CONSENT_FORM_URL}patientId=${patientUUId}&visitId=${visitUUId}&definitionUiResource=${constants.CLINICAL_CONSENT_FORM_URL}`;
 
     const printConsentButton = todo => (
-      <a href={fetchClinicalConsentURL(todo.patient.uuid, todo.visitUUId)}>
+      <a
+        href={fetchClinicalConsentURL(todo.patient.uuid, todo.visitUUId)}
+        target="_blank"
+      >
         <button className="task button small-button">
           <i className="icon-print" />
           <Trans>Print</Trans>
