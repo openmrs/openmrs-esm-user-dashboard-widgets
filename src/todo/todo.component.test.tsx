@@ -67,7 +67,8 @@ describe(`<Todo />`, () => {
       patient: {
         name: "Patient Two",
         identifier: "103450X",
-        id: 14
+        id: 14,
+        uuid: "6b42e575-2e44-40c1-a14c-8637cbb3d21f"
       },
       attributes: [
         {
@@ -84,7 +85,8 @@ describe(`<Todo />`, () => {
       ],
       type: "PRINT_CONSENT",
       encounterId: 37,
-      uuid: "da6d1694-2eda-4ada-944e-10ccac16c1d4"
+      uuid: "da6d1694-2eda-4ada-944e-10ccac16c1d4",
+      visitUUId: "3479bf97-b842-4f94-a424-253297e4dc5e"
     }
   ];
 
@@ -231,7 +233,7 @@ describe(`<Todo />`, () => {
         "task button small-button"
       );
       expect(document.querySelector("a").getAttribute("href")).toContain(
-        "openmrs/htmlformentryui/htmlform/viewEncounterWithHtmlForm.page?patientId=14&encounter=37"
+        "openmrs/htmlformentryui/htmlform/enterHtmlFormWithStandardUi.page?patientId=6b42e575-2e44-40c1-a14c-8637cbb3d21f&visitId=3479bf97-b842-4f94-a424-253297e4dc5e&definitionUiResource=icrc:htmlforms/transversal/addClinicalConsent.xml"
       );
       done();
     });

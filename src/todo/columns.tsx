@@ -51,11 +51,11 @@ export default function getColumns(refreshTodos, showMessage, baseUrl) {
   };
 
   const getTodoActionColumn = () => {
-    const fetchEncounterURL = (patientId, encounterId) =>
-      `${constants.PRINT_CONSENT_FORM_URL}patientId=${patientId}&encounter=${encounterId}`;
+    const fetchClinicalConsentURL = (patientUUId, visitUUId) =>
+      `${constants.PRINT_CONSENT_FORM_URL}patientId=${patientUUId}&visitId=${visitUUId}&definitionUiResource=${constants.CLINICAL_CONSENT_FORM_URL}`;
 
     const printConsentButton = todo => (
-      <a href={fetchEncounterURL(todo.patient.id, todo.encounterId)}>
+      <a href={fetchClinicalConsentURL(todo.patient.uuid, todo.visitUUId)}>
         <button className="task button small-button">
           <i className="icon-print" />
           <Trans>Print</Trans>
