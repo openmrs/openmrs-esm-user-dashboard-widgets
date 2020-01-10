@@ -8,6 +8,7 @@ import styles from "./todo.css";
 import { Trans } from "react-i18next";
 import { markTodoAsDone } from "./todo.resource";
 import { addTestId } from "../utils/";
+import Todo from "./todo.component.js";
 
 export default function getColumns(refreshTodos, showMessage, baseUrl) {
   const markTodoDone = (refreshTodos, showMessage, todo) => {
@@ -51,11 +52,16 @@ export default function getColumns(refreshTodos, showMessage, baseUrl) {
   };
 
   const getTodoActionColumn = () => {
-    const fetchEncounterURL = (patientId, encounterId) =>
-      `${constants.PRINT_CONSENT_FORM_URL}patientId=${patientId}&encounter=${encounterId}`;
+    const fetchClinicalConsentURL = (patientUUId, visitUUId) =>
+      `${constants.PRINT_CONSENT_FORM_URL}patientId=${patientUUId}&visitId=${
+        visitUUId ? visitUUId : ""
+      }&definitionUiResource=${constants.CLINICAL_CONSENT_FORM_URL}`;
 
     const printConsentButton = todo => (
-      <a href={fetchEncounterURL(todo.patient.id, todo.encounterId)}>
+      <a
+        href={fetchClinicalConsentURL(todo.patient.uuid, todo.visitUUId)}
+        target="_blank"
+      >
         <button className="task button small-button">
           <i className="icon-print" />
           <Trans>Print</Trans>
