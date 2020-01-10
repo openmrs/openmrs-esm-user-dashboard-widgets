@@ -8,6 +8,7 @@ import styles from "./todo.css";
 import { Trans } from "react-i18next";
 import { markTodoAsDone } from "./todo.resource";
 import { addTestId } from "../utils/";
+import Todo from "./todo.component.js";
 
 export default function getColumns(refreshTodos, showMessage, baseUrl) {
   const markTodoDone = (refreshTodos, showMessage, todo) => {
@@ -52,7 +53,9 @@ export default function getColumns(refreshTodos, showMessage, baseUrl) {
 
   const getTodoActionColumn = () => {
     const fetchClinicalConsentURL = (patientUUId, visitUUId) =>
-      `${constants.PRINT_CONSENT_FORM_URL}patientId=${patientUUId}&visitId=${visitUUId}&definitionUiResource=${constants.CLINICAL_CONSENT_FORM_URL}`;
+      `${constants.PRINT_CONSENT_FORM_URL}patientId=${patientUUId}&visitId=${
+        visitUUId ? visitUUId : ""
+      }&definitionUiResource=${constants.CLINICAL_CONSENT_FORM_URL}`;
 
     const printConsentButton = todo => (
       <a
