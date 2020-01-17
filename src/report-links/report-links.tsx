@@ -1,38 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { CommonWidgetProps } from "../models";
 import WidgetHeader from "../commons/widget-header/widget-header.component";
+import globalStyles from "../global.css";
+import styles from "./report-links.css";
+import resources from "./translations";
+import { initI18n } from "../utils/translations";
+import { Trans } from "react-i18next";
 
 export default function ReportLinks(props: ReportLinksProps) {
   const getKey = (name: string) => name.replace(/ /g, "-");
 
-  const divstyle = {
-    padding: "10px",
-    "text-align": "left",
-    overflow: "scroll"
-  };
+  initI18n(resources, props.locale, useEffect);
 
-  const rowStyle = {
-    borderBottomColor: "blue",
-    borderBottomWidth: 1
-  };
-
-  const tableStyle = {
-    border: "none",
-    boxShadow: "none",
-    "border-spacing": "0px"
-  };
   const reportLinkElement = (reportLink: ReportLink) => (
-    <tr style={rowStyle}>
-      <td>
-        <i className={"icon-record"}></i>
-      </td>
-      <td key={getKey(reportLink.name)}>
-        <a href={reportLink.link} target="_blank" title={reportLink.name}>
-          {reportLink.name}
-        </a>
-      </td>
-    </tr>
+    <div className={styles["report-link"]} key={getKey(reportLink.name)}>
+      <i className={"icon-link"}></i>
+      <a href={reportLink.link} target="_blank" title={reportLink.name}>
+        <Trans>{reportLink.name}</Trans>
+      </a>
+    </div>
   );
 
   return (
@@ -42,8 +29,8 @@ export default function ReportLinks(props: ReportLinksProps) {
         totalCount={props.reports ? props.reports.length : 0}
         icon="svg-icon icon-todo"
       ></WidgetHeader>
-      <div style={divstyle}>
-        <table style={tableStyle}>{props.reports.map(reportLinkElement)}</table>
+      <div className={`${globalStyles["widget-content"]} widget-content`}>
+        {props.reports.map(reportLinkElement)}
       </div>
     </>
   );
