@@ -2,6 +2,12 @@ import React from "react";
 import { cleanup, render, waitForElement } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 
+import mockEsmAPI from "@openmrs/esm-api";
+
+jest.mock("@openmrs/esm-api", () => ({
+  openmrsFetch: jest.fn()
+}));
+
 import ReportLinks from "./report-links";
 
 describe("Report Links", () => {
@@ -41,7 +47,10 @@ describe("Report Links", () => {
 
   it("should show all report links", () => {
     const mockReports = [
-      { name: "First Test Report", link: "first-test-report-link" }
+      {
+        name: "First Test Report",
+        uuid: "report-uuid"
+      }
     ];
     const { queryByText } = render(
       <ReportLinks
@@ -54,10 +63,34 @@ describe("Report Links", () => {
     expect(queryByText("First Test Report")).toBeTruthy();
   });
 
-  it("should open the report in new tab when report link clicked", () => {
+  it("should open the report in new tab when report link clicked", done => {
     const mockReports = [
-      { name: "First Test Report", link: "first-test-report-link" }
+      {
+        name: "First Test Report",
+        uuid: "report-uuid"
+      }
     ];
+
+    mockEsmAPI.openmrsFetch.mockResolvedValue({
+      data: { uuid: "report-request-uuid" }
+    });
+
+    const expectedRequestOptions = {
+      method: "POST",
+      body: {
+        status: "REQUESTED",
+        priority: "NORMAL",
+        reportDefinition: {
+          parameterizable: { uuid: "report-uuid" }
+        },
+        renderingMode:
+          "org.openmrs.module.reporting.web.renderers.DefaultWebRenderer"
+      },
+      headers: { "Content-Type": "application/json" }
+    };
+
+    window.open = jest.fn();
+
     const { getByText } = render(
       <ReportLinks
         {...commonWidgetProps}
@@ -66,11 +99,21 @@ describe("Report Links", () => {
       />
     );
 
-    const reportLink = getByText("First Test Report");
-    expect(reportLink).toHaveProperty(
-      "href",
-      "http://localhost/first-test-report-link"
+    const firstReportLink = getByText("First Test Report");
+    firstReportLink.click();
+
+    const expectedReportRequestUrl = "/ws/rest/v1/reportingrest/reportRequest";
+
+    expect(mockEsmAPI.openmrsFetch).toBeCalledWith(
+      expectedReportRequestUrl,
+      expectedRequestOptions
     );
-    expect(reportLink).toHaveProperty("target", "_blank");
+
+    const expectedViewReportUrl =
+      "/openmrs/module/reporting/reports/viewReport.form?uuid=report-request-uuid";
+    setTimeout(() => {
+      expect(window.open).toBeCalledWith(expectedViewReportUrl, "_blank");
+      done();
+    }, 0);
   });
 });

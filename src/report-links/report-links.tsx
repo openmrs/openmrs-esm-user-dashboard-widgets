@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 
+import { openmrsFetch } from "@openmrs/esm-api";
 import { CommonWidgetProps } from "../models";
 import WidgetHeader from "../commons/widget-header/widget-header.component";
 import globalStyles from "../global.css";
@@ -13,10 +14,40 @@ export default function ReportLinks(props: ReportLinksProps) {
 
   initI18n(resources, props.locale, useEffect);
 
+  const getRequestBody = (uuid: string) => ({
+    status: "REQUESTED",
+    priority: "NORMAL",
+    reportDefinition: { parameterizable: { uuid: uuid } },
+    renderingMode:
+      "org.openmrs.module.reporting.web.renderers.DefaultWebRenderer"
+  });
+
+  const renderReport = (uuid: string) => {
+    const reportRequestUrl = `/ws/rest/v1/reportingrest/reportRequest`;
+    const requestOptions = {
+      method: "POST",
+      body: getRequestBody(uuid),
+      headers: { "Content-Type": "application/json" }
+    };
+
+    openmrsFetch(reportRequestUrl, requestOptions).then(response => {
+      const reportRequestUUID = response.data.uuid;
+      const viewReportUrl = `/openmrs/module/reporting/reports/viewReport.form?uuid=${reportRequestUUID}`;
+      window.open(viewReportUrl, "_blank");
+    });
+  };
+
   const reportLinkElement = (reportLink: ReportLink) => (
     <div className={styles["report-link"]} key={getKey(reportLink.name)}>
       <i className={"icon-link"}></i>
-      <a href={reportLink.link} target="_blank" title={reportLink.name}>
+      <a
+        href="#"
+        onClick={e => {
+          e.preventDefault();
+          renderReport(reportLink.uuid);
+        }}
+        title={reportLink.name}
+      >
         <Trans>{reportLink.name}</Trans>
       </a>
     </div>
@@ -42,5 +73,5 @@ type ReportLinksProps = CommonWidgetProps & {
 
 type ReportLink = {
   name: string;
-  link: string;
+  uuid: string;
 };
