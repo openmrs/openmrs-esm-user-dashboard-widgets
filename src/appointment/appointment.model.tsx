@@ -4,6 +4,7 @@ export type AppointmentProps = CommonWidgetProps & {
   source: AppointmentSource;
   refreshInterval?: number;
   viewAll?: string;
+  viewAllWindow?: string;
   actions?: WidgetAction[];
 };
 
