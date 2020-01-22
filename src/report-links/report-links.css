@@ -8,8 +8,13 @@
   padding: 10px 0px;
 }
 
-.report-link a {
-  margin-left: 10px;
-  color: var(--header-green) !important;
+.report-link button {
+  margin-left: 1em;
+  background: none !important;
+  border: none;
+  padding: 0 !important;
+  color: #069;
   text-decoration: underline;
+  cursor: pointer;
+  max-width: 100%;
 }

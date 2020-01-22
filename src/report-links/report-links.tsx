@@ -40,16 +40,12 @@ export default function ReportLinks(props: ReportLinksProps) {
   const reportLinkElement = (reportLink: ReportLink) => (
     <div className={styles["report-link"]} key={getKey(reportLink.name)}>
       <i className={"icon-link"}></i>
-      <a
-        href="#"
-        onClick={e => {
-          e.preventDefault();
-          renderReport(reportLink.uuid);
-        }}
+      <button
+        onClick={() => renderReport(reportLink.uuid)}
         title={reportLink.name}
       >
         <Trans>{reportLink.name}</Trans>
-      </a>
+      </button>
     </div>
   );
 
