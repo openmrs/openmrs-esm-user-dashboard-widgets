@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import { openmrsFetch } from "@openmrs/esm-api";
-import { CommonWidgetProps } from "../models";
+import { CommonWidgetProps, LoadingStatus } from "../models";
 import WidgetHeader from "../commons/widget-header/widget-header.component";
 import globalStyles from "../global.css";
 import styles from "./report-links.css";
@@ -10,19 +10,23 @@ import { initI18n } from "../utils/translations";
 import { Trans } from "react-i18next";
 
 export default function ReportLinks(props: ReportLinksProps) {
+  const [loadingStatus, setLoadingStatus] = useState(LoadingStatus.Loaded);
+
   const getKey = (name: string) => name.replace(/ /g, "-");
 
   initI18n(resources, props.locale, useEffect);
 
   const getRequestBody = (uuid: string) => ({
     status: "REQUESTED",
-    priority: "NORMAL",
+    priority: "HIGHEST",
     reportDefinition: { parameterizable: { uuid: uuid } },
     renderingMode:
       "org.openmrs.module.reporting.web.renderers.DefaultWebRenderer"
   });
 
   const renderReport = (uuid: string) => {
+    setLoadingStatus(LoadingStatus.Loading);
+
     const reportRequestUrl = `/ws/rest/v1/reportingrest/reportRequest`;
     const requestOptions = {
       method: "POST",
@@ -30,11 +34,17 @@ export default function ReportLinks(props: ReportLinksProps) {
       headers: { "Content-Type": "application/json" }
     };
 
-    openmrsFetch(reportRequestUrl, requestOptions).then(response => {
-      const reportRequestUUID = response.data.uuid;
-      const viewReportUrl = `/openmrs/module/reporting/reports/viewReport.form?uuid=${reportRequestUUID}`;
-      window.open(viewReportUrl, "_blank");
-    });
+    openmrsFetch(reportRequestUrl, requestOptions)
+      .then(response => {
+        const reportRequestUUID = response.data.uuid;
+        const viewReportUrl = `/openmrs/module/reporting/reports/viewReport.form?uuid=${reportRequestUUID}`;
+        window.open(viewReportUrl, "_blank");
+        setLoadingStatus(LoadingStatus.Loaded);
+      })
+      .catch(error => {
+        setLoadingStatus(LoadingStatus.Failed);
+        console.log(error); // eslint-disable-line
+      });
   };
 
   const reportLinkElement = (reportLink: ReportLink) => (
@@ -51,6 +61,14 @@ export default function ReportLinks(props: ReportLinksProps) {
 
   return (
     <>
+      {loadingStatus === LoadingStatus.Loading && (
+        <div className={globalStyles["loading-screen"]}>Fetching Data....</div>
+      )}
+      {loadingStatus === LoadingStatus.Failed && (
+        <div className={globalStyles["loading-failed"]}>
+          Error while fetching report data
+        </div>
+      )}
       <WidgetHeader
         title={props.title}
         totalCount={props.reports ? props.reports.length : 0}

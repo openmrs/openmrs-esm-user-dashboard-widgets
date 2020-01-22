@@ -79,7 +79,7 @@ describe("Report Links", () => {
       method: "POST",
       body: {
         status: "REQUESTED",
-        priority: "NORMAL",
+        priority: "HIGHEST",
         reportDefinition: {
           parameterizable: { uuid: "report-uuid" }
         },
