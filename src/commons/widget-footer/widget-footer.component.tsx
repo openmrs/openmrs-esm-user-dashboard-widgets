@@ -6,11 +6,22 @@ import { CommonWidgetProps } from "../../models";
 import replaceParams from "../../utils/param-replacers";
 
 export default function WidgetFooter(props: WidgetFooterProps) {
-  const { viewAllUrl } = props;
+  const { viewAllUrl, viewAllWindow = "same" } = props;
+
+  const getViewAllProperties = () => {
+    const linkTargetProperty = windowMode =>
+      windowMode === "same" ? {} : { target: "blank" };
+
+    return {
+      href: replaceParams(viewAllUrl, props.context),
+      ...linkTargetProperty(viewAllWindow)
+    };
+  };
+
   return (
     <div className={styles["widget-footer"] + " widget-footer"}>
       {viewAllUrl && (
-        <a href={replaceParams(viewAllUrl, props.context)} target="blank">
+        <a {...getViewAllProperties()}>
           <button className={styles["view-all"]}>
             <Trans>View All</Trans>
           </button>
@@ -22,5 +33,6 @@ export default function WidgetFooter(props: WidgetFooterProps) {
 
 type WidgetFooterProps = {
   viewAllUrl?: string;
+  viewAllWindow?: string;
   context?: CommonWidgetProps;
 };

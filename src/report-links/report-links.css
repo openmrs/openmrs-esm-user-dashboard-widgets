@@ -1,0 +1,15 @@
+.report-link {
+  color: var(--header-green) !important;
+  font-size: 0.8em;
+  vertical-align: middle;
+  margin: 0px 10px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+  padding: 10px 0px;
+}
+
+.report-link a {
+  margin-left: 10px;
+  color: var(--header-green) !important;
+  text-decoration: underline;
+}

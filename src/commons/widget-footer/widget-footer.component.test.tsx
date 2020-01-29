@@ -34,4 +34,37 @@ describe(`<WidgetFooter />`, () => {
       "/test/url/to/view-all/?provider=test-provider"
     );
   });
+
+  it(`should open view all page in same window when config passes viewAllWindow is null`, () => {
+    const { queryByText } = render(
+      <WidgetFooter
+        viewAllUrl="/test/url/to/view-all/?provider=%provider%"
+        context={{
+          locale: "",
+          showMessage: () => {},
+          provider: "test-provider"
+        }}
+      />
+    );
+
+    expect(queryByText("View All").parentElement).not.toHaveAttribute("target");
+  });
+
+  it(`should open view all page in new window when config passes viewAllWindow is new`, () => {
+    const { queryByText } = render(
+      <WidgetFooter
+        viewAllUrl="/test/url/to/view-all/?provider=%provider%"
+        viewAllWindow="new"
+        context={{
+          locale: "",
+          showMessage: () => {},
+          provider: "test-provider"
+        }}
+      />
+    );
+
+    expect(queryByText("View All").parentElement.getAttribute("target")).toBe(
+      "blank"
+    );
+  });
 });
