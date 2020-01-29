@@ -25,12 +25,10 @@
   text-align: right;
 }
 
-.loading-spinner {
-  background-image: url(../images/loading.gif);
-}
 .report-name i {
   margin-right: 10px;
 }
+
 .icon-button {
   font-size: 1.5em;
 }
