@@ -27,7 +27,7 @@ export default function(props: LineChartProperties) {
     return (
       <ul>
         {payload.map((entry, index) => (
-          <span className={styles["legend-container"]}>
+          <span key={entry.value} className={styles["legend-container"]}>
             <LegendIcon color={entry.color} />
             <span className={styles["legend-text"]} key={`item-${index}`}>
               {entry.value}
@@ -87,7 +87,7 @@ function LegendIcon(props: LegendIconProperties) {
       }}
     >
       <path
-        stroke-width="4"
+        strokeWidth="4"
         fill="none"
         stroke={color}
         d="M0,16h10.666666666666666

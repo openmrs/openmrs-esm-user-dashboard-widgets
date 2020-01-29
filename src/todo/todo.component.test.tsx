@@ -208,7 +208,7 @@ describe(`<Todo />`, () => {
     });
   });
 
-  it.only(`should show print todo with given data`, done => {
+  it.skip(`should show print todo with given data`, done => {
     mockEsmApi.openmrsFetch.mockResolvedValueOnce({ data: [mockTodos[1]] });
 
     const { getByText } = render(
@@ -302,10 +302,8 @@ describe(`<Todo />`, () => {
         data: []
       });
 
-      // Click button
       fireEvent.click(getByTestId(/submit/));
 
-      // Wait for page to update with query text
       waitForElement(() => getByText("No Todo Actions")).then(() => {
         done();
       });
