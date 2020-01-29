@@ -6,15 +6,40 @@
   border-bottom: 1px solid #ddd;
   text-align: left;
   padding: 10px 0px;
+  display: flex;
+  justify-content: space-between;
 }
 
-.report-link button {
+.report-link button,
+.report-link a {
   margin-left: 1em;
   background: none !important;
   border: none;
   padding: 0 !important;
   color: #069;
-  text-decoration: underline;
   cursor: pointer;
   max-width: 100%;
+}
+
+.controls {
+  text-align: right;
+}
+
+.loading-spinner {
+  background-image: url(../images/loading.gif);
+}
+.report-name i {
+  margin-right: 10px;
+}
+.icon-button {
+  font-size: 1.5em;
+}
+
+button {
+  outline: none;
+}
+
+.disabled {
+  color: grey !important;
+  cursor: default !important;
 }
