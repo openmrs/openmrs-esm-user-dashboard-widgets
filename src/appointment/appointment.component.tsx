@@ -28,6 +28,7 @@ export default function Appointment(props: AppointmentProps) {
     source,
     title,
     viewAll = "",
+    viewAllWindow,
     refreshInterval = 0,
     provider = "",
     locale
@@ -130,6 +131,7 @@ export default function Appointment(props: AppointmentProps) {
         {loadingStatus === LoadingStatus.Loaded ? showGrid() : showError()}
         <WidgetFooter
           viewAllUrl={viewAll}
+          viewAllWindow={viewAllWindow}
           context={{
             locale,
             showMessage,
