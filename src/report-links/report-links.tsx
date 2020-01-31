@@ -99,10 +99,10 @@ export default function ReportLinks(props: ReportLinksProps) {
         type: "error",
         message: (
           <span>
-            No report available.
-            <br /> Click{" "}
-            <i className="icon-play" style={{ verticalAlign: "middle" }}></i> to
-            request report.
+            <Trans>No report available</Trans>.
+            <br /> <Trans>Click</Trans>{" "}
+            <i className="icon-play" style={{ verticalAlign: "middle" }}></i>{" "}
+            <Trans>to request report</Trans>.
           </span>
         )
       });
@@ -148,17 +148,19 @@ export default function ReportLinks(props: ReportLinksProps) {
   return (
     <>
       {loadingStatus === LoadingStatus.Loading && (
-        <div className={globalStyles["loading-screen"]}>Fetching Data....</div>
+        <div className={globalStyles["loading-screen"]}>
+          <Trans>Requesting Report</Trans>....
+        </div>
       )}
       {loadingStatus === LoadingStatus.Failed && (
         <div className={globalStyles["loading-failed"]}>
-          Error while fetching report data
+          <Trans>Error while fetching report data</Trans>
         </div>
       )}
       <WidgetHeader
         title={props.title}
         totalCount={reports ? reports.length : 0}
-        icon="svg-icon icon-todo"
+        icon="svg-icon icon-external-link"
       ></WidgetHeader>
       <div className={`${globalStyles["widget-content"]} widget-content`}>
         {reports.map(reportLinkElement)}
