@@ -1,5 +1,5 @@
 {
-  "My Reports": "Mes rapports",
+  "Report Links": "Liens de rapport",
   "Number of wheelchair delivered per month": "Nombre de fauteuils roulants livrés par mois",
   "Number of walking aid delivered (Per type) per month": "Nombre d'aides à la marche livrées (par type) par mois",
   "Number of repair / adjustment per month": "NNombre de réparations / réglages par mois",
@@ -9,5 +9,10 @@
   "Number of referral per month (to specialist / to MHPSS and to social inclusion)": "Nombre de références par mois (vers spécialiste / vers SMSPS et vers l'inclusion sociale)",
   "Number of session Individual / group per month": "Nombre de séances Individuel / groupe par mois",
   "Number of follow up per month": "Nombre de suivis par mois",
-  "Number of new club foot registered per month": "Nombre de nouveaux pieds bots enregistrés par mois"
+  "Number of new club foot registered per month": "Nombre de nouveaux pieds bots enregistrés par mois",
+  "Requesting Report": "Demande de rapport",
+  "Error while fetching report data": "Erreur lors de la récupération des données du rapport",
+  "No report available": "Aucun rapport disponible",
+  "Click": "Cliquez",
+  "to request report": "demander un rapport"
 }

@@ -1,5 +1,5 @@
 {
-  "My Reports": "My Reports",
+  "Report Links": "Report Links",
   "Number of wheelchair delivered per month": "Number of wheelchair delivered per month",
   "Number of walking aid delivered (Per type) per month": "Number of walking aid delivered (Per type) per month",
   "Number of repair / adjustment per month": "Number of repair / adjustment per month",
@@ -9,5 +9,10 @@
   "Number of referral per month (to specialist / to MHPSS and to social inclusion)": "Number of referral per month (to specialist / to MHPSS and to social inclusion)",
   "Number of session Individual / group per month": "Number of session Individual / group per month",
   "Number of follow up per month": "Number of follow up per month",
-  "Number of new club foot registered per month": "Number of new club foot registered per month"
+  "Number of new club foot registered per month": "Number of new club foot registered per month",
+  "Requesting Report": "Requesting Report",
+  "Error while fetching report data": "Error while fetching report data",
+  "No report available": "No report available",
+  "Click": "Click",
+  "to request report": "to request report"
 }

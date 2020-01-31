@@ -9,6 +9,7 @@ import {
 import "@testing-library/jest-dom/extend-expect";
 
 import mockEsmAPI from "@openmrs/esm-api";
+import { Trans } from "react-i18next";
 
 jest.mock("@openmrs/esm-api", () => ({
   openmrsFetch: jest.fn()
@@ -51,7 +52,7 @@ describe("Report Links", () => {
 
     expect(
       getByText("My Test Report Links").parentElement.firstChild
-    ).toHaveClass("icon-todo");
+    ).toHaveClass("svg-icon icon-external-link");
   });
 
   it("should show all report links", () => {
@@ -177,10 +178,10 @@ describe("Report Links", () => {
       type: "error",
       message: (
         <span>
-          No report available.
-          <br /> Click{" "}
-          <i className="icon-play" style={{ verticalAlign: "middle" }}></i> to
-          request report.
+          <Trans>No report available</Trans>.
+          <br /> <Trans>Click</Trans>{" "}
+          <i className="icon-play" style={{ verticalAlign: "middle" }}></i>{" "}
+          <Trans>to request report</Trans>.
         </span>
       )
     });

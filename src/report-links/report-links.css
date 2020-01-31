@@ -23,6 +23,8 @@
 
 .controls {
   text-align: right;
+  display: flex;
+  min-width: fit-content;
 }
 
 .report-name i {
