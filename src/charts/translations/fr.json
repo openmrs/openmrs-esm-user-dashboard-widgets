@@ -5,5 +5,19 @@
   "Loading": "Chargement",
   "Chart type not found": "Type de graphique non trouvé",
   "HSU Registrations Per Month": "Enregistrements HSU par mois",
-  "Missed Appointments Per Month": "Rendez-vous manqués par mois"
+  "Missed Appointments Per Month": "Rendez-vous manqués par mois",
+  "Number of Prosthesis and Orthosis delivered per month": "Nombre de prothèses et orthèses livrées par mois",
+  "Number of session Individual/Group per month": "Nombre de séances Individuel / Groupe par mois",
+  "Number of assessment per month": "Nombre d'évaluations par mois",
+  "Number of referral per month": "Nombre de références par mois",
+  "registrations": "rendez-vous",
+  "appointments": "inscriptions",
+  "Prosthesis": "Prothèse",
+  "Orthosis": "Orthèse",
+  "Individual": "Individuelle",
+  "Group": "Groupe",
+  "Financial Capacity Assessment": "Évaluation de la capacité financière",
+  "Socio Economic Assessment": "Évaluation socio-économique",
+  "MHPSS": "MHPSS",
+  "Social Inclusion": "L'inclusion sociale"
 }
