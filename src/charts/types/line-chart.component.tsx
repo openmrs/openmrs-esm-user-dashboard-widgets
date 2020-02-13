@@ -1,4 +1,5 @@
 import React from "react";
+import { Trans } from "react-i18next";
 import {
   CartesianGrid,
   Legend,
@@ -30,7 +31,7 @@ export default function(props: LineChartProperties) {
           <span key={entry.value} className={styles["legend-container"]}>
             <LegendIcon color={entry.color} />
             <span className={styles["legend-text"]} key={`item-${index}`}>
-              {entry.value}
+              <Trans>{entry.value}</Trans>
             </span>
           </span>
         ))}

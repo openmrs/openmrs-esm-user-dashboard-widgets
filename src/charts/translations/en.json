@@ -5,5 +5,16 @@
   "Loading": "Loading",
   "Chart type not found": "Chart type not found",
   "HSU Registrations Per Month": "HSU Registrations Per Month",
-  "Missed Appointments Per Month": "Missed Appointments Per Month"
+  "Missed Appointments Per Month": "Missed Appointments Per Month",
+  "registrations": "registrations",
+  "appointments": "appointments",
+  "Prosthesis": "Prosthesis",
+  "Orthosis": "Orthosis",
+  "Individual": "Individual",
+  "Group": "Group",
+  "Financial Capacity Assessment": "Financial Capacity Assessment",
+  "Socio Economic Assessment": "Socio Economic Assessment",
+  "Number of referral per month": "Number of referral per month",
+  "MHPSS": "MHPSS",
+  "Social Inclusion": "Social Inclusion"
 }
