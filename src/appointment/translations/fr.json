@@ -13,7 +13,7 @@
   "Unexpected error while marking appointment as done": "Erreur inattendue lors du marquage du rendez-vous comme terminé",
   "View All": "Voir Tout",
   "No appointments": "Pas de rendez-vous",
-  "To Do: Appointments to be confirmed": "À faire: rendez-vous à confirmer",
+  "To Do Appointments to be confirmed": "À faire: rendez-vous à confirmer",
   "Appointment request has been accepted": "La demande de rendez-vous a été acceptée",
   "Unexpected error while accepting the appointment": "Erreur inattendue lors de l'acceptation du rendez-vous"
 }
