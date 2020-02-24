@@ -5,7 +5,7 @@ import { CommonWidgetProps, LoadingStatus } from "../models";
 import WidgetHeader from "../commons/widget-header/widget-header.component";
 import resources from "./translations";
 import { initI18n } from "../utils/translations";
-import ChartLoader from "../chartCommon/chart-loader.component";
+import ChartLoader from "../charts/chart-loader.component";
 
 import globalStyles from "../global.css";
 import styles from "./report-links.css";
