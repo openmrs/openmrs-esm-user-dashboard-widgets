@@ -42,7 +42,7 @@ export default function ReportLinks({
       style={customStyles}
       ariaHideApp={false}
     >
-      <div className={`${styles["charts-container"]}`}>
+      <div className={`${styles["report-link-container"]}`}>
         {currentChart && (
           <ChartLoader config={currentChart} locale={locale}></ChartLoader>
         )}
