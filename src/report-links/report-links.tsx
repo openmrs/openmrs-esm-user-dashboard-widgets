@@ -23,39 +23,43 @@ const customStyles = {
   }
 };
 
-export default function ReportLinks(props: ReportLinksProps) {
-  const [charts, setCharts] = useState(props.charts);
-  const [modalIsOpen, setIsOpen] = React.useState(false);
+export default function ReportLinks({
+  locale,
+  title,
+  charts
+}: ReportLinksProps) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentChart, setCurrentChart] = useState(null);
 
-  initI18n(resources, props.locale, useEffect);
+  initI18n(resources, locale, useEffect);
 
   const getKey = (name: string) => name.replace(/ /g, "-");
-  const openModal = () => setIsOpen(true);
-  const closeModal = () => setIsOpen(false);
 
-  const renderReactModal = chartConfig => (
+  const renderReactModal = () => (
     <ReactModal
-      isOpen={modalIsOpen}
-      onRequestClose={closeModal}
+      isOpen={isModalOpen}
+      onRequestClose={() => setIsModalOpen(false)}
       style={customStyles}
       ariaHideApp={false}
     >
       <div className={`${styles["charts-container"]}`}>
-        <ChartLoader
-          key={chartConfig.name}
-          locale={props.locale}
-          config={chartConfig}
-        />
+        {currentChart && (
+          <ChartLoader config={currentChart} locale={locale}></ChartLoader>
+        )}
       </div>
     </ReactModal>
   );
+
+  const openChartInModal = chartConfig => {
+    setIsModalOpen(true);
+    setCurrentChart(chartConfig);
+  };
 
   const reportLinkElement = chartConfig => (
     <div className={styles["report-link"]} key={getKey(chartConfig.name)}>
       <span className={styles["report-name"]}>
         <i className={"icon-link"}></i>
-        {renderReactModal(chartConfig)}
-        <button onClick={openModal}>
+        <button onClick={() => openChartInModal(chartConfig)}>
           <Trans>{chartConfig.name}</Trans>
         </button>
       </span>
@@ -65,13 +69,14 @@ export default function ReportLinks(props: ReportLinksProps) {
   return (
     <>
       <WidgetHeader
-        title={props.title}
+        title={title}
         totalCount={charts ? charts.length : 0}
         icon="svg-icon icon-external-link"
       ></WidgetHeader>
       <div className={`${globalStyles["widget-content"]} widget-content`}>
         {charts.map(reportLinkElement)}
       </div>
+      {renderReactModal()}
     </>
   );
 }
