@@ -46,6 +46,12 @@ export default function ReportLinks({
         {currentChart && (
           <ChartLoader config={currentChart} locale={locale}></ChartLoader>
         )}
+        <button
+          className={`${styles["closeModal"]}`}
+          onClick={() => setIsModalOpen(false)}
+        >
+          X
+        </button>
       </div>
     </ReactModal>
   );
