@@ -44,7 +44,11 @@ export default function ReportLinks({
     >
       <div className={`${styles["report-link-container"]}`}>
         {currentChart && (
-          <ChartLoader config={currentChart} locale={locale}></ChartLoader>
+          <ChartLoader
+            key={currentChart.name}
+            config={currentChart}
+            locale={locale}
+          ></ChartLoader>
         )}
         <button
           className={`${styles["closeModal"]}`}
