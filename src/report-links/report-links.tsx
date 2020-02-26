@@ -1,181 +1,100 @@
 import React, { useEffect, useState } from "react";
-import { openmrsFetch } from "@openmrs/esm-api";
 import { Trans } from "react-i18next";
 
 import { CommonWidgetProps, LoadingStatus } from "../models";
 import WidgetHeader from "../commons/widget-header/widget-header.component";
 import resources from "./translations";
 import { initI18n } from "../utils/translations";
+import ChartLoader from "../charts/chart-loader.component";
 
 import globalStyles from "../global.css";
 import styles from "./report-links.css";
+import ReactModal from "react-modal";
 
-export default function ReportLinks(props: ReportLinksProps) {
-  const [loadingStatus, setLoadingStatus] = useState(LoadingStatus.Loaded);
-  const [reports, setReports] = useState(props.reports);
+ReactModal.defaultStyles.overlay.backgroundColor = "#ffffff90";
+const modalStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+    height: "300px",
+    width: "500px"
+  }
+};
 
-  initI18n(resources, props.locale, useEffect);
+export default function ReportLinks({
+  locale,
+  title,
+  charts
+}: ReportLinksProps) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentChart, setCurrentChart] = useState(null);
+
+  initI18n(resources, locale, useEffect);
 
   const getKey = (name: string) => name.replace(/ /g, "-");
-  const getCreateReportRequestBody = (uuid: string) => ({
-    status: "REQUESTED",
-    priority: "HIGHEST",
-    reportDefinition: { parameterizable: { uuid: uuid } },
-    renderingMode:
-      "org.openmrs.module.reporting.web.renderers.DefaultWebRenderer"
-  });
 
-  const requestReport = (uuid: string) => {
-    setLoadingStatus(LoadingStatus.Loading);
-
-    const reportRequestUrl = `/ws/rest/v1/reportingrest/reportRequest`;
-    const requestOptions = {
-      method: "POST",
-      body: getCreateReportRequestBody(uuid),
-      headers: { "Content-Type": "application/json" }
-    };
-
-    const checkReportRequestStausAfterDelay = (uuid: string) => {
-      setTimeout(() => checkIfReportRequestCompleted(uuid), 2000);
-    };
-
-    const checkIfReportRequestCompleted = (uuid: string) => {
-      openmrsFetch(`${reportRequestUrl}/${uuid}`, { method: "GET" })
-        .then(response => {
-          response.data.status === "COMPLETED"
-            ? updateReports(uuid, response.data.status)
-            : checkReportRequestStausAfterDelay(uuid);
-        })
-        .catch(() => {
-          checkReportRequestStausAfterDelay(uuid);
-        });
-    };
-
-    openmrsFetch(reportRequestUrl, requestOptions)
-      .then(response => {
-        updateReports(response.data.uuid, "REQUESTED", uuid);
-        checkReportRequestStausAfterDelay(response.data.uuid);
-        setLoadingStatus(LoadingStatus.Loaded);
-      })
-      .catch(error => {
-        setLoadingStatus(LoadingStatus.Failed);
-        console.log(error); // eslint-disable-line
-      });
-  };
-
-  const updateReports = (
-    reportRequestUuid: string,
-    status: string,
-    reportUuid?: string
-  ) => {
-    const doesReportMatch = (reportLink: ReportLink) =>
-      (reportUuid && reportLink.uuid === reportUuid) ||
-      reportLink.request === reportRequestUuid;
-
-    setReports(latestReports =>
-      latestReports.map(report =>
-        doesReportMatch(report)
-          ? { ...report, request: reportRequestUuid, status }
-          : report
-      )
-    );
-  };
-
-  const reportLinkActions = report => {
-    const requestReportButton = () =>
-      report.status === "REQUESTED" ? (
-        <i title="Report Request Processing" className="spinner"></i>
-      ) : (
+  const renderReactModal = () => (
+    <ReactModal
+      isOpen={isModalOpen}
+      onRequestClose={() => setIsModalOpen(false)}
+      style={modalStyles}
+      ariaHideApp={false}
+    >
+      <div className={`${styles["report-link-container"]}`}>
+        {currentChart && (
+          <ChartLoader
+            key={currentChart.name}
+            config={currentChart}
+            locale={locale}
+          ></ChartLoader>
+        )}
         <button
-          title="Request Report"
-          onClick={() => requestReport(report.uuid)}
+          title="Close window"
+          className={`${styles["close-button"]}`}
+          onClick={() => setIsModalOpen(false)}
         >
-          <i className="icon-play"></i>
+          X
         </button>
-      );
+      </div>
+    </ReactModal>
+  );
 
-    const showNoReportAvailableError = () =>
-      props.showMessage({
-        type: "error",
-        message: (
-          <span>
-            <Trans>No report available</Trans>.
-            <br /> <Trans>Click</Trans>{" "}
-            <i className="icon-play" style={{ verticalAlign: "middle" }}></i>{" "}
-            <Trans>to request report</Trans>.
-          </span>
-        )
-      });
-
-    const viewReportButton = () =>
-      report.status === "COMPLETED" ? (
-        <a
-          href={`/openmrs/module/reporting/reports/viewReport.form?uuid=${report.request}`}
-          target="new"
-          title="View Report"
-        >
-          <i className={`${styles["icon-button"]} icon-file-alt`}></i>
-        </a>
-      ) : (
-        <button
-          title="Report not rendered yet"
-          className={styles["disabled"]}
-          onClick={showNoReportAvailableError}
-        >
-          <i className={`${styles["icon-button"]} icon-file-alt`}></i>
-        </button>
-      );
-
-    return (
-      <span className={styles["controls"]}>
-        {requestReportButton()} {viewReportButton()}
-      </span>
-    );
+  const openChartInModal = chartConfig => {
+    setIsModalOpen(true);
+    setCurrentChart(chartConfig);
   };
 
-  const reportLinkElement = (reportLink: ReportLink) => (
-    <div className={styles["report-link"]} key={getKey(reportLink.name)}>
+  const reportLinkElement = chartConfig => (
+    <div className={styles["report-link"]} key={getKey(chartConfig.name)}>
       <span className={styles["report-name"]}>
         <i className={"icon-link"}></i>
-        <span>
-          <Trans>{reportLink.name}</Trans>
-        </span>
+        <button
+          title={chartConfig.name}
+          onClick={() => openChartInModal(chartConfig)}
+        >
+          <Trans>{chartConfig.name}</Trans>
+        </button>
       </span>
-      {reportLinkActions(reportLink)}
     </div>
   );
 
   return (
     <>
-      {loadingStatus === LoadingStatus.Loading && (
-        <div className={globalStyles["loading-screen"]}>
-          <Trans>Requesting Report</Trans>....
-        </div>
-      )}
-      {loadingStatus === LoadingStatus.Failed && (
-        <div className={globalStyles["loading-failed"]}>
-          <Trans>Error while fetching report data</Trans>
-        </div>
-      )}
       <WidgetHeader
-        title={props.title}
-        totalCount={reports ? reports.length : 0}
+        title={title}
+        totalCount={charts ? charts.length : 0}
         icon="svg-icon icon-external-link"
       ></WidgetHeader>
       <div className={`${globalStyles["widget-content"]} widget-content`}>
-        {reports.map(reportLinkElement)}
+        {charts.map(reportLinkElement)}
       </div>
+      {renderReactModal()}
     </>
   );
 }
 
 type ReportLinksProps = CommonWidgetProps & {
-  reports: ReportLink[];
-};
-
-type ReportLink = {
-  name: string;
-  uuid: string;
-  request?: string;
-  status?: string;
+  charts: Array<any>;
 };

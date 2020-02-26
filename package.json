@@ -1,6 +1,6 @@
 {
   "name": "@openmrs/esm-user-dashboard-widgets",
-  "version": "0.0.26",
+  "version": "0.0.27",
   "description": "A repo for creating openmrs microfrontend dashboard widgets",
   "main": "dist/openmrs-esm-user-dashboard-widgets.js",
   "scripts": {
@@ -80,6 +80,7 @@
   },
   "dependencies": {
     "react": "^16.11.0",
-    "react-dom": "^16.11.0"
+    "react-dom": "^16.11.0",
+    "react-modal": "^3.11.1"
   }
 }
