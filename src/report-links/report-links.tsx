@@ -11,8 +11,8 @@ import globalStyles from "../global.css";
 import styles from "./report-links.css";
 import ReactModal from "react-modal";
 
-ReactModal.defaultStyles.overlay.backgroundColor = "#ffffff00";
-const customStyles = {
+ReactModal.defaultStyles.overlay.backgroundColor = "#ffffff90";
+const modalStyles = {
   content: {
     top: "50%",
     left: "50%",
@@ -39,7 +39,7 @@ export default function ReportLinks({
     <ReactModal
       isOpen={isModalOpen}
       onRequestClose={() => setIsModalOpen(false)}
-      style={customStyles}
+      style={modalStyles}
       ariaHideApp={false}
     >
       <div className={`${styles["report-link-container"]}`}>
@@ -51,7 +51,8 @@ export default function ReportLinks({
           ></ChartLoader>
         )}
         <button
-          className={`${styles["closeModal"]}`}
+          title="cancelModal"
+          className={`${styles["cancelModal"]}`}
           onClick={() => setIsModalOpen(false)}
         >
           X
@@ -69,7 +70,10 @@ export default function ReportLinks({
     <div className={styles["report-link"]} key={getKey(chartConfig.name)}>
       <span className={styles["report-name"]}>
         <i className={"icon-link"}></i>
-        <button onClick={() => openChartInModal(chartConfig)}>
+        <button
+          title={chartConfig.name}
+          onClick={() => openChartInModal(chartConfig)}
+        >
           <Trans>{chartConfig.name}</Trans>
         </button>
       </span>

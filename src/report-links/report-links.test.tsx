@@ -99,7 +99,7 @@ describe("Report Links", () => {
     expect(queryByText("First Test Report")).toBeTruthy();
   });
 
-  it("should not render modal when report link is not clicked", () => {
+  it("should not show chart modal during initial load", () => {
     const { container } = render(
       <ReportLinks
         {...commonWidgetProps}
@@ -115,7 +115,7 @@ describe("Report Links", () => {
     ).toBe(0);
   });
 
-  it("should show modal pop-up when report link is clicked", async () => {
+  it("should show modal with chart when report link is clicked", async () => {
     mockEsmAPI.openmrsFetch.mockResolvedValueOnce({
       data: mockResponse
     });
