@@ -51,8 +51,8 @@ export default function ReportLinks({
           ></ChartLoader>
         )}
         <button
-          title="cancelModal"
-          className={`${styles["cancelModal"]}`}
+          title="Close window"
+          className={`${styles["close-button"]}`}
           onClick={() => setIsModalOpen(false)}
         >
           X

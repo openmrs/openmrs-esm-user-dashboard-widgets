@@ -30,7 +30,7 @@
   display: flex;
 }
 
-.cancelModal {
+.close-button {
   height: 24px;
   width: 20px;
   background: inherit;
