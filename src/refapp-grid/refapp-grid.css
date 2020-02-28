@@ -14,3 +14,8 @@
 .no-rows-text {
   margin: 5px;
 }
+
+.table [role="columnheader"] {
+  background-color: bisque;
+  white-space: normal;
+}

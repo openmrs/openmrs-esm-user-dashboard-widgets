@@ -7,7 +7,7 @@ import styles from "./refapp-grid.css";
 
 const labelComponent = (text: string, styles: string) => (
   <div className={styles}>
-    <Trans>{text}</Trans>
+    <Trans>{text.toString()}</Trans>
   </div>
 );
 
@@ -44,6 +44,19 @@ const generateElement = (value, config) => {
     default:
       return <></>;
   }
+};
+
+const createColumnConfig = configName => {
+  return {
+    header: configName,
+    cells: [
+      {
+        type: "label",
+        styles: "regular",
+        valueAccessor: configName
+      }
+    ]
+  };
 };
 
 const getAccessor = (rowData, cellConfigs: CellConfig[], source) => {
@@ -86,6 +99,7 @@ export default function buildColumn(
   config: ColumnConfig,
   source?
 ): ReactColumn {
+  config = typeof config === "string" ? createColumnConfig(config) : config;
   const cellConfigId = cellConfig =>
     cellConfig.id ? cellConfig.id : Math.floor(1000 + Math.random() * 9000);
 
@@ -107,7 +121,7 @@ export default function buildColumn(
 
   column.id = config.id ? config.id : getDynamicColumnId(config.cells);
   column.className = `${styles["row"]} ${config.styles ? config.styles : ""}`;
-
+  column.Header = config.header;
   return column;
 }
 
@@ -115,6 +129,7 @@ type ColumnConfig = {
   id?: string;
   cells: CellConfig[];
   styles?: string;
+  header?: string;
 };
 
 type CellConfig = {
@@ -135,4 +150,5 @@ type ReactColumn = {
   id?: string;
   accessor: any;
   className?: string;
+  Header?: string;
 };
