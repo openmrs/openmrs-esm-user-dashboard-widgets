@@ -55,7 +55,7 @@ export default function TableLoader({ config, locale }) {
         data={dataPoints}
         showHeader={true}
         columns={getColumns(config)}
-        noDataText="No Table Data"
+        noDataText="No records found"
       ></RefAppGrid>
     );
   }

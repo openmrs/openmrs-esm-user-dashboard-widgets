@@ -7,8 +7,8 @@
 .table-container {
   width: 100%;
   margin-right: 20px;
-  margin-bottom: 20px;
   text-align: center;
+  overflow: scroll;
 }
 
 .table-container header {

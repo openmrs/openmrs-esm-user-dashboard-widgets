@@ -19,7 +19,7 @@ const modalStyles = {
     left: "50%",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
-    width: "60%",
+    width: "50%",
     minHeight: "60%",
     maxWidth: "80%",
     maxHeight: "80%"

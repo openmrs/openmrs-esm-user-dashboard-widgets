@@ -16,6 +16,7 @@
 }
 
 .table [role="columnheader"] {
-  background-color: bisque;
+  background-color: #11463f;
   white-space: normal;
+  color: #ffffff;
 }

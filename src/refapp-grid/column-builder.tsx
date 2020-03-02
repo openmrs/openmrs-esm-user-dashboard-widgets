@@ -52,7 +52,7 @@ const createColumnConfig = configName => {
     cells: [
       {
         type: "label",
-        styles: "regular",
+        styles: "center",
         valueAccessor: configName
       }
     ]
