@@ -1,0 +1,25 @@
+.tables-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.table-container {
+  width: 100%;
+  margin-right: 20px;
+  text-align: center;
+  overflow: scroll;
+}
+
+.table-container header {
+  background: unset;
+  font-size: 20 px;
+  margin-left: 20px;
+  font-family: Opensans;
+  font-weight: bolder;
+  color: #00463f;
+  height: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

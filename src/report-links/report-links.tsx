@@ -6,6 +6,7 @@ import WidgetHeader from "../commons/widget-header/widget-header.component";
 import resources from "./translations";
 import { initI18n } from "../utils/translations";
 import ChartLoader from "../charts/chart-loader.component";
+import TableLoader from "../tables/table-loader.component";
 
 import globalStyles from "../global.css";
 import styles from "./report-links.css";
@@ -18,18 +19,21 @@ const modalStyles = {
     left: "50%",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
-    height: "300px",
-    width: "500px"
+    width: "50%",
+    minHeight: "60%",
+    maxWidth: "80%",
+    maxHeight: "80%"
   }
 };
 
 export default function ReportLinks({
   locale,
   title,
-  charts
+  reports
 }: ReportLinksProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentChart, setCurrentChart] = useState(null);
+  const [currentTable, setCurrentTable] = useState(null);
 
   initI18n(resources, locale, useEffect);
 
@@ -50,6 +54,13 @@ export default function ReportLinks({
             locale={locale}
           ></ChartLoader>
         )}
+        {currentTable && (
+          <TableLoader
+            key={currentTable.name}
+            config={currentTable}
+            locale={locale}
+          ></TableLoader>
+        )}
         <button
           title="Close window"
           className={`${styles["close-button"]}`}
@@ -61,20 +72,23 @@ export default function ReportLinks({
     </ReactModal>
   );
 
-  const openChartInModal = chartConfig => {
+  const openReportInModal = report => {
     setIsModalOpen(true);
-    setCurrentChart(chartConfig);
+    if (report.type === "Chart") {
+      setCurrentChart(report.properties);
+      setCurrentTable(null);
+    } else if (report.type === "Table") {
+      setCurrentTable(report.properties);
+      setCurrentChart(null);
+    }
   };
 
-  const reportLinkElement = chartConfig => (
-    <div className={styles["report-link"]} key={getKey(chartConfig.name)}>
+  const reportLinkElement = report => (
+    <div className={styles["report-link"]} key={getKey(report.name)}>
       <span className={styles["report-name"]}>
         <i className={"icon-link"}></i>
-        <button
-          title={chartConfig.name}
-          onClick={() => openChartInModal(chartConfig)}
-        >
-          <Trans>{chartConfig.name}</Trans>
+        <button title={report.name} onClick={() => openReportInModal(report)}>
+          <Trans>{report.name}</Trans>
         </button>
       </span>
     </div>
@@ -84,11 +98,11 @@ export default function ReportLinks({
     <>
       <WidgetHeader
         title={title}
-        totalCount={charts ? charts.length : 0}
+        totalCount={reports ? reports.length : 0}
         icon="svg-icon icon-external-link"
       ></WidgetHeader>
       <div className={`${globalStyles["widget-content"]} widget-content`}>
-        {charts.map(reportLinkElement)}
+        {reports.map(reportLinkElement)}
       </div>
       {renderReactModal()}
     </>
@@ -96,5 +110,11 @@ export default function ReportLinks({
 }
 
 type ReportLinksProps = CommonWidgetProps & {
-  charts: Array<any>;
+  reports: Array<Report>;
+};
+
+type Report = {
+  name: string;
+  properties: any;
+  type: string;
 };
