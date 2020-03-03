@@ -62,6 +62,17 @@ describe("Table Loader component", () => {
     done();
   });
 
+  it(`should render react table when table is loading`, done => {
+    mockEsmAPI.openmrsFetch.mockResolvedValueOnce(mockTableData);
+    const { container } = render(
+      <TableLoader {...commonWidgetProps} config={mockTableData} />
+    );
+
+    expect(container.getElementsByClassName("ReactModalPortal")).toBeTruthy();
+    expect(container.getElementsByClassName("ReactTable")).toBeTruthy();
+    done();
+  });
+
   it(`should show error message when unable to fetch table data.`, done => {
     mockEsmAPI.openmrsFetch.mockReturnValue(
       Promise.reject(new Error("Unexpected error"))
