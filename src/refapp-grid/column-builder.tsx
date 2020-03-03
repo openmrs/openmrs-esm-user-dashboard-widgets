@@ -46,7 +46,7 @@ const generateElement = (value, config) => {
   }
 };
 
-const createColumnConfig = configName => {
+const createColumnFromName = configName => {
   return {
     header: configName,
     cells: [
@@ -99,7 +99,7 @@ export default function buildColumn(
   config: ColumnConfig,
   source?
 ): ReactColumn {
-  config = typeof config === "string" ? createColumnConfig(config) : config;
+  config = typeof config === "string" ? createColumnFromName(config) : config;
   const cellConfigId = cellConfig =>
     cellConfig.id ? cellConfig.id : Math.floor(1000 + Math.random() * 9000);
 
