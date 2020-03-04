@@ -6,7 +6,12 @@ import styles from "./refapp-grid.css";
 import { Trans } from "react-i18next";
 
 export default function RefAppGrid(props: RefAppGridProps) {
-  const { data, columns = [], noDataText = "No records found" } = props;
+  const {
+    data,
+    columns = [],
+    noDataText = "No records found",
+    showHeader = false
+  } = props;
 
   const NoDataComponent = () => {
     return (
@@ -16,10 +21,13 @@ export default function RefAppGrid(props: RefAppGridProps) {
     );
   };
 
+  const headerComponentCreator = canShowHeader =>
+    canShowHeader ? undefined : _ => null;
+
   return (
     <ReactTable
       data={data}
-      TheadComponent={_ => null}
+      TheadComponent={headerComponentCreator(showHeader)}
       className={styles["table"]}
       columns={columns}
       showPaginationBottom={false}
@@ -33,4 +41,5 @@ type RefAppGridProps = {
   data: any;
   columns?: any[];
   noDataText?: string;
+  showHeader?: boolean;
 };
