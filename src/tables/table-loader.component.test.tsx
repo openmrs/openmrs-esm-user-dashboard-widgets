@@ -1,5 +1,10 @@
 import React from "react";
-import { render, cleanup, waitForElement } from "@testing-library/react";
+import {
+  render,
+  cleanup,
+  waitForElement,
+  getByText
+} from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import { setErrorFilter } from "../utils";
 import TableLoader from "./table-loader.component";
@@ -31,8 +36,22 @@ const mockTableData = {
   columns: ["registrations"]
 };
 
+const mockTableResponse = {
+  uuid: "report-uuid",
+  dataSets: [
+    {
+      uuid: "test-uuid",
+      rows: [
+        {
+          registrations: "0"
+        }
+      ]
+    }
+  ]
+};
+
 jest.mock("@openmrs/esm-api", () => ({
-  openmrsFetch: jest.fn().mockResolvedValueOnce(mockTableData)
+  openmrsFetch: jest.fn().mockResolvedValueOnce(mockTableResponse)
 }));
 
 describe("Table Loader component", () => {
@@ -54,7 +73,7 @@ describe("Table Loader component", () => {
   });
 
   it(`should render Loading message when table is loading`, done => {
-    mockEsmAPI.openmrsFetch.mockResolvedValueOnce(mockTableData);
+    mockEsmAPI.openmrsFetch.mockResolvedValueOnce(mockTableResponse);
     const { queryByText } = render(
       <TableLoader {...commonWidgetProps} config={mockTableData} />
     );
@@ -62,15 +81,20 @@ describe("Table Loader component", () => {
     done();
   });
 
-  it(`should render react table when table is loading`, done => {
-    mockEsmAPI.openmrsFetch.mockResolvedValueOnce(mockTableData);
-    const { container } = render(
+  it(`should render response as table with valid report response`, done => {
+    mockEsmAPI.openmrsFetch.mockResolvedValueOnce(mockTableResponse);
+    const { container, getByText } = render(
       <TableLoader {...commonWidgetProps} config={mockTableData} />
     );
 
     expect(container.getElementsByClassName("ReactModalPortal")).toBeTruthy();
-    expect(container.getElementsByClassName("ReactTable")).toBeTruthy();
-    done();
+
+    waitForElement(() => container.getElementsByClassName("ReactTable")).then(
+      () => {
+        expect(getByText("registrations")).toBeTruthy();
+        done();
+      }
+    );
   });
 
   it(`should show error message when unable to fetch table data.`, done => {
