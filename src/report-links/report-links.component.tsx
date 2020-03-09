@@ -99,7 +99,7 @@ export default function ReportLinks({
   );
 
   return (
-    <div className="report-links">
+    <div className={`${globalStyles["widget-container"]} report-links`}>
       <WidgetHeader
         title={title}
         totalCount={reports ? reports.length : 0}
