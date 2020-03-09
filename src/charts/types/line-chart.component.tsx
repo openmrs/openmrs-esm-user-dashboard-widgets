@@ -49,6 +49,7 @@ export default function(props: LineChartProperties) {
     return axisConfig.map(yAxisConfig => {
       return (
         <Line
+          key={yAxisConfig.field}
           type="monotone"
           dataKey={yAxisConfig.field}
           stroke={yAxisConfig.color}

@@ -151,7 +151,7 @@ describe("Report Links", () => {
     mockEsmAPI.openmrsFetch.mockResolvedValueOnce({
       data: mockChartResponse
     });
-    const { container, queryByText, getByText, getByRole } = render(
+    const { container, queryByText, getByRole } = render(
       <ReportLinks
         {...commonWidgetProps}
         title="My Test Report Links"

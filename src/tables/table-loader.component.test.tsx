@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  render,
-  cleanup,
-  waitForElement,
-  getByText
-} from "@testing-library/react";
+import { render, cleanup, waitForElement } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import { setErrorFilter } from "../utils";
 import TableLoader from "./table-loader.component";
