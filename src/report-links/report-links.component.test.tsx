@@ -4,13 +4,11 @@ import { render } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 
 import mockEsmAPI from "@openmrs/esm-api";
-import { Trans } from "react-i18next";
+import ReportLinks from "./report-links.component";
 
 jest.mock("@openmrs/esm-api", () => ({
   openmrsFetch: jest.fn()
 }));
-
-import ReportLinks from "./report-links";
 
 describe("Report Links", () => {
   beforeEach(() => {

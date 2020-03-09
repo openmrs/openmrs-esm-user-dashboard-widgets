@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Trans } from "react-i18next";
+import ReactModal from "react-modal";
 
-import { CommonWidgetProps, LoadingStatus } from "../models";
+import { CommonWidgetProps } from "../models";
 import WidgetHeader from "../commons/widget-header/widget-header.component";
 import resources from "./translations";
 import { initI18n } from "../utils/translations";
@@ -10,7 +11,6 @@ import TableLoader from "../tables/table-loader.component";
 
 import globalStyles from "../global.css";
 import styles from "./report-links.css";
-import ReactModal from "react-modal";
 
 ReactModal.defaultStyles.overlay.backgroundColor = "#ffffff90";
 const modalStyles = {
@@ -99,7 +99,7 @@ export default function ReportLinks({
   );
 
   return (
-    <>
+    <div className="report-links">
       <WidgetHeader
         title={title}
         totalCount={reports ? reports.length : 0}
@@ -109,7 +109,7 @@ export default function ReportLinks({
         {reports.map(reportLinkElement)}
       </div>
       {renderReactModal()}
-    </>
+    </div>
   );
 }
 
