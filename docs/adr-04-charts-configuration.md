@@ -70,34 +70,6 @@ Below is the configuration template for charts.
 }
 ```
 
-### Multiple Line Chart Configuration
-
-```
-{
-    ...
-    "contents": [
-        {
-            ...
-            "properties": {
-                ...
-                "charts": [
-                    {
-                        ...
-                        yAxis: [
-                            {
-                                "field":"no-of-registrations",// field name which should be taken as source for y-axis of chart
-                                "color":"#00ff00"// color for the yAxis line of chart
-                            },
-                            ...
-                        ]
-                    }
-                ]
-            }
-        }
-    ]
-}
-```
-
 ## Consequences
 
 - It supports simple chart layout for now.
