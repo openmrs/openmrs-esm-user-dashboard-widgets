@@ -4,13 +4,11 @@ import { render } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 
 import mockEsmAPI from "@openmrs/esm-api";
-import { Trans } from "react-i18next";
+import ReportLinks from "./report-links.component";
 
 jest.mock("@openmrs/esm-api", () => ({
   openmrsFetch: jest.fn()
 }));
-
-import ReportLinks from "./report-links";
 
 describe("Report Links", () => {
   beforeEach(() => {
@@ -153,7 +151,7 @@ describe("Report Links", () => {
     mockEsmAPI.openmrsFetch.mockResolvedValueOnce({
       data: mockChartResponse
     });
-    const { container, queryByText, getByText, getByRole } = render(
+    const { container, queryByText, getByRole } = render(
       <ReportLinks
         {...commonWidgetProps}
         title="My Test Report Links"
