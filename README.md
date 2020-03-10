@@ -65,6 +65,6 @@ Please refer the [Architecture Decision Record](docs/adr-04-charts-configuration
 
 ## Reports
 
-This widget shows the chart or table based on the configuration.
+This widget shows a list of report links. It will show chart or table based on the configuration when a report link is clicked.
 
 Please refer the [Architecture Decision Record](docs/adr-05-reports-configuration.md) for more information about the configure a report widget.

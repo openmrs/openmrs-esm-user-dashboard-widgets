@@ -12,9 +12,9 @@ We need a component to show popup modal.
 
 ## Decision
 
-We have choosen react-modal. It is simple, light weight.
+We have chosen react-modal. It is simple, light weight.
 
 ## Consequences
 
-- Dependency on reat-modal
+- Dependency on react-modal
 - We need migration effort if we want to change to other component.
