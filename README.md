@@ -10,6 +10,8 @@ ESM Package serves widgets for OpenMRS Dashboard Engine.
 
 - Charts
 
+- Reports
+
 ## Pre-Requisites
 
 NodeJS
@@ -29,6 +31,7 @@ NodeJS
 - Appointments
 - Charts
 - Todos
+- Reports
 
 ## Appointments
 
@@ -56,6 +59,12 @@ This widget shows the charts based on the configuration. Refer below to check li
 
 Please refer the [Architecture Decision Record](docs/adr-04-charts-configuration.md) for more information about how to configure a chart widget.
 
-### Chart Types:
+### Chart Types
 
 - LineChart
+
+## Reports
+
+This widget shows a list of report links. It will show chart or table based on the configuration when a report link is clicked.
+
+Please refer the [Architecture Decision Record](docs/adr-05-reports-configuration.md) for more information about the configure a report widget.
