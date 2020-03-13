@@ -19,8 +19,8 @@ const modalStyles = {
     left: "50%",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
-    width: "40%",
-    height: "40%",
+    width: "60%",
+    height: "50%",
     maxWidth: "80%",
     maxHeight: "80%"
   }
@@ -75,13 +75,13 @@ export default function ReportLinks({
   const openReportInModal = report => {
     setIsModalOpen(true);
     if (report.type === "Chart") {
-      modalStyles.content.width = "40%";
-      modalStyles.content.height = "40%";
+      modalStyles.content.width = "60%";
+      modalStyles.content.height = "50%";
       setCurrentChart(report.properties);
       setCurrentTable(null);
     } else if (report.type === "Table") {
       modalStyles.content.width = "fit-content";
-      modalStyles.content.height = "80%";
+      modalStyles.content.height = "75%";
       setCurrentTable(report.properties);
       setCurrentChart(null);
     }
