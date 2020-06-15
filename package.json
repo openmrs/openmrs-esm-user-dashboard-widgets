@@ -1,6 +1,6 @@
 {
   "name": "@openmrs/esm-user-dashboard-widgets",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A repo for creating openmrs microfrontend dashboard widgets",
   "main": "dist/openmrs-esm-user-dashboard-widgets.js",
   "scripts": {
