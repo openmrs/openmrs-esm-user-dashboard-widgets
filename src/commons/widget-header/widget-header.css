@@ -1,11 +1,10 @@
 .widget-header {
   color: var(--header-green);
   font-size: 22px;
-  padding: 5px 0px;
   text-align: left;
   background: white;
   border-bottom: var(--header-green) 4px solid;
-  height: 35px;
+  height: 40px;
 }
 
 .widget-header .title {
