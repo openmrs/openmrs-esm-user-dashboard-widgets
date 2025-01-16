@@ -89,6 +89,17 @@ describe("Report Links", () => {
     ]
   };
 
+  const mockSessionData = {
+    data: {
+      rows: [
+        {
+          duration: "Jan2019",
+          registrations: 20
+        }
+      ]
+    }
+  };
+
   it("should show header with given name", () => {
     const { queryByText, getByText } = render(
       <ReportLinks
@@ -148,9 +159,16 @@ describe("Report Links", () => {
   });
 
   it("should show modal with chart when report link is clicked", async () => {
-    mockEsmAPI.openmrsFetch.mockResolvedValueOnce({
-      data: mockChartResponse
+    mockEsmAPI.openmrsFetch.mockImplementation(url => {
+      if (url === "/ws/rest/v1/session") {
+        return Promise.resolve({ data: mockSessionData });
+      }
+      if (url === "reportUrl") {
+        return Promise.resolve({ data: mockChartResponse });
+      }
+      return Promise.reject(new Error("Unexpected error"));
     });
+
     const { container, queryByText, getByRole } = render(
       <ReportLinks
         {...commonWidgetProps}

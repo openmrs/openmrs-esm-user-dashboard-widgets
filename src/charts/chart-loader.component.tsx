@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { openmrsFetch } from "@openmrs/esm-api";
 import { Trans } from "react-i18next";
 
@@ -11,16 +11,31 @@ import { getField, compose } from "../utils/index";
 
 import LineChart from "./types/line-chart.component";
 import styles from "./charts.css";
+import { useSessionLocation } from "../utils/useSessionLocation";
 
 export default function ChartLoader({ config, locale }) {
   initI18n(resources, locale, useEffect);
 
+  const { locationUuid, error, isLoading } = useSessionLocation();
   const [dataPoints, setDataPoints] = useState([]);
   const [loadingStatus, setLoadingStatus] = useState(LoadingStatus.Loading);
+  const [chartUrl, setChartUrl] = useState<string>();
 
   const getSource = responseData => getField(responseData, config.sourcePath);
+
+  useMemo(() => {
+    if (!isLoading) {
+      if (config.locationProperty) {
+        setChartUrl(`${config.url}?${config.locationProperty}=${locationUuid}`);
+      } else {
+        setChartUrl(config.url);
+      }
+    }
+  }, [config.url, isLoading, locationUuid]);
+
   useEffect(() => {
-    openmrsFetch(config.url)
+    if (!chartUrl) return;
+    openmrsFetch(chartUrl)
       .then(({ data }) => {
         compose(setDataPoints, getSource)(data);
         setLoadingStatus(LoadingStatus.Loaded);
@@ -30,7 +45,7 @@ export default function ChartLoader({ config, locale }) {
         console.log(e); // eslint-disable-line
         setLoadingStatus(LoadingStatus.Failed);
       });
-  }, [config.url]);
+  }, [chartUrl]);
 
   function renderLoadingMessage() {
     return (
@@ -70,13 +85,12 @@ export default function ChartLoader({ config, locale }) {
   }
 
   function displayChart() {
-    switch (loadingStatus) {
-      case LoadingStatus.Loaded:
-        return renderChart(config.type);
-      case LoadingStatus.Loading:
-        return renderLoadingMessage();
-      default:
-        return renderErrorMessage();
+    if (loadingStatus == LoadingStatus.Loading || isLoading) {
+      return renderLoadingMessage();
+    } else if (loadingStatus == LoadingStatus.Loaded) {
+      return renderChart(config.type);
+    } else {
+      return renderErrorMessage();
     }
   }
 
