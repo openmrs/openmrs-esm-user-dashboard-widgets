@@ -1,0 +1,77 @@
+name: Build/Deploy CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "21.x"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: run build
+        run: npm --openssl-legacy-provider run build
+
+  pre_release:
+    runs-on: ubuntu-latest
+    needs: build
+
+    if: ${{ github.event_name == 'push' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "21.x"
+          cache: "npm"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Version
+        run: npm version --no-git-tag-version "$(node -e "console.log(require('./package.json').version)")-pre.${{ github.run_number }}"
+
+      - name: Run build
+        run: npm --openssl-legacy-provider run build
+
+      - name: Pre-release
+        run: npm --openssl-legacy-provider publish --access=public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+
+  release:
+    runs-on: ubuntu-latest
+
+    needs: build
+
+    if: ${{ github.event_name == 'release' }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "21.x"
+          cache: "npm"
+          registry-url: "https://registry.npmjs.org"
+      - run: npm ci
+      - run: npm --openssl-legacy-provider publish --access=public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
