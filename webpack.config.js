@@ -11,11 +11,6 @@ module.exports = {
   module: {
     rules: [
       {
-        parser: {
-          system: false
-        }
-      },
-      {
         test: /\.css$/i,
         exclude: [/src/],
         use: [
@@ -50,7 +45,7 @@ module.exports = {
       }
     ]
   },
-  devtool: "sourcemap",
+  devtool: "source-map",
   devServer: {
     headers: {
       "Access-Control-Allow-Origin": "*"
