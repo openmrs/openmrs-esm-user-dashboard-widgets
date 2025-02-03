@@ -5,5 +5,8 @@
     "@babel/preset-typescript",
     "@emotion/babel-preset-css-prop"
   ],
-  "plugins": [["@babel/transform-runtime"]]
+  "plugins": [
+    "@babel/plugin-proposal-optional-chaining",
+    "@babel/transform-runtime"
+  ]
 }
