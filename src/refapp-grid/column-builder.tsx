@@ -7,7 +7,7 @@ import styles from "./refapp-grid.css";
 
 const labelComponent = (text: string, styles: string) => (
   <div className={styles}>
-    <Trans>{text.toString()}</Trans>
+    <Trans>{text ?? ""}</Trans>
   </div>
 );
 
